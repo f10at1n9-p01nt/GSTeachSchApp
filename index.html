@@ -6,11 +6,19 @@
     <?!= include('Stylesheet'); ?>
   </head>
   <body>
-    <h1 class="m-5 text-3xl font-bold">New Heading #3</h1>
+    <h1 class="m-5 text-3xl font-bold"><?!= season ?></h1> <!-- Later make this title dynamic based on which schedule -->
 
-      <label for="username">Username</label>
+      <label for="username" class="m-5">Username</label>
       <input type="text" id="username" class="shadow"/>
       <input type="submit" id="submit" value="Submit Preferences" />
+
+      <ul>
+        <? for (let i = 0; i < classData.length; i++) { ?>
+
+          <li class="ml-5 mt-3"><?= classData[i][0] ?> <?= classData[i][1] ?> <?= classData[i][3] ?> <?= classData[i][4] ?> <?= classData[i][5] ?> <?= classData[i][7] ?></li>
+
+        <? } ?>
+      </ul>
 
 
     <?!= include('JavaScript'); ?>
