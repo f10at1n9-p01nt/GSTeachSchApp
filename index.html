@@ -8,17 +8,13 @@
   <body>
     <h1 class="m-5 text-3xl font-bold"><?!= season ?></h1> <!-- Later make this title dynamic based on which schedule -->
 
-      <label for="username" class="m-5">Username</label>
-      <input type="text" id="username" class="shadow"/>
-      <input type="submit" id="submit" value="Submit Preferences" />
+      <label for="username" class="m-5 font-bold">Username</label>
+      <input type="text" id="username" class="rounded-md shadow shadow-black bg-sky-100 hover:bg-sky-300"/>
+      <input type="submit" id="submit" value="Submit" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
 
-      <ul>
-        <? for (let i = 0; i < classData.length; i++) { ?>
 
-          <li class="ml-5 mt-3"><?= classData[i][0] ?> <?= classData[i][1] ?> <?= classData[i][3] ?> <?= classData[i][4] ?> <?= classData[i][5] ?> <?= classData[i][7] ?></li>
 
-        <? } ?>
-      </ul>
+      <ul><?!= rows ?></ul>
 
 
     <?!= include('JavaScript'); ?>
