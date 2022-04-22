@@ -1,8 +1,22 @@
 <script>
 
-document.getElementById("submit").addEventListener("click", userClicked);
+  document.getElementById("submit").addEventListener("click", userClicked);
+  document.getElementById('username').addEventListener('input', userTyped);
 
-function userClicked() {
-  console.log("here");
-}
+  function userClicked() {
+    console.log("here");
+  }
+
+
+  function userTyped(e) {
+    // console.log(e.target.value)
+    google.script.run.withSuccessHandler(printSchedule).checkSchedule(e.target.value);
+  }
+
+
+  function printSchedule(schedule) {
+    const here = document.getElementById('here');
+    here.textContent = schedule;
+  }
+
 </script>

@@ -6,16 +6,24 @@
     <?!= include('Stylesheet'); ?>
   </head>
   <body>
-    <h1 class="m-5 text-3xl font-bold"><?!= season ?></h1> <!-- Later make this title dynamic based on which schedule -->
+    <div class="container columns-auto mx-auto">
+      <h1 class="m-5 text-3xl font-bold"><?!= season ?></h1>
+    </div>
 
+    <div class="container mx-auto columns-1">
       <label for="username" class="m-5 font-bold">Username</label>
-      <input type="text" id="username" class="rounded-md shadow shadow-black bg-sky-100 hover:bg-sky-300"/>
+      <input type="input" id="username" class="rounded-md shadow shadow-black bg-sky-100 hover:bg-sky-300"/>
       <input type="submit" id="submit" value="Submit" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
+    <div>
 
-
-
-      <ul><?!= rows ?></ul>
-
+    <div class="flex flex-row">
+      <div class="basis-1/2 bg-rose-500">
+        <ul><?!= rows ?></ul>
+      </div>
+      <div class="basis-1/2 bg-blue-500">
+        <p id="here"></p>
+      </div>
+    </div>
 
     <?!= include('JavaScript'); ?>
   </body>
