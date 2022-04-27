@@ -2,6 +2,7 @@
 
   document.getElementById("submit").addEventListener("click", userClicked);
   // document.getElementById('username').addEventListener('input', userTyped);
+  document.getElementById("submit-preferences").addEventListener("click", submitPreferences);
 
 
   function userClicked() {
@@ -31,7 +32,18 @@
       newEl.appendChild(newText);
       here.appendChild(newEl);
     }
+  }
 
+
+
+  function submitPreferences() {
+    const usernameField = document.getElementById('username');
+    const username = usernameField.value;
+
+    google.script.run.addUsername(username);
+
+    console.log(`${username} clicked the button`)
+    usernameField.value = '';
   }
 
 </script>
