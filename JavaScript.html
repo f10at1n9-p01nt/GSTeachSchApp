@@ -1,22 +1,33 @@
 <script>
 
   document.getElementById("submit").addEventListener("click", userClicked);
-  document.getElementById('username').addEventListener('input', userTyped);
+  // document.getElementById('username').addEventListener('input', userTyped);
+
 
   function userClicked() {
     console.log("here");
+    google.script.run.withSuccessHandler(printSchedule).checkSchedule(document.getElementById('username').value)
   }
 
 
-  function userTyped(e) {
-    // console.log(e.target.value)
-    google.script.run.withSuccessHandler(printSchedule).checkSchedule(e.target.value);
-  }
+// Buggy - text doesn't stay on screen
+  // function userTyped(e) {
+  //   google.script.run.withSuccessHandler(printSchedule).checkSchedule(e.target.value);
+  // }
 
 
   function printSchedule(schedule) {
     const here = document.getElementById('here');
-    here.textContent = schedule;
+    // here.textContent = schedule;
+
+    for (let i = 0; i < schedule.length; i++) {
+      let newEl = document.createElement('li');
+      let newText = document.createTextNode(`${schedule[i][0]} ${schedule[i][1]}`)
+      // let newText = document.createTextNode("poop");
+      newEl.appendChild(newText);
+      here.appendChild(newEl);
+    }
+
   }
 
 </script>
