@@ -54,11 +54,15 @@ function checkSchedule(username) {
   for (let i = 0; i < teacherCol.length; i++) {
     if (teacherCol[i][0] === username) {
       let data = lineupSheet.getRange(i+2, 1, 1, 2).getValues();
-      data.forEach(d => classes.push(d))
+      data.forEach(d => classes.push(d));
     }
   }
 
-  return classes;
+  if (classes.length === 0) {
+    return [['Instructor', 'not found']]
+  } else {
+    return classes
+  }
 }
 
 

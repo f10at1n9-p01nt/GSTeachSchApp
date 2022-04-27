@@ -20,10 +20,14 @@
     const here = document.getElementById('here');
     // here.textContent = schedule;
 
+    while (here.firstChild) {
+      here.removeChild(here.lastChild);
+    }
+
     for (let i = 0; i < schedule.length; i++) {
       let newEl = document.createElement('li');
+      newEl.classList.add("ml-5", "mt-3");
       let newText = document.createTextNode(`${schedule[i][0]} ${schedule[i][1]}`)
-      // let newText = document.createTextNode("poop");
       newEl.appendChild(newText);
       here.appendChild(newEl);
     }

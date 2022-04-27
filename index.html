@@ -13,14 +13,16 @@
     <div class="container mx-auto columns-1">
       <label for="username" class="m-5 font-bold">Username</label>
       <input type="input" id="username" class="rounded-md shadow shadow-black bg-sky-100 hover:bg-sky-300"/>
-      <input type="submit" id="submit" value="Submit" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
+      <input type="submit" id="submit" value="Get Schedule" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
     <div>
 
     <div class="flex flex-row">
       <div class="basis-1/2 bg-rose-500">
+        <h2 class="text-xl font-bold text-center">Summer Schedule</h2>
         <ul><?!= rows ?></ul>
       </div>
       <div class="basis-1/2 bg-blue-500">
+        <h2 class="text-xl font-bold text-center">Your Current Schedule</h2>
         <ul id="here"></ul>
       </div>
     </div>
