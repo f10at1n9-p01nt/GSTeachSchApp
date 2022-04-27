@@ -8,7 +8,7 @@ function doGet(request) {
   let rows = []
 
   for (let i = 0; i < classData.length; i++) {
-    rows.push(`<li class="ml-5 mt-3">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]} </li>`);
+    rows.push(`<li class="ml-5 mt-3"><input class="w-12 mx-3 pl-3" type="number" min="1" max="10">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]} </li>`);
   }
 
   template.rows = rows.join('');
@@ -43,24 +43,35 @@ function checkSchedule(username) {
 }
 
 
-function addUsername(username) {
+function addUsername(username, courses) {
   const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('data')
-  sheet.appendRow([username, new Date()]);
+  const rowData = [username, new Date()]
+
+  const rankedCourses = sortRanking(courses);
+
+  rankedCourses.forEach(course => rowData.push(course[1]))
+  console.log(rowData);
+  sheet.appendRow(rowData);
+
+}
+
+
+function sortRanking(coursesArr) {
+  // const coursesArr = [[1, '3001'], [3, 3003], [2, 3002], [5, 3005]];
+  const rankedCourses = coursesArr.sort(function(a, b) {
+    return a[0] - b[0]
+  })
+
+  Logger.log(rankedCourses)
+  return rankedCourses
 }
 
 
 function test() {
-  const lineupSheet = SpreadsheetApp.openById('1326N0jPlCf24inE9Q59oQf19Wv10aBHhE-gih5hNGfY').getSheetByName('Lineup');
-  const teacherCol = lineupSheet.getRange(2, 6, lineupSheet.getLastRow()-1, 1).getValues();
-  const classes = [];
+  const ul = document.getElementById('class-list');
+  const classes = ul.getElementsByTagName("li");
 
-  for (let i = 0; i < teacherCol.length; i++) {
-    if (teacherCol[i][0] === 'bedwards') {
-      let data = lineupSheet.getRange(i+1, 1, 1, 2).getValues();
-      data.forEach(d => classes.push(d))
-      Logger.log(classes)
-    }
+  for (let i = 0; i < classes.length; i++) {
+    console.log(classes[i])
   }
-
-  return classes;
 }
