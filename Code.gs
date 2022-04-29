@@ -24,7 +24,6 @@ function include(filename) {
 
 
 // Returns array of all classes for requested days with number input attached
-// NEED TO FIX SO MULTIDAY COURSES SHOW
 function getClasses(days) {
   const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1')
 
@@ -90,12 +89,10 @@ function sortRanking(coursesArr) {
 function findRankedClasses(classes) {
   // let classes = [[2,'3153'],[1, '3154']];
   const classIds = classes.map(c => c[1])
-  Logger.log(classIds)
   const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1');
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   const classArr = [];
   const addLater = [];
-  console.log(classes)
 
   for (i = 0; i < classData.length; i++) {
     if (classIds.includes(String(classData[i][0]))) {
@@ -111,7 +108,6 @@ function findRankedClasses(classes) {
   }
 
   addLater.forEach(row => classArr.push(row))
-  Logger.log(classArr)
   return classArr
 }
 

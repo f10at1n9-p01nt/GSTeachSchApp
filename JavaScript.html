@@ -8,9 +8,7 @@
 
 
   // Called when "Get Schedule" button is clicked
-  // Need to improve id name 'here'
   function getSchedule() {
-    console.log("here");
     google.script.run.withSuccessHandler(printSchedule).checkSchedule(document.getElementById('username').value)
   }
 
@@ -56,13 +54,12 @@
 
   // Displays username's schedule on app
   // argument 'schedule' is 2D array from checkSchedule(username) with username's schedule
-  // Need to improve id name 'here'
   function printSchedule(schedule) {
-    const here = document.getElementById('here');
+    const ul = document.getElementById('teacher-schedule');
 
     // Clears any schedule already printed
-    while (here.firstChild) {
-      here.removeChild(here.lastChild);
+    while (ul.firstChild) {
+      ul.removeChild(ul.lastChild);
     }
 
     // Loop through the schedule and create an element with appropriate classes and append to ul
@@ -71,7 +68,7 @@
       newEl.classList.add("ml-5", "mt-3");
       let newText = document.createTextNode(`${schedule[i][0]} ${schedule[i][1]}`)
       newEl.appendChild(newText);
-      here.appendChild(newEl);
+      ul.appendChild(newEl);
     }
   }
 
