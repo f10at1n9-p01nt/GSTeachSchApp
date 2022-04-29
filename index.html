@@ -15,8 +15,26 @@
       <input type="input" id="username" class="pl-2 rounded-md shadow shadow-black bg-sky-300 hover:bg-sky-100"/>
       <button id="submit-preferences" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Submit Preferences</button>
       <button id="clear-preferences" class="my-5 mr-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Clear Preferences</button>
-      <input type="submit" id="submit" value="Get Schedule" class="my-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
+      <input type="submit" id="submit-schedule" value="Get Schedule" class="my-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
     <div>
+
+    <div class="container mx-auto columns-auto">
+      <label>Number of Classes Desired</label>
+      <select>
+        <option>1</option>
+        <option>2</option>
+      </select>
+    </div>
+
+    <div class="container mx-auto columns-auto">
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday">Monday</label>
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday">Tuesday</label>
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday">Wednesday</label>
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday">Thursday</label>
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday">Friday</label>
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday">Sunday</label>
+      <button id="filter-dow" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Filter</button>
+    </div>
 
     <div class="flex flex-row">
       <div class="basis-2/3 bg-rose-500">

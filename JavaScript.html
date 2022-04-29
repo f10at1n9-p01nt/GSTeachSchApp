@@ -1,31 +1,63 @@
 <script>
 
-  document.getElementById("submit").addEventListener("click", userClicked);
-  // document.getElementById('username').addEventListener('input', userTyped);
+  document.getElementById("submit-schedule").addEventListener("click", getSchedule);
   document.getElementById("submit-preferences").addEventListener("click", submitPreferences);
-  // document.getElementById("submit-preferences").addEventListener("click", getRankedIds);
+  document.getElementById("clear-preferences").addEventListener("click", clearRankings);
+  document.getElementById("filter-dow").addEventListener("click", filterDays);
 
 
-  function userClicked() {
+  // Called when "Get Schedule" button is clicked
+  // Need to improve id name 'here'
+  function getSchedule() {
     console.log("here");
     google.script.run.withSuccessHandler(printSchedule).checkSchedule(document.getElementById('username').value)
   }
 
+  // Called when "Submit Preferences" button is clicked
+  function submitPreferences() {
+    const usernameField = document.getElementById('username');
+    const username = usernameField.value;
+    const coursePreferences = getRankedIds();
 
-// Buggy - text doesn't stay on screen
-  // function userTyped(e) {
-  //   google.script.run.withSuccessHandler(printSchedule).checkSchedule(e.target.value);
-  // }
+    google.script.run.addUsername(username, coursePreferences);
+
+    usernameField.value = '';
+  }
 
 
+  // Called when "Clear Preferences" button is pushed
+  function clearRankings() {
+    const ul = document.getElementById('class-list');
+    const classes = ul.getElementsByTagName("li");
+
+    for (let i = 0; i < classes.length; i++) {
+      classes[i].querySelector("input").valueAsNumber = NaN;
+    }
+  }
+
+  // Called when "Filter" button is clicked
+  function filterDays() {
+    let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
+    let values = [];
+    checkedBoxes.forEach(checkbox => values.push(checkbox.value));
+    console.log(values);
+
+    google.script.run.withSuccessHandler(printClasses).getClasses(values)
+  }
+
+
+  // Displays username's schedule on app
+  // argument 'schedule' is 2D array from checkSchedule(username) with username's schedule
+  // Need to improve id name 'here'
   function printSchedule(schedule) {
     const here = document.getElementById('here');
-    // here.textContent = schedule;
 
+    // Clears any schedule already printed
     while (here.firstChild) {
       here.removeChild(here.lastChild);
     }
 
+    // Loop through the schedule and create an element with appropriate classes and append to ul
     for (let i = 0; i < schedule.length; i++) {
       let newEl = document.createElement('li');
       newEl.classList.add("ml-5", "mt-3");
@@ -36,20 +68,8 @@
   }
 
 
-
-  function submitPreferences() {
-    const usernameField = document.getElementById('username');
-    const username = usernameField.value;
-
-    const coursePreferences = getRankedIds();
-
-    google.script.run.addUsername(username, coursePreferences);
-
-    console.log(`${username} clicked the button`)
-    usernameField.value = '';
-  }
-
-// <li><input type="number" min="1" max="10">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]} </li>
+  // Called by submitPreferences
+  // Returns array with rank and ID for any ranked class
   function getRankedIds() {
     const ul = document.getElementById('class-list');
     const classes = ul.getElementsByTagName("li");
@@ -57,13 +77,28 @@
 
     for (let i = 0; i < classes.length; i++) {
       if (classes[i].querySelector("input").valueAsNumber) {
-        let idArr = classes[i].innerHTML.split('>');
-        idArr.shift();
-        rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]);
+        let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
+        idArr.shift(); // remove the first element from the array, which is the <input> stuff
+        rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
       }
     }
 
     return rankId;
+  }
+
+  // Called by filterDays(). Attribute "classes" is <input> ready array of classes
+  function printClasses(classes) {
+    const ul = document.getElementById("class-list");
+    while (ul.firstChild) {
+      ul.removeChild(ul.lastChild);
+    }
+
+    for (let i = 0; i < classes.length; i++) {
+      let newEl = document.createElement('li')
+      newEl.classList.add("ml-5", "mt-3");
+      newEl.innerHTML = classes[i]
+      ul.appendChild(newEl)
+    }
   }
 
 </script>

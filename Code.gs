@@ -17,12 +17,31 @@ function doGet(request) {
 }
 
 
+// Called in index to add Javascript and Stylesheet
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
 
-// Finds data on Summer 2022 Lineup
+// Returns array of all classes for requested days with number input attached
+// NEED TO FIX SO MULTIDAY COURSES SHOW
+function getClasses(days) {
+  const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1')
+
+  let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
+  let rows = []
+
+  for (let i = 0; i < classData.length; i++) {
+    if (days.includes(classData[i][5].toLowerCase())) {
+      rows.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="10">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`);
+    }
+  }
+  return rows
+}
+
+
+// Returns 2D array of class data for username in Summer 2022 Lineup
+// Called when "Get Schedule" button is clicked
 function checkSchedule(username) {
   const lineupSheet = SpreadsheetApp.openById('1326N0jPlCf24inE9Q59oQf19Wv10aBHhE-gih5hNGfY').getSheetByName('Lineup');
   const teacherCol = lineupSheet.getRange(2, 6, lineupSheet.getLastRow()-1, 1).getValues();
@@ -43,6 +62,7 @@ function checkSchedule(username) {
 }
 
 
+// Adds new row to data sheet with username, date, course preferences
 function addUsername(username, courses) {
   const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('data')
   const rowData = [username, new Date()]
@@ -56,17 +76,17 @@ function addUsername(username, courses) {
 }
 
 
+// Helper function to sort ranked courses from 1 to n
 function sortRanking(coursesArr) {
-  // const coursesArr = [[1, '3001'], [3, 3003], [2, 3002], [5, 3005]];
   const rankedCourses = coursesArr.sort(function(a, b) {
     return a[0] - b[0]
   })
 
-  Logger.log(rankedCourses)
   return rankedCourses
 }
 
 
+// Used to help test functions called client-side
 function test() {
   const ul = document.getElementById('class-list');
   const classes = ul.getElementsByTagName("li");
