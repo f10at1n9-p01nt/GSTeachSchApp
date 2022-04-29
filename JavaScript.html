@@ -4,6 +4,7 @@
   document.getElementById("submit-preferences").addEventListener("click", submitPreferences);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
+  document.getElementById("sort-ranked").addEventListener("click", sortDisplayedClassesByRank);
 
 
   // Called when "Get Schedule" button is clicked
@@ -38,11 +39,30 @@
   // Called when "Filter" button is clicked
   function filterDays() {
     let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
-    let values = [];
-    checkedBoxes.forEach(checkbox => values.push(checkbox.value));
-    console.log(values)
+    let days = [];
+    checkedBoxes.forEach(checkbox => days.push(checkbox.value));
 
-    google.script.run.withSuccessHandler(printClasses).getClasses(values)
+    google.script.run.withSuccessHandler(printClasses).getClasses(days)
+  }
+
+
+  //Trying to write function that sorts by ranked classes
+  function sortDisplayedClassesByRank() {
+    const rankedCourses = getRankedIds();
+    // const sortedRankedCourses = google.script.run.sortRanking(rankedCourses);
+    console.log(rankedCourses)
+
+    // let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
+    // let days = [];
+    // checkedBoxes.forEach(checkbox => days.push(checkbox.value));
+
+    // console.log(google.script.run.getClassDataById(rankedCourses));
+
+    google.script.run.withSuccessHandler(printClasses).getClassDataById(rankedCourses)
+  }
+
+  function printStuff(thing){
+    console.log(thing)
   }
 
 
@@ -89,10 +109,12 @@
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
     const ul = document.getElementById("class-list");
+    // Clear currently printed list
     while (ul.firstChild) {
       ul.removeChild(ul.lastChild);
     }
 
+    // Make new list
     for (let i = 0; i < classes.length; i++) {
       let newEl = document.createElement('li')
       newEl.classList.add("ml-5", "mt-3");
@@ -100,5 +122,6 @@
       ul.appendChild(newEl)
     }
   }
+
 
 </script>
