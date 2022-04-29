@@ -40,7 +40,7 @@
     let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
     let values = [];
     checkedBoxes.forEach(checkbox => values.push(checkbox.value));
-    console.log(values);
+    console.log(values)
 
     google.script.run.withSuccessHandler(printClasses).getClasses(values)
   }

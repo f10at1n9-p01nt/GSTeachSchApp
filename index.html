@@ -33,15 +33,16 @@
       <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday">Thursday</label>
       <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday">Friday</label>
       <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday">Sunday</label>
+      <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="sunday">Tuesday/Thursday Hackjob</label>
       <button id="filter-dow" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Filter</button>
     </div>
 
     <div class="flex flex-row">
-      <div class="basis-2/3 bg-rose-500">
+      <div class="basis-2/3 bg-rose-500 p-5">
         <h2 class="text-xl font-bold text-center">Summer Schedule</h2>
         <ul id="class-list"><?!= rows ?></ul>
       </div>
-      <div class="basis-1/3 bg-blue-500">
+      <div class="basis-1/3 bg-blue-500 p-5">
         <h2 class="text-xl font-bold text-center">Your Current Schedule</h2>
         <ul id="here"></ul>
       </div>
