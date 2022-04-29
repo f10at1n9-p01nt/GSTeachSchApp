@@ -40,7 +40,10 @@
     let days = [];
     checkedBoxes.forEach(checkbox => days.push(checkbox.value));
 
-    google.script.run.withSuccessHandler(printClasses).getClasses(days)
+    let rankedIds = getRankedIds();
+    console.log(rankedIds)
+
+    google.script.run.withSuccessHandler(printClasses).getClasses(days, rankedIds)
   }
 
 
@@ -73,7 +76,6 @@
   }
 
 
-  // Called by submitPreferences
   // Returns array with rank and ID for any ranked class
   function getRankedIds() {
     const ul = document.getElementById('class-list');
