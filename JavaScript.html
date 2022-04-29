@@ -4,7 +4,7 @@
   document.getElementById("submit-preferences").addEventListener("click", submitPreferences);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
-  document.getElementById("sort-ranked").addEventListener("click", sortDisplayedClassesByRank);
+  document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
 
 
   // Called when "Get Schedule" button is clicked
@@ -46,23 +46,11 @@
   }
 
 
-  //Trying to write function that sorts by ranked classes
+  // Called when "Group Ranked" button is clicked
   function sortDisplayedClassesByRank() {
     const rankedCourses = getRankedIds();
-    // const sortedRankedCourses = google.script.run.sortRanking(rankedCourses);
-    console.log(rankedCourses)
 
-    // let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
-    // let days = [];
-    // checkedBoxes.forEach(checkbox => days.push(checkbox.value));
-
-    // console.log(google.script.run.getClassDataById(rankedCourses));
-
-    google.script.run.withSuccessHandler(printClasses).getClassDataById(rankedCourses)
-  }
-
-  function printStuff(thing){
-    console.log(thing)
+    google.script.run.withSuccessHandler(printClasses).findRankedClasses(rankedCourses)
   }
 
 

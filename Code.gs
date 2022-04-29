@@ -86,22 +86,27 @@ function sortRanking(coursesArr) {
   return rankedCourses
 }
 
-// Not complete
-function getClassDataById(classes) {
+// Returns array with ranked classes at the top
+function findRankedClasses(classes) {
   // let classes = [[2,'3153'],[1, '3154']];
+  const classIds = classes.map(c => c[1])
+  Logger.log(classIds)
   const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1');
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   const classArr = [];
   const addLater = [];
   console.log(classes)
 
-  for (i = 0; i < classes.length; i++) {
-    for (j = 0; j < classData.length; j++) {
-      if (parseInt(classes[i][1]) === classData[j][0]) {
-        classArr.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="10" value=${classes[i][0]}>${classData[j][0]} ${classData[j][1]} ${classData[j][3]} ${classData[j][4]} ${classData[j][5]} ${classData[j][7]}`)
-      } else {
-        addLater.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="10">${classData[j][0]} ${classData[j][1]} ${classData[j][3]} ${classData[j][4]} ${classData[j][5]} ${classData[j][7]}`)
+  for (i = 0; i < classData.length; i++) {
+    if (classIds.includes(String(classData[i][0]))) {
+      for (j = 0; j < classes.length; j++) {
+        if (classes[j][1] === String(classData[i][0])) {
+          var value = classes[j][0]
+        }
       }
+      classArr.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="10" value="${value}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`)
+    } else {
+      addLater.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="10">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`)
     }
   }
 
