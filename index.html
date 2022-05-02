@@ -13,8 +13,8 @@
     <div class="container mx-auto columns-1">
       <label for="username" class="m-5 font-bold">Username</label>
       <input type="input" id="username" class="pl-2 rounded-md shadow shadow-black bg-sky-300 hover:bg-sky-100"/>
-      <button id="submit-preferences" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Submit Preferences</button>
-      <button id="clear-preferences" class="my-5 mr-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Clear Preferences</button>
+      <button id="submit-preferences" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700">Submit Preferences</button>
+      <button id="clear-preferences" class="my-5 mr-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700">Clear Preferences</button>
       <input type="submit" id="submit-schedule" value="Get Schedule" class="my-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700" />
     <div>
 
@@ -34,11 +34,11 @@
       <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday">Friday</label>
       <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday">Sunday</label>
       <input class="ml-5 mr-2 mb-5" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu">Tuesday/Thursday Hackjob</label>
-      <button id="filter-dow" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Filter</button>
-      <button id="group-ranked" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-7000">Group Ranked</button>
+      <button id="filter-dow" class="m-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700">Filter</button>
+      <button id="group-ranked" class="my-5 text-white pl-2 pr-2 rounded-lg bg-sky-600 hover:bg-sky-700">Group Ranked</button>
     </div>
 
-    <div class="flex flex-row">
+    <div class="flex flex-row" id="available-classes-list">
       <div class="basis-2/3 bg-rose-500 p-5">
         <h2 class="text-xl font-bold text-center">Summer Schedule</h2>
         <ul id="class-list"><?!= rows ?></ul>

@@ -96,6 +96,7 @@ function sortRanking(coursesArr) {
   return rankedCourses
 }
 
+
 // Returns array with ranked classes at the top
 function findRankedClasses(classes) {
   // let classes = [[2,'3153'],[1, '3154']];

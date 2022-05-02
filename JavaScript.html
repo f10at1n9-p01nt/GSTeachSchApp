@@ -1,4 +1,5 @@
 <script>
+  const RANKED_CLASSES = [];
 
   document.getElementById("submit-schedule").addEventListener("click", getSchedule);
   document.getElementById("submit-preferences").addEventListener("click", submitPreferences);
@@ -29,25 +30,41 @@
     const ul = document.getElementById('class-list');
     const classes = ul.getElementsByTagName("li");
 
+    RANKED_CLASSES.length = 0;
+
     for (let i = 0; i < classes.length; i++) {
       classes[i].querySelector("input").valueAsNumber = NaN;
     }
   }
 
   // Called when "Filter" button is clicked
+  // Keeps rank, but only if the day isn't cleared - need to find way for rankings to persist
   function filterDays() {
     let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
     let days = [];
     checkedBoxes.forEach(checkbox => days.push(checkbox.value));
 
     let rankedIds = getRankedIds();
-    console.log(rankedIds)
+    rankedIds.forEach((e) => updateRankedClassesArr(RANKED_CLASSES, e));
+    console.log(RANKED_CLASSES)
 
-    google.script.run.withSuccessHandler(printClasses).getClasses(days, rankedIds)
+    // google.script.run.withSuccessHandler(printClasses).getClasses(days, rankedIds)
+    google.script.run.withSuccessHandler(printClasses).getClasses(days, RANKED_CLASSES)
+  }
+
+
+  function updateRankedClassesArr(arr, classRankandId) {
+    const i = arr.findIndex((e) => e[1] === classRankandId[1]);
+    if (i > -1) {
+      arr.splice(i,1,classRankandId)
+    } else {
+      arr.push(classRankandId);
+    }
   }
 
 
   // Called when "Group Ranked" button is clicked
+  // Shows all days - doesn't keep filter
   function sortDisplayedClassesByRank() {
     const rankedCourses = getRankedIds();
 
@@ -89,6 +106,10 @@
         rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
       }
     }
+
+    // localStorage.setItem('rankedClasses', JSON.stringify(rankId));
+    // console.log(localStorage)
+    // console.log(JSON.parse(localStorage.getItem('rankedClasses')))
 
     return rankId;
   }
