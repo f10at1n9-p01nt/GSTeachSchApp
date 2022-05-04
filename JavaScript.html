@@ -22,16 +22,23 @@
   // Called when "Submit Preferences" button is clicked
   function submitPreferences() {
     const usernameField = document.getElementById('username');
-    const numberOfClassesDesired= document.getElementById('number-of-classes').value;
-    const notAssigned = document.getElementById('no-new-classes').value;
+    const numberOfClasses = document.getElementById('number-of-classes').value;
+    const notAssignedCheckbox = document.getElementById('no-new-classes');
+    let wishToBeScheduled = '';
+    
+    console.log(notAssignedCheckbox.checked);
 
-    console.log(numberOfClassesDesired, notAssigned)
+    if (notAssignedCheckbox.checked === true) {
+      wishToBeScheduled = 'no'
+    } else {
+      wishToBeScheduled = 'yes'
+    }
 
     const username = usernameField.value;
     // const coursePreferences = getRankedIds();
 
-    // google.script.run.addUsername(username, coursePreferences);
-    google.script.run.addUsername(username, RANKED_CLASSES)
+    // google.script.run.addUsername(username, coursePreferences, numberOfClasses, wishToBeScheduled);
+    google.script.run.addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
 
     usernameField.value = '';
   }

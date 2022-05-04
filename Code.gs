@@ -74,7 +74,7 @@ function checkSchedule(username) {
 
 
 // Adds new row to data sheet with username, date, course preferences
-function addUsername(username, courses) {
+function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
   const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('data')
   const rowData = [username, new Date()]
 
@@ -84,13 +84,16 @@ function addUsername(username, courses) {
     rankedCourses.length = 10;
   }
 
-  // for (i=0; i<10; i++) {
-  //   rowData.push(rankedCourses[i][1])
-  // }
-
   rankedCourses.forEach(course => rowData.push(course[1]))
-  sheet.appendRow(rowData);
 
+  while (rowData.length < 12) {
+    rowData.push('');
+  }
+
+  rowData.push(numberOfClasses);
+  rowData.push(wishToBeScheduled);
+
+  sheet.appendRow(rowData);
 }
 
 
