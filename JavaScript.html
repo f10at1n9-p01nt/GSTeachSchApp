@@ -23,10 +23,9 @@
   function submitPreferences() {
     const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
+    console.log(numberOfClasses);
     const notAssignedCheckbox = document.getElementById('no-new-classes');
     let wishToBeScheduled = '';
-    
-    console.log(notAssignedCheckbox.checked);
 
     if (notAssignedCheckbox.checked === true) {
       wishToBeScheduled = 'no'
@@ -142,6 +141,7 @@
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
     const ul = document.getElementById("class-list");
+    console.log(classes)
     // Clear currently printed list
     while (ul.firstChild) {
       ul.removeChild(ul.lastChild);

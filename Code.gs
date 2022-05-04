@@ -13,7 +13,7 @@ function doGet(request) {
   let rows = []
 
   for (let i = 0; i < classData.length; i++) {
-    rows.push(`<li class="ml-5 mt-3"><input class="w-12 mx-3 pl-3" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]} </li>`);
+    rows.push(`<li class="ml-5 mt-3"><input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]} </li>`);
   }
 
   template.rows = rows.join('');
@@ -48,7 +48,7 @@ function getClasses(days, ranks) {
           }
         }
       }
-      rows.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`);
+      rows.push(`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`);
     }
     value = ''
   }
@@ -91,7 +91,7 @@ function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
 
   rankedCourses.forEach(course => rowData.push(course[1]))
 
-  while (rowData.length < maxNumber + 2) {
+  while (rowData.length < Number(maxNumber) + 2) {
     rowData.push('');
   }
 
@@ -130,23 +130,12 @@ function findRankedClasses(classes) {
           var value = classes[j][0]
         }
       }
-      classArr.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`)
+      classArr.push(`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`)
     } else {
-      addLater.push(`<input class="w-12 mx-3 pl-3" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`)
+      addLater.push(`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]}`)
     }
   }
 
   addLater.forEach(row => classArr.push(row))
   return classArr
-}
-
-
-// Used to help test functions called client-side
-function test() {
-  const ul = document.getElementById('class-list');
-  const classes = ul.getElementsByTagName("li");
-
-  for (let i = 0; i < classes.length; i++) {
-    console.log(classes[i])
-  }
 }
