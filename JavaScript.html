@@ -39,8 +39,10 @@
 
     // google.script.run.addUsername(username, coursePreferences, numberOfClasses, wishToBeScheduled);
     google.script.run.addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
+    alert(`${RANKED_CLASSES.length} classes have been submitted for ${username}.`)
 
     usernameField.value = '';
+    clearRankings();
   }
 
 
