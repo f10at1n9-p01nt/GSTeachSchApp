@@ -22,6 +22,11 @@
   // Called when "Submit Preferences" button is clicked
   function submitPreferences() {
     const usernameField = document.getElementById('username');
+    const numberOfClassesDesired= document.getElementById('number-of-classes').value;
+    const notAssigned = document.getElementById('no-new-classes').value;
+
+    console.log(numberOfClassesDesired, notAssigned)
+
     const username = usernameField.value;
     // const coursePreferences = getRankedIds();
 

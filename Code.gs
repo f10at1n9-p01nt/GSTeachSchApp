@@ -79,12 +79,16 @@ function addUsername(username, courses) {
   const rowData = [username, new Date()]
 
   const rankedCourses = sortRanking(courses);
-
-  for (i=0; i<10; i++) {
-    rowData.push(rankedCourses[i][1])
+  
+  if (rankedCourses.length > 10) {
+    rankedCourses.length = 10;
   }
 
-  // rankedCourses.forEach(course => rowData.push(course[1]))
+  // for (i=0; i<10; i++) {
+  //   rowData.push(rankedCourses[i][1])
+  // }
+
+  rankedCourses.forEach(course => rowData.push(course[1]))
   sheet.appendRow(rowData);
 
 }
