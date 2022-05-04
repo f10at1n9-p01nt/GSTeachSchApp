@@ -23,9 +23,10 @@
   function submitPreferences() {
     const usernameField = document.getElementById('username');
     const username = usernameField.value;
-    const coursePreferences = getRankedIds();
+    // const coursePreferences = getRankedIds();
 
-    google.script.run.addUsername(username, coursePreferences);
+    // google.script.run.addUsername(username, coursePreferences);
+    google.script.run.addUsername(username, RANKED_CLASSES)
 
     usernameField.value = '';
   }
@@ -60,7 +61,7 @@
 
 
   function updateRankedClassesArr(arr, classRankandId) {
-    console.log(`arr is ${arr} and classRank is ${classRankandId}`)
+    // console.log(`arr is ${arr} and classRank is ${classRankandId}`)
     const i = arr.findIndex((e) => e[1] === classRankandId[1]);
     if (i > -1) {
       arr.splice(i,1,classRankandId)
@@ -113,10 +114,6 @@
         rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
       }
     }
-
-    // localStorage.setItem('rankedClasses', JSON.stringify(rankId));
-    // console.log(localStorage)
-    // console.log(JSON.parse(localStorage.getItem('rankedClasses')))
 
     return rankId;
   }
