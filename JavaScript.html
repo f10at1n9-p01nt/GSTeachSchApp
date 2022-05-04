@@ -7,6 +7,12 @@
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
 
+  const classListUl = document.getElementById("class-list")
+  const classListInputs = classListUl.querySelectorAll('input')
+  
+  classListInputs.forEach((element) => {
+    element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
+  })
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
@@ -44,9 +50,9 @@
     let days = [];
     checkedBoxes.forEach(checkbox => days.push(checkbox.value));
 
-    let rankedIds = getRankedIds();
-    rankedIds.forEach((e) => updateRankedClassesArr(RANKED_CLASSES, e));
-    console.log(RANKED_CLASSES)
+    // let rankedIds = getRankedIds();
+    // rankedIds.forEach((e) => updateRankedClassesArr(RANKED_CLASSES, e));
+    // console.log(RANKED_CLASSES)
 
     // google.script.run.withSuccessHandler(printClasses).getClasses(days, rankedIds)
     google.script.run.withSuccessHandler(printClasses).getClasses(days, RANKED_CLASSES)
@@ -54,17 +60,18 @@
 
 
   function updateRankedClassesArr(arr, classRankandId) {
+    console.log(`arr is ${arr} and classRank is ${classRankandId}`)
     const i = arr.findIndex((e) => e[1] === classRankandId[1]);
     if (i > -1) {
       arr.splice(i,1,classRankandId)
     } else {
       arr.push(classRankandId);
     }
+    console.log(RANKED_CLASSES)
   }
 
 
   // Called when "Group Ranked" button is clicked
-  // Shows all days - doesn't keep filter
   function sortDisplayedClassesByRank() {
     const rankedCourses = getRankedIds();
 
@@ -128,6 +135,8 @@
       newEl.classList.add("ml-5", "mt-3");
       newEl.innerHTML = classes[i]
       ul.appendChild(newEl)
+
+      newEl.querySelector('input').addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
     }
   }
 
