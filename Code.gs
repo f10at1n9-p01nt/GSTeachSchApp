@@ -1,8 +1,12 @@
+const mainScheduleSpreadsheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk')
+const classListSheetName = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(2, 2).getValue();
+
 function doGet(request) {
   let template = HtmlService.createTemplateFromFile('index')
-  template.season = "Summer 2022 Schedule";
+  // template.season = "Summer 2022 Schedule";
+  template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()} Schedule`;
 
-  const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1')
+  const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
 
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   let rows = []
@@ -27,7 +31,7 @@ function include(filename) {
 function getClasses(days, ranks) {
   // let days = ['mon']
   // let ranks = [[1, '3155'],[2,'3210']]
-  const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1')
+  const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
 
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   let rows = []
@@ -75,18 +79,19 @@ function checkSchedule(username) {
 
 // Adds new row to data sheet with username, date, course preferences
 function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
-  const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('data')
+  const sheet = mainScheduleSpreadsheet.getSheetByName('data')
+  const maxNumber = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(4,2).getValue();
   const rowData = [username, new Date()]
 
   const rankedCourses = sortRanking(courses);
   
-  if (rankedCourses.length > 10) {
-    rankedCourses.length = 10;
+  if (rankedCourses.length > maxNumber) {
+    rankedCourses.length = maxNumber;
   }
 
   rankedCourses.forEach(course => rowData.push(course[1]))
 
-  while (rowData.length < 12) {
+  while (rowData.length < maxNumber + 2) {
     rowData.push('');
   }
 
@@ -94,6 +99,8 @@ function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
   rowData.push(wishToBeScheduled);
 
   sheet.appendRow(rowData);
+
+  return rankedCourses.length
 }
 
 
@@ -111,7 +118,7 @@ function sortRanking(coursesArr) {
 function findRankedClasses(classes) {
   // let classes = [[2,'3153'],[1, '3154']];
   const classIds = classes.map(c => c[1])
-  const sheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk').getSheetByName('Sheet1');
+  const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName);
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   const classArr = [];
   const addLater = [];

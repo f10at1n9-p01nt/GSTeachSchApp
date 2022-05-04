@@ -38,11 +38,18 @@
     // const coursePreferences = getRankedIds();
 
     // google.script.run.addUsername(username, coursePreferences, numberOfClasses, wishToBeScheduled);
-    google.script.run.addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
-    alert(`${RANKED_CLASSES.length} classes have been submitted for ${username}.`)
+    // google.script.run.addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
+    google.script.run.withSuccessHandler(alertUser).addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
+    // alert(`${totalNumberClassesAdded} classes have been submitted for ${username}.`)
 
-    usernameField.value = '';
+    // usernameField.value = '';
     clearRankings();
+  }
+
+
+  function alertUser(totalClassesAdded) {
+    alert(`${totalClassesAdded} classes have been submitted for ${document.getElementById('username').value}.`)
+    document.getElementById('username').value = '';
   }
 
 
