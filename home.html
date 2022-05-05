@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <?!= include('Stylesheet'); ?>
+  </head>
+  <body class="bg-cyan-50">
+    <div class="flex justify-center items-center h-screen">
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?page=sched" id="pref-page-button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 py-3 m-5 rounded text-xl">Schedule <?!= season ?> Classes</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?page=sched" id="pref-page-button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 m-5 py-3 text-xl rounded">Submit General Preferences</a>
+    </div>
+
+    <?!= include('JavaScript'); ?>
+  </body>
+
+</html>
