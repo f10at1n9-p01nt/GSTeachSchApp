@@ -12,7 +12,8 @@ function doGet(request) {
   } else
     var template = HtmlService.createTemplateFromFile('home')
     template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()}`;
-    return template.evaluate();
+    
+  return template.evaluate();
 
 }
 
@@ -21,16 +22,19 @@ function loadForm() {
   let template = HtmlService.createTemplateFromFile('index');
   template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()} Schedule`;
 
-  const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
+  // const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
 
-  let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
-  let rows = []
+  // let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
+  // let rows = []
 
-  for (let i = 0; i < classData.length; i++) {
-    rows.push(`<li class="ml-5 mt-3"><input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">${classData[i][0]} ${classData[i][1]} ${classData[i][3]} ${classData[i][4]} ${classData[i][5]} ${classData[i][7]} </li>`);
-  }
+  // for (let i = 0; i < classData.length; i++) {
+  //   rows.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]]);
+  // }
 
-  template.rows = rows.join('');
+  // getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], []);
+
+  // template.rows = rows.join('');
 
   return template.evaluate();
 }
+

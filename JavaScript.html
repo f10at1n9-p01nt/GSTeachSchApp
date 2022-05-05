@@ -1,5 +1,6 @@
 <script>
   const RANKED_CLASSES = [];
+  // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES);
 
   document.getElementById("submit-schedule").addEventListener("click", getSchedule);
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
@@ -8,13 +9,15 @@
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("clear-alert").addEventListener("click", clearAlert);
 
-  const classListUl = document.getElementById("class-list")
-  const classListInputs = classListUl.querySelectorAll('input')
-  
-  // Adds event listers to each input created when App starts
-  classListInputs.forEach((element) => {
-    element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
-  })
+
+  document.addEventListener("DOMContentLoaded", addTable);
+
+  function addTable() {
+
+    google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
+    
+  }
+
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
@@ -79,13 +82,13 @@
 
   // Called when "Clear Preferences" button is clicked
   function clearRankings() {
-    const ul = document.getElementById('class-list');
-    const classes = ul.getElementsByTagName("li");
+    const tableBody = document.getElementById('class-table-body');
+    const classes = tableBody.querySelectorAll('input')
 
     RANKED_CLASSES.length = 0;
 
     for (let i = 0; i < classes.length; i++) {
-      classes[i].querySelector("input").valueAsNumber = NaN;
+      classes[i].valueAsNumber = NaN;
     }
   }
 
@@ -108,6 +111,8 @@
     } else {
       arr.push(classRankandId);
     }
+
+    console.log(RANKED_CLASSES)
   }
 
 
@@ -158,24 +163,36 @@
   }
 
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
+  // Need to add eventlistener on input
   function printClasses(classes) {
-    const ul = document.getElementById("class-list");
+    const tableBody = document.getElementById('class-table-body');
 
     // Clear currently printed list
-    while (ul.firstChild) {
-      ul.removeChild(ul.lastChild);
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.lastChild);
     }
 
-    // Make new list
-    for (let i = 0; i < classes.length; i++) {
-      let newEl = document.createElement('li')
-      newEl.classList.add("ml-5", "mt-3");
-      newEl.innerHTML = classes[i]
-      ul.appendChild(newEl)
-
-      newEl.querySelector('input').addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
+    for (let row=0; row < classes.length; row++) {
+      let newRow = document.createElement('tr');
+      for (let item=0; item < classes[0].length; item++) {
+        let newCol = document.createElement('td');
+        newCol.innerHTML = classes[row][item];
+        newCol.classList.add('text-center');
+        newRow.appendChild(newCol)
+      }
+      tableBody.appendChild(newRow);
     }
+
+    addListenersToInputs();
   }
 
+  function addListenersToInputs() {
+    const tableBody = document.getElementById('class-table-body');
+    const classInputs = tableBody.querySelectorAll('input')
+
+    classInputs.forEach((element) => {
+      element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
+    })
+  }
 
 </script>

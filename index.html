@@ -26,7 +26,7 @@
             </div>
           </div>
           <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded">Submit Preferences</button>
-          <button type="button" id="submit-schedule" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Display Current Schedule</button>
+          <button type="button" id="submit-schedule" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 rounded">Display Current Schedule</button>
         </div>
 
         <div class="basis-1/2">
@@ -53,18 +53,43 @@
         <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
         <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
         <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tuesday/Thursday Hackjob</label>
-        <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 mb-3 rounded">Filter by Selected Days</button>
-        <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-5 mb-3 rounded">Clear Preferences</button> 
+        <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 mb-3 rounded">Filter by Selected Days</button>
+        <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-3 mb-3 rounded">Clear Preferences</button> 
         <button id="group-ranked" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mb-3 rounded">Group Ranked Courses</button>
       </div>
 
 
       <div class="flex flex-row my-3" id="available-classes-list">
-        <div class="basis-1/2">
+        <div class="basis-7/12">
           <h2 class="text-xl font-bold text-center">Classes To Be Scheduled</h2>
-          <ul id="class-list"><?!= rows ?></ul>
+          
+          <table class="table-fixed ml-6">
+            <thead>
+              <tr>
+                <th class="w-1/12">Rank</th>
+                <th class="w-1/12">ID</th>
+                <th class="w-4/12">Course</th>
+                <th class="w-1/12">Weekday</th>
+                <th class="w-2/12">Start Date</th>
+                <th class="w-2/12">End Date</th>
+                <th class="w-1/12">Start Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="class-table-body">
+              <!-- <tr>
+                <td class="text-center">1234</td>
+                <td class="text-center">Introduction to Algebra A</td>
+                <td class="text-center">Mon</td>
+                <td class="text-center">09-02</td>
+                <td class="text-center">02-17</td>
+                <td class="text-center">7:30 pm</td>
+              </tr> -->
+            </tbody>
+          
+          </table>
         </div>
-        <div class="basis-1/2">
+        <div class="basis-5/12">
           <h2 class="text-xl font-bold text-center">Your Current Schedule</h2>
           <ul id="teacher-schedule"></ul>
         </div>
