@@ -81,7 +81,7 @@ function sortRanking(coursesArr) {
 
 
 // Returns array with ranked classes at the top
-function findRankedClasses(classes) {
+function findRankedClasses(days, classes) {
   const classIds = classes.map(c => c[1])
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName);
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
@@ -89,18 +89,21 @@ function findRankedClasses(classes) {
   const addLater = [];
 
   for (i = 0; i < classData.length; i++) {
-    if (classIds.includes(String(classData[i][0]))) {
-      for (j = 0; j < classes.length; j++) {
-        if (classes[j][1] === String(classData[i][0])) {
-          var value = classes[j][0]
+    if (days.includes(classData[i][5].toLowerCase())) {
+      if (classIds.includes(String(classData[i][0]))) {
+        for (j = 0; j < classes.length; j++) {
+          if (classes[j][1] === String(classData[i][0])) {
+            var value = classes[j][0]
+          }
         }
+        classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+      } else {
+        addLater.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
       }
-      classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
-    } else {
-      addLater.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
     }
   }
 
   addLater.forEach(arr => classArr.push(arr))
   return classArr
 }
+

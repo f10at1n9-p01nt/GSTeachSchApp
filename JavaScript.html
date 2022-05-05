@@ -1,6 +1,5 @@
 <script>
   const RANKED_CLASSES = [];
-  // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES);
 
   document.getElementById("submit-schedule").addEventListener("click", getSchedule);
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
@@ -14,7 +13,9 @@
 
   function addTable() {
 
-    google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
+    // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
+    google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
+    
     
   }
 
@@ -85,11 +86,19 @@
     }
   }
 
-  // Called when "Filter" button is clicked
-  function filterDays() {
+
+  function getSelectedDays() {
     let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
     let days = [];
     checkedBoxes.forEach(checkbox => days.push(checkbox.value));
+
+    return days
+  }
+
+  // Called when "Filter" button is clicked
+  function filterDays() {
+
+    const days = getSelectedDays()
 
     google.script.run.withSuccessHandler(printClasses).getClasses(days, RANKED_CLASSES)
   }
@@ -119,7 +128,10 @@
   function sortDisplayedClassesByRank() {
     // const rankedCourses = getRankedIds();
 
-    google.script.run.withSuccessHandler(printClasses).findRankedClasses(RANKED_CLASSES)
+    const days = getSelectedDays();
+    console.log(days)
+
+    google.script.run.withSuccessHandler(printClasses).findRankedClasses(days, RANKED_CLASSES)
   }
 
 
@@ -144,7 +156,7 @@
   }
 
 
-  // Returns array with rank and ID for any ranked class
+  // // Returns array with rank and ID for any ranked class
   // function getRankedIds() {
   //   const ul = document.getElementById('class-list');
   //   const classes = ul.getElementsByTagName("li");
@@ -162,7 +174,6 @@
   // }
 
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
-  // Need to add eventlistener on input
   function printClasses(classes) {
     const tableBody = document.getElementById('class-table-body');
 
