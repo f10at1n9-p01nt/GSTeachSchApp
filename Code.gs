@@ -1,5 +1,6 @@
-const mainScheduleSpreadsheet = SpreadsheetApp.openById('1b_Bup-DyjUUopMCqbpXgaW6j0HNotnXOEtcamiC_ufk')
+const mainScheduleSpreadsheet = SpreadsheetApp.openById('1uGZDjfgBqGx93cpx8UUNM3-sNahbeC6HKWRCYT6ZU0s');
 const classListSheetName = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(2, 2).getValue();
+const submitPreferencesSheetName = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(3, 2).getValue();
 const maxNumber = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(4,2).getValue();
 
 function doGet(request) {
@@ -80,8 +81,8 @@ function checkSchedule(username) {
 
 // Adds new row to data sheet with username, date, course preferences
 function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
-  const sheet = mainScheduleSpreadsheet.getSheetByName('data')
-  const rowData = [username, new Date()]
+  const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
+  const rowData = [new Date(), username];
 
   const rankedCourses = sortRanking(courses);
   

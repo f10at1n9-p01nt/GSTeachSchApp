@@ -2,10 +2,11 @@
   const RANKED_CLASSES = [];
 
   document.getElementById("submit-schedule").addEventListener("click", getSchedule);
-  document.getElementById("submit-preferences").addEventListener("click", submitPreferences);
+  document.getElementById("submit-preferences").addEventListener("click", submitClick);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
+  document.getElementById("clear-alert").addEventListener("click", clearAlert);
 
   const classListUl = document.getElementById("class-list")
   const classListInputs = classListUl.querySelectorAll('input')
@@ -20,6 +21,33 @@
   }
 
   // Called when "Submit Preferences" button is clicked
+  function submitClick() {
+    const usernameIsValid = document.getElementById('username').checkValidity();
+    const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
+    console.log(numberOfClassesIsValid);
+
+    if(!usernameIsValid || !numberOfClassesIsValid) {
+      if (!numberOfClassesIsValid) {
+        document.getElementById('no-class-number').classList.remove('hidden');
+      }
+      if (!usernameIsValid) {
+        document.getElementById('no-username').classList.remove('hidden');
+      }
+      document.getElementById('alert').classList.toggle('hidden');
+    } else {
+      submitPreferences();
+    }
+
+  }
+
+
+  function clearAlert() {
+    document.getElementById('alert').classList.toggle('hidden');
+    document.getElementById('no-username').classList.add('hidden');
+    document.getElementById('no-class-number').classList.add('hidden');
+  }
+
+
   function submitPreferences() {
     const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
