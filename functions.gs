@@ -47,7 +47,7 @@ function checkSchedule(username) {
 
 
 // Adds new row to data sheet with username, date, course preferences
-function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
+function addUsername(username, courses, numberOfClasses) {
   const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
   const rowData = [new Date(), username];
 
@@ -62,9 +62,7 @@ function addUsername(username, courses, numberOfClasses, wishToBeScheduled) {
   while (rowData.length < Number(maxNumber) + 2) {
     rowData.push('');
   }
-
   rowData.push(numberOfClasses);
-  rowData.push(wishToBeScheduled);
 
   sheet.appendRow(rowData);
 

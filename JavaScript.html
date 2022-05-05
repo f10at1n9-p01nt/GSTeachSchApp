@@ -60,15 +60,8 @@
     const numberOfClasses = document.getElementById('number-of-classes').value;
     console.log(numberOfClasses);
     const notAssignedCheckbox = document.getElementById('no-new-classes');
-    let wishToBeScheduled = '';
-
-    if (notAssignedCheckbox.checked === true) {
-      wishToBeScheduled = 'no'
-    } else {
-      wishToBeScheduled = 'yes'
-    }
  
-    google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
+    google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses)
     clearRankings();
   }
 
@@ -152,21 +145,21 @@
 
 
   // Returns array with rank and ID for any ranked class
-  function getRankedIds() {
-    const ul = document.getElementById('class-list');
-    const classes = ul.getElementsByTagName("li");
-    let rankId = [];
+  // function getRankedIds() {
+  //   const ul = document.getElementById('class-list');
+  //   const classes = ul.getElementsByTagName("li");
+  //   let rankId = [];
 
-    for (let i = 0; i < classes.length; i++) {
-      if (classes[i].querySelector("input").valueAsNumber) {
-        let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
-        idArr.shift(); // remove the first element from the array, which is the <input> stuff
-        rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
-      }
-    }
+  //   for (let i = 0; i < classes.length; i++) {
+  //     if (classes[i].querySelector("input").valueAsNumber) {
+  //       let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
+  //       idArr.shift(); // remove the first element from the array, which is the <input> stuff
+  //       rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
+  //     }
+  //   }
 
-    return rankId;
-  }
+  //   return rankId;
+  // }
 
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   // Need to add eventlistener on input
