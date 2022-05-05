@@ -112,15 +112,21 @@
       arr.push(classRankandId);
     }
 
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i][0] == '') {
+        arr.splice(i, 1);
+      }
+    }
+
     console.log(RANKED_CLASSES)
   }
 
 
   // Called when "Group Ranked" button is clicked
   function sortDisplayedClassesByRank() {
-    const rankedCourses = getRankedIds();
+    // const rankedCourses = getRankedIds();
 
-    google.script.run.withSuccessHandler(printClasses).findRankedClasses(rankedCourses)
+    google.script.run.withSuccessHandler(printClasses).findRankedClasses(RANKED_CLASSES)
   }
 
 
