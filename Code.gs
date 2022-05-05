@@ -5,7 +5,6 @@ const maxNumber = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(4
 
 function doGet(request) {
   let template = HtmlService.createTemplateFromFile('index')
-  // template.season = "Summer 2022 Schedule";
   template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()} Schedule`;
 
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
@@ -31,8 +30,6 @@ function include(filename) {
 
 // Returns array of all classes for requested days with number input attached
 function getClasses(days, ranks) {
-  // let days = ['mon']
-  // let ranks = [[1, '3155'],[2,'3210']]
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
 
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
@@ -117,7 +114,6 @@ function sortRanking(coursesArr) {
 
 // Returns array with ranked classes at the top
 function findRankedClasses(classes) {
-  // let classes = [[2,'3153'],[1, '3154']];
   const classIds = classes.map(c => c[1])
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName);
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();

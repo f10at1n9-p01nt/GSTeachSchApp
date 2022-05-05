@@ -11,6 +11,7 @@
   const classListUl = document.getElementById("class-list")
   const classListInputs = classListUl.querySelectorAll('input')
   
+  // Adds event listers to each input created when App starts
   classListInputs.forEach((element) => {
     element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
   })
@@ -26,6 +27,7 @@
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
     console.log(numberOfClassesIsValid);
 
+    // Check if required username and number of classes fields are complete
     if(!usernameIsValid || !numberOfClassesIsValid) {
       if (!numberOfClassesIsValid) {
         document.getElementById('no-class-number').classList.remove('hidden');
@@ -37,10 +39,10 @@
     } else {
       submitPreferences();
     }
-
   }
 
 
+  // Clears the alert that indicates if a username or number of classes is missing
   function clearAlert() {
     document.getElementById('alert').classList.toggle('hidden');
     document.getElementById('no-username').classList.add('hidden');
@@ -48,6 +50,8 @@
   }
 
 
+  // Called after submitClick() validates required fields
+  // Sends username, ranked classes, and other form data to addUsername function which returns a row to send to spreadsheet
   function submitPreferences() {
     const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
@@ -60,27 +64,20 @@
     } else {
       wishToBeScheduled = 'yes'
     }
-
-    const username = usernameField.value;
-    // const coursePreferences = getRankedIds();
-
-    // google.script.run.addUsername(username, coursePreferences, numberOfClasses, wishToBeScheduled);
-    // google.script.run.addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
-    google.script.run.withSuccessHandler(alertUser).addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
-    // alert(`${totalNumberClassesAdded} classes have been submitted for ${username}.`)
-
-    // usernameField.value = '';
+ 
+    google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
     clearRankings();
   }
 
 
+  // Alerts user after submit of how many classes were submitted
   function alertUser(totalClassesAdded) {
     alert(`${totalClassesAdded} classes have been submitted for ${document.getElementById('username').value}.`)
     document.getElementById('username').value = '';
   }
 
 
-  // Called when "Clear Preferences" button is pushed
+  // Called when "Clear Preferences" button is clicked
   function clearRankings() {
     const ul = document.getElementById('class-list');
     const classes = ul.getElementsByTagName("li");
@@ -93,30 +90,24 @@
   }
 
   // Called when "Filter" button is clicked
-  // Keeps rank, but only if the day isn't cleared - need to find way for rankings to persist
   function filterDays() {
     let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
     let days = [];
     checkedBoxes.forEach(checkbox => days.push(checkbox.value));
 
-    // let rankedIds = getRankedIds();
-    // rankedIds.forEach((e) => updateRankedClassesArr(RANKED_CLASSES, e));
-    // console.log(RANKED_CLASSES)
-
-    // google.script.run.withSuccessHandler(printClasses).getClasses(days, rankedIds)
     google.script.run.withSuccessHandler(printClasses).getClasses(days, RANKED_CLASSES)
   }
 
 
+  // Helper function that adds a class to RANKED_CLASSES when ranked
   function updateRankedClassesArr(arr, classRankandId) {
-    // console.log(`arr is ${arr} and classRank is ${classRankandId}`)
     const i = arr.findIndex((e) => e[1] === classRankandId[1]);
+
     if (i > -1) {
       arr.splice(i,1,classRankandId)
     } else {
       arr.push(classRankandId);
     }
-    console.log(RANKED_CLASSES)
   }
 
 
@@ -169,7 +160,7 @@
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
     const ul = document.getElementById("class-list");
-    console.log(classes)
+
     // Clear currently printed list
     while (ul.firstChild) {
       ul.removeChild(ul.lastChild);
