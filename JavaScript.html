@@ -16,22 +16,33 @@
     // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
     google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
     
-    
   }
 
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
-    google.script.run.withSuccessHandler(printSchedule).checkSchedule(document.getElementById('username').value)
+    const username = document.getElementById('username').value;
+
+    if (username) {
+      google.script.run.withSuccessHandler(printSchedule).checkSchedule(username)
+    }
+    
   }
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
-    const usernameIsValid = document.getElementById('username').checkValidity();
-    const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
-    console.log(numberOfClassesIsValid);
+    const username = document.getElementById('username')
 
+    google.script.run.withSuccessHandler(validateForm).checkUsername(username.value);
+  }
+
+
+  function validateForm(dupe) {
     // Check if required username and number of classes fields are complete
+    const username = document.getElementById('username')
+    const usernameIsValid = username.checkValidity();
+    const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
+    
     if(!usernameIsValid || !numberOfClassesIsValid) {
       if (!numberOfClassesIsValid) {
         document.getElementById('no-class-number').classList.remove('hidden');
@@ -39,6 +50,9 @@
       if (!usernameIsValid) {
         document.getElementById('no-username').classList.remove('hidden');
       }
+      document.getElementById('alert').classList.toggle('hidden');
+    } else if (dupe) {
+      document.getElementById('dupe-username').classList.remove('hidden');
       document.getElementById('alert').classList.toggle('hidden');
     } else {
       submitPreferences();
@@ -51,6 +65,7 @@
     document.getElementById('alert').classList.toggle('hidden');
     document.getElementById('no-username').classList.add('hidden');
     document.getElementById('no-class-number').classList.add('hidden');
+    document.getElementById('dupe-username').classList.add('hidden');
   }
 
 
@@ -59,7 +74,6 @@
   function submitPreferences() {
     const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
-    console.log(numberOfClasses);
     const notAssignedCheckbox = document.getElementById('no-new-classes');
  
     google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses)
@@ -138,20 +152,22 @@
   // Displays username's schedule on app
   // argument 'schedule' is 2D array from checkSchedule(username) with username's schedule
   function printSchedule(schedule) {
-    const ul = document.getElementById('teacher-schedule');
+    const tableBody = document.getElementById('current-table-body');
 
-    // Clears any schedule already printed
-    while (ul.firstChild) {
-      ul.removeChild(ul.lastChild);
+    // Clear currently printed list
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.lastChild);
     }
 
-    // Loop through the schedule and create an element with appropriate classes and append to ul
-    for (let i = 0; i < schedule.length; i++) {
-      let newEl = document.createElement('li');
-      newEl.classList.add("ml-5", "mt-3");
-      let newText = document.createTextNode(`${schedule[i][0]} ${schedule[i][1]}`)
-      newEl.appendChild(newText);
-      ul.appendChild(newEl);
+    for (let row=0; row < schedule.length; row++) {
+      let newRow = document.createElement('tr');
+      for (let item=0; item < schedule[0].length; item++) {
+        let newCol = document.createElement('td');
+        newCol.innerHTML = schedule[row][item];
+        newCol.classList.add('text-center');
+        newRow.appendChild(newCol)
+      }
+      tableBody.appendChild(newRow);
     }
   }
 

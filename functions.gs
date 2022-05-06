@@ -27,13 +27,14 @@ function getClasses(days, ranks) {
 // Returns 2D array of class data for username in Summer 2022 Lineup
 // Called when "Get Schedule" button is clicked
 function checkSchedule(username) {
-  const lineupSheet = SpreadsheetApp.openById('1326N0jPlCf24inE9Q59oQf19Wv10aBHhE-gih5hNGfY').getSheetByName('Lineup');
+  const lineupSheet = SpreadsheetApp.openById('1326N0jPlCf24inE9Q59oQf19Wv10aBHhE-gih5hNGfY').getSheetByName('LineupForApp');
   const teacherCol = lineupSheet.getRange(2, 6, lineupSheet.getLastRow()-1, 1).getValues();
   const classes = [];
 
   for (let i = 0; i < teacherCol.length; i++) {
     if (teacherCol[i][0] === username) {
-      let data = lineupSheet.getRange(i+2, 1, 1, 2).getValues();
+      let data = lineupSheet.getRange(i+2, 1, 1, 5).getValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
+      data[0].splice(3, 1); // This is here because column 4 in the Summer Schedule is current start date, which we don't need. 
       data.forEach(d => classes.push(d));
     }
   }
@@ -105,5 +106,20 @@ function findRankedClasses(days, classes) {
 
   addLater.forEach(arr => classArr.push(arr))
   return classArr
+}
+
+
+// Returns if username is already on sheet
+function checkUsername(username) {
+  const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
+  const usernames = sheet.getRange(2, 2, sheet.getLastRow(), 1).getValues();
+
+  for (i = 0; i < usernames.length; i++) {
+    if (usernames[i][0].toLowerCase() === username.toLowerCase()) {
+      return true
+    }
+  }
+
+  return
 }
 

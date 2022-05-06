@@ -24,12 +24,13 @@
             <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
               <p class="hidden" id="no-username">Please enter a username.</p>
               <p class="hidden" id="no-class-number">Please choose the number of classes.</p>
+              <p class="hidden" id="dupe-username">Username already submitted. Please contact school-staff to make changes.</p>
               <button id="clear-alert" type="button" class="bg-red-500 hover:bg-red-700 bg-red-500 hover:bg-red-700 text-sm border-4 text-white py-1 px-2 rounded">Ok</button>
             </div>
           </div>
 
-          
-          <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-12 rounded">Submit Preferences</button>
+
+          <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Submit Preferences</button>
         </div>
 
         <div class="ml-5 mb-6">
@@ -75,14 +76,6 @@
             </thead>
 
             <tbody id="class-table-body">
-              <!-- <tr>
-                <td class="text-center">1234</td>
-                <td class="text-center">Introduction to Algebra A</td>
-                <td class="text-center">Mon</td>
-                <td class="text-center">09-02</td>
-                <td class="text-center">02-17</td>
-                <td class="text-center">7:30 pm</td>
-              </tr> -->
             </tbody>
           
           </table>
@@ -90,6 +83,20 @@
         <div class="basis-5/12">
           <h2 class="text-2xl font-bold text-center">Your Current Schedule</h2>
           <ul id="teacher-schedule"></ul>
+          <table class="table-fixed mx-5 mt-3">
+            <thead>
+              <tr>
+                <th class="w-1/12">ID</th>
+                <th class="w-6/12">Course</th>
+                <th class="w-1/12">Weekday</th>
+                <th class="w-3/12">End Date</th>
+              </tr>
+            </thead>
+
+            <tbody id="current-table-body">
+            </tbody>
+          
+          </table>
         </div>
       </div>
 
