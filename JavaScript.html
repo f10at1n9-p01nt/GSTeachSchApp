@@ -38,7 +38,8 @@
 
 
   function validateForm(dupe) {
-    // Check if required username and number of classes fields are complete
+    // Check if required username, number of classes fields are complete, and username hasn't submitted
+    // Can add number of classes check quite easily
     const username = document.getElementById('username')
     const usernameIsValid = username.checkValidity();
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
@@ -54,7 +55,7 @@
     } else if (dupe) {
       document.getElementById('dupe-username').classList.remove('hidden');
       document.getElementById('alert').classList.toggle('hidden');
-    } else {
+    } else {      
       submitPreferences();
     }
   }
