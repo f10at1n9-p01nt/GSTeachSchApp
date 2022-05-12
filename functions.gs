@@ -24,18 +24,20 @@ function getClasses(days, ranks) {
 }
 
 
-// Returns 2D array of class data for username in Summer 2022 Lineup
-// Called when "Get Schedule" button is clicked
 function checkSchedule(username) {
-  const lineupSheet = SpreadsheetApp.openById('1326N0jPlCf24inE9Q59oQf19Wv10aBHhE-gih5hNGfY').getSheetByName('LineupForApp');
-  const teacherCol = lineupSheet.getRange(2, 6, lineupSheet.getLastRow()-1, 1).getValues();
+  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Lineup')
+  const teacherCol = lineupSheet.getRange(2, 11, lineupSheet.getLastRow()-1, 1).getValues();
   const classes = [];
 
   for (let i = 0; i < teacherCol.length; i++) {
     if (teacherCol[i][0] === username) {
-      let data = lineupSheet.getRange(i+2, 1, 1, 5).getValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
-      data[0].splice(3, 1); // This is here because column 4 in the Summer Schedule is current start date, which we don't need. 
-      data.forEach(d => classes.push(d));
+      if (lineupSheet.getRange(i+2, 2).getValue() === "Running") {
+        let data = lineupSheet.getRange(i+2, 3, 1, 8).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
+        data[0].splice(2, 2); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
+        data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
+        [data[0][2], data[0][3]] = [data[0][3], data[0][2]] //Swap End,Day [ID, Course, Day, End, Time]
+        data.forEach(d => classes.push(d));
+      }
     }
   }
 
@@ -120,6 +122,41 @@ function checkUsername(username) {
     }
   }
 
-  return
+  return false
 }
 
+
+function test() {
+  let username = 'bedwards'
+  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Lineup')
+  const teacherCol = lineupSheet.getRange(2, 11, lineupSheet.getLastRow()-1, 1).getValues();
+  const classes = [];
+
+  for (let i = 0; i < teacherCol.length; i++) {
+    if (teacherCol[i][0] === username) {
+      if (lineupSheet.getRange(i+2, 2).getValue() === "Running") {
+        Logger.log('here')
+        let data = lineupSheet.getRange(i+2, 3, 1, 8).getValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0 ID Course Day Start End 
+        // [ID, course, code, start, end, day, weeks, time] => [ID, course, day, end, time]
+        Logger.log(data)
+        data[0].splice(2, 2); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
+        Logger.log(data)
+        data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
+        Logger.log(data)
+        [data[0][2], data[0][3]] = [data[0][3], data[0][2]] //Swap End,Day [ID, Course, Day, End, Time]
+        Logger.log(data)
+        Logger.log('')
+        classes.push(data)
+      }
+    }
+  }
+
+  Logger.log(classes.length)
+
+  if (classes.length === 0) {
+    Logger.log('here')
+    return [['Instructor', 'not found']]
+  } else {
+    return classes
+  }
+}
