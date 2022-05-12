@@ -27,57 +27,90 @@
       </div>
     </div>
 
-    <div id="pref-classes" class="flex justify-center items-center">
-      <h2 class="text-3xl font-bold">Course Preferences</h2>
-    </div>
+    
+    <h2 class="text-3xl font-bold text-center">Course Preferences</h2>
+    <div id="pref-classes" class="flex flex-row px-5">
 
-    <div id="pref-intro" class="flex flex-col">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Introductory Math</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
+    <div id="left-side" class="basis-1/2">
+      <div id="pref-intro" class="">
+        <button class="mb-2 mt-3 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Introductory Math</button>
+        <div class="panel ml-1 hidden grid-rows-4">
+          <div>
+            <input type="checkbox" id="pa1" name="pa1" class="ml-2">
+            <label for="pa1" class="text-xl ml-5 my-5">Prealgebra 1</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="pa2" name="pa2" class="ml-2">
+            <label for="pa2" class="text-xl ml-5">Prealgebra 2</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="alga" name="alga" class="ml-2">
+            <label for="alga" class="text-xl ml-5 my-3">Introduction to Algebra A</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="algb" name="algb" class="ml-2">
+            <label for="algb" class="text-xl ml-5 my-3">Introduction to Algebra B</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="icp" name="icp" class="ml-2">
+            <label for="icp" class="text-xl ml-5 my-3">Introduction to Counting and Probability</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="int" name="int" class="ml-2">
+            <label for="int" class="text-xl ml-5 my-3">Introduction to Number Theory</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="geo" name="geo" class="ml-2">
+            <label for="geo" class="text-xl ml-5 my-3">Introduction to Geometry</label>
+          </div>
+        </div>
+      </div>
+
+      <div id="pref-interm">
+        <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Intermediate Math</button>
+        <div class="panel hidden ml-1">
+          Some stuff
+        </div>
+      </div>
+
+      <div id="pref-adv">
+        <button class="my-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Advanced Math</button>
+        <div class="panel ml-1 hidden">
+          Some stuff
+        </div>
+      </div>
+
+      <div id="pref-contest">
+        <button class="my-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Contest</button>
+        <div class="panel ml-1 hidden">
+          Some stuff
+        </div>
       </div>
     </div>
 
-    <div id="pref-interm">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Intermediate Math</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
+    <div id="right-side" class="basis-1/2 px-5">
+      <div id="pref-WOOT">
+        <button class="mt-3 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">WOOT</button>
+        <div class="panel ml-1 hidden">
+          Some stuff
+        </div>
+      </div>
+
+      <div id="pref-cs">
+        <button class="mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Python</button>
+        <div class="panel ml-1 hidden">
+          Some stuff
+        </div>
+      </div>
+
+      <div id="pref-science">
+        <button class="mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Physics</button>
+        <div class="panel ml-1 hidden">
+          Some stuff
+        </div>
       </div>
     </div>
 
-    <div id="pref-adv">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Advanced Math</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
-      </div>
-    </div>
-
-    <div id="pref-contest">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Contest</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
-      </div>
-    </div>
-
-    <div id="pref-WOOT">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">WOOT</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
-      </div>
-    </div>
-
-    <div id="pref-cs">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Python</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
-      </div>
-    </div>
-
-    <div id="pref-science">
-      <button class="ml-10 mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Physics</button>
-      <div class="panel ml-11 hidden">
-        Some stuff
-      </div>
     </div>
 
 
