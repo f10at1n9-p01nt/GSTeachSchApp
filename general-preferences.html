@@ -19,7 +19,7 @@
 
     <div id="pref-time" class="flex flex-col justify-center items-center mt-5">
       <h2 class="text-3xl font-bold text-center">Time of Day</h2>
-      <button class="mb-3 mt-3 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Time of Day</button>
+      <button class="mb-3 mt-3 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-1/2 py-5">Early/Late Preferences</button>
       <div class="panel-dt ml-1 mb-5">
         Some stuff
       </div>
@@ -73,21 +73,70 @@
       <div id="pref-interm">
         <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Intermediate Math</button>
         <div class="panel ml-1">
-          Some stuff
+          <div class="">
+            <input type="checkbox" id="ialg" name="ialg" class="ml-2">
+            <label for="ialg" class="text-xl ml-5 my-5">Intermediate Algebra</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="icp2" name="icp2" class="ml-2">
+            <label for="icp2" class="text-xl ml-5">Intermediate Counting and Probability</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="int2" name="int2" class="ml-2">
+            <label for="int2" class="text-xl ml-5 my-3">Intermediate Number Theory</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="pc" name="pc" class="ml-2">
+            <label for="pc" class="text-xl ml-5 my-3">Precalculus</label>
+          </div>
         </div>
       </div>
 
       <div id="pref-adv">
         <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Advanced Math</button>
         <div class="panel ml-1">
-          Some stuff
+          <div class="">
+            <input type="checkbox" id="calc" name="calc" class="ml-2">
+            <label for="calc" class="text-xl ml-5 my-5">Calculus</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="gt" name="gt" class="ml-2">
+            <label for="gt" class="text-xl ml-5">Group Theory</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="ogeo" name="ogeo" class="ml-2">
+            <label for="ogeo" class="text-xl ml-5 my-3">Olympiad Geometry</label>
+          </div>
         </div>
       </div>
 
       <div id="pref-contest">
         <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Contest</button>
         <div class="panel ml-1">
-          Some stuff
+          <div class="">
+            <input type="checkbox" id="mcb" name="mcb" class="ml-2">
+            <label for="mcb" class="text-xl ml-5 my-5">MATHCOUNTS/AMC 8 Basics</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="mca" name="mca" class="ml-2">
+            <label for="mca" class="text-xl ml-5">MATHCOUNTS/AMC 8 Advanced</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="amc10" name="amc10" class="ml-2">
+            <label for="amc10" class="text-xl ml-5 my-3">AMC 10 Problems Series</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="amc12" name="amc12" class="ml-2">
+            <label for="amc12" class="text-xl ml-5 my-3">AMC 12 Problem Series</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="aimea" name="aimea" class="ml-2">
+            <label for="aimea" class="text-xl ml-5 my-3">AIME Problem Series A</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="aimeb" name="aimeb" class="ml-2">
+            <label for="aimeb" class="text-xl ml-5 my-3">AIME Problem Series B</label>
+          </div>
         </div>
       </div>
     </div>
@@ -96,26 +145,51 @@
       <div id="pref-WOOT">
         <button class="mt-3 mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">WOOT</button>
         <div class="panel ml-1">
-          Some stuff
+          <div class="">
+            <input type="checkbox" id="woot" name="woot" class="ml-2">
+            <label for="woot" class="text-xl ml-5 my-5">WOOT</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="cwt" name="cwt" class="ml-2">
+            <label for="cwt" class="text-xl ml-5">ChemWOOT</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="pwt" name="pwt" class="ml-2">
+            <label for="pwt" class="text-xl ml-5 my-3">PhysicsWOOT</label>
+          </div>
         </div>
       </div>
 
       <div id="pref-cs">
         <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Python</button>
         <div class="panel ml-1">
-          Some stuff
+          <div class="">
+            <input type="checkbox" id="py1" name="py1" class="ml-2">
+            <label for="py1" class="text-xl ml-5 my-5">Introduction to Programming with Python</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="py2" name="py2" class="ml-2">
+            <label for="py2" class="text-xl ml-5">Intermediate Programming with Python</label>
+          </div>
         </div>
       </div>
 
       <div id="pref-science">
         <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Physics</button>
         <div class="panel ml-1">
-          Some stuff
+          <div class="">
+            <input type="checkbox" id="fma" name="fma" class="ml-2">
+            <label for="fma" class="text-xl ml-5 my-5">F=ma Problem Series</label>
+          </div>
+          <div class="my-2">
+            <input type="checkbox" id="iphys" name="iphys" class="ml-2">
+            <label for="iphys" class="text-xl ml-5">Introduction to Physics</label>
+          </div>
         </div>
       </div>
     </div>
 
-    </div>
+  </div>
 
 
     <?!= include('JS-genpref'); ?>

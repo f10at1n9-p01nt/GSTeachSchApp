@@ -127,32 +127,33 @@ function checkUsername(username) {
 
 
 function getPreferences(username) {
-  // let username = 'Achilleas';
+  // let username = 'achilleas';
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences')
 
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const data = teacherPrefRow(teachers, username, sheet)
   Logger.log(data)
 
-  const prefObj = {
-    'pa1': data[0],
-    'pa2': data[1],
-    'alga': data[2],
-    'algb': data[3],
-    'icp': data[4],
-    'int': data[5],
-    'geo': data[6],
-  }
+  // const prefObj = {
+  //   'pa1': data[0],
+  //   'pa2': data[1],
+  //   'alga': data[2],
+  //   'algb': data[3],
+  //   'icp': data[4],
+  //   'int': data[5],
+  //   'geo': data[6],
+  // }
 
-  return prefObj
+  return data
 }
 
 // Helper function called by getPreferences()
 // Returns preferences row for teacher from General Preferences sheet
 function teacherPrefRow(teacherArr, teacher, sheet) {
+  Logger.log(teacher)
   for (let i = 0; i < teacherArr.length; i++) {
     if (teacherArr[i][0].toLowerCase() === teacher) {
-      return sheet.getRange(i+3, 34, 1, 7).getValues().reverse()[0]
+      return sheet.getRange(i+3, 17, 1, 27).getValues()[0].reverse() // If General Preferences every changes columns, this will break
     }
   }
 }

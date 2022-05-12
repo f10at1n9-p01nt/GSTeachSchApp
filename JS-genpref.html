@@ -51,18 +51,18 @@
   }
 
 
-  function updateCheckboxes(prefObj) {
-    console.log(prefObj)
-    const introClassDiv = document.getElementById('pref-intro');
-    const checkboxes = introClassDiv.querySelectorAll('input');
+  function updateCheckboxes(prefArr) {
+    console.log(prefArr)
+    const classesDiv = document.getElementById('pref-classes');
+    const checkboxes = classesDiv.querySelectorAll('input');
 
-    checkboxes.forEach((box) => {
-      if (prefObj[`${box.id}`] === 1) {
-        box.checked = true
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (prefArr[i] === 1) {
+        checkboxes[i].checked = true
       } else {
-        box.checked = false
+        checkboxes[i].checked = false
       }
-    })
+    }
   }
 
   document.addEventListener("DOMContentLoaded", expandAll);
