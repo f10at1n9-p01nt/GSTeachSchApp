@@ -16,8 +16,8 @@
     });
   }
 
-  const username = document.getElementById('username');
   const updatePrefencesButton = document.getElementById('update-preferences').addEventListener('click', clicked)
+  const retrievePrefencesButton = document.getElementById('pull-preferences').addEventListener('click', pullPreferences)
   const expandButton = document.getElementById('expand-all').addEventListener('click', expandAll)
   const collapseButton = document.getElementById('collapse-all').addEventListener('click', collapseAll)
 
@@ -37,12 +37,32 @@
 
   function collapseAll() {
     const panels = document.getElementsByClassName('panel')
-    console.log(panels)
 
     for (let i = 0; i < panels.length; i++) {
-      console.log(panels[i].id)
       panels[i].style.maxHeight = null;
     }
+  }
+
+
+  function pullPreferences() {
+    const username = document.getElementById('username').value.toLowerCase();
+
+    google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username)
+  }
+
+
+  function updateCheckboxes(prefObj) {
+    console.log(prefObj)
+    const introClassDiv = document.getElementById('pref-intro');
+    const checkboxes = introClassDiv.querySelectorAll('input');
+
+    checkboxes.forEach((box) => {
+      if (prefObj[`${box.id}`] === 1) {
+        box.checked = true
+      } else {
+        box.checked = false
+      }
+    })
   }
 
   document.addEventListener("DOMContentLoaded", expandAll);

@@ -126,37 +126,33 @@ function checkUsername(username) {
 }
 
 
-function test() {
-  let username = 'bedwards'
-  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Lineup')
-  const teacherCol = lineupSheet.getRange(2, 11, lineupSheet.getLastRow()-1, 1).getValues();
-  const classes = [];
+function getPreferences(username) {
+  // let username = 'Achilleas';
+  const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences')
 
-  for (let i = 0; i < teacherCol.length; i++) {
-    if (teacherCol[i][0] === username) {
-      if (lineupSheet.getRange(i+2, 2).getValue() === "Running") {
-        Logger.log('here')
-        let data = lineupSheet.getRange(i+2, 3, 1, 8).getValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0 ID Course Day Start End 
-        // [ID, course, code, start, end, day, weeks, time] => [ID, course, day, end, time]
-        Logger.log(data)
-        data[0].splice(2, 2); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
-        Logger.log(data)
-        data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
-        Logger.log(data)
-        [data[0][2], data[0][3]] = [data[0][3], data[0][2]] //Swap End,Day [ID, Course, Day, End, Time]
-        Logger.log(data)
-        Logger.log('')
-        classes.push(data)
-      }
-    }
+  const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+  const data = teacherPrefRow(teachers, username, sheet)
+  Logger.log(data)
+
+  const prefObj = {
+    'pa1': data[0],
+    'pa2': data[1],
+    'alga': data[2],
+    'algb': data[3],
+    'icp': data[4],
+    'int': data[5],
+    'geo': data[6],
   }
 
-  Logger.log(classes.length)
+  return prefObj
+}
 
-  if (classes.length === 0) {
-    Logger.log('here')
-    return [['Instructor', 'not found']]
-  } else {
-    return classes
+// Helper function called by getPreferences()
+// Returns preferences row for teacher from General Preferences sheet
+function teacherPrefRow(teacherArr, teacher, sheet) {
+  for (let i = 0; i < teacherArr.length; i++) {
+    if (teacherArr[i][0].toLowerCase() === teacher) {
+      return sheet.getRange(i+3, 34, 1, 7).getValues().reverse()[0]
+    }
   }
 }
