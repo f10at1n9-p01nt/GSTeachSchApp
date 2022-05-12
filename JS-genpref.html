@@ -6,12 +6,23 @@
     prefDropdowns[i].addEventListener('click', function() {
       this.classList.toggle("active");
       let panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
+      console.log(panel.style.display)
+
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null; // accordian is open, so need to remove height
       } else {
-        panel.style.display = "block";
+        panel.style.maxHeight = panel.scrollHeight + "px"; // accordian is closed, so need to add height back in
       }
-    })
+    });
+  }
+
+  const username = document.getElementById('username');
+  const updatePrefencesButton = document.getElementById('update-preferences');
+  
+  updatePrefencesButton.addEventListener('click', clicked)
+
+  function clicked() {
+    console.log(username.value);
   }
 
 </script>

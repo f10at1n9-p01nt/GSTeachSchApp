@@ -11,6 +11,12 @@
       <h1 class="m-5 text-3xl font-bold text-center">General Preferences</h1>
     </div>
 
+    <div class="container ml-5">
+      <input required type="text" id="username" placeholder="username" class="w-1/5 appearance-none bg-transparent border-2 border-zinc-400 text-gray-700 mx-3 py-1 px-2 focus:bg-gray-200"/>
+      <button id="update-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Update Preferences</button>
+      <button id="pull-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Retrieve Preferences</button>
+    </div>
+
     <div id="expand-collapse-buttons" class="flex justify-center items-center">
       <button class="object-center">Collapse All</button>
       <button>Expand All</button>
@@ -34,8 +40,8 @@
     <div id="left-side" class="basis-1/2">
       <div id="pref-intro" class="">
         <button class="mb-2 mt-3 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Introductory Math</button>
-        <div class="panel ml-1 hidden grid-rows-4">
-          <div>
+        <div class="panel ml-1 grid-rows-4">
+          <div class="">
             <input type="checkbox" id="pa1" name="pa1" class="ml-2">
             <label for="pa1" class="text-xl ml-5 my-5">Prealgebra 1</label>
           </div>
@@ -68,21 +74,21 @@
 
       <div id="pref-interm">
         <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Intermediate Math</button>
-        <div class="panel hidden ml-1">
+        <div class="panel ml-1">
           Some stuff
         </div>
       </div>
 
       <div id="pref-adv">
-        <button class="my-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Advanced Math</button>
-        <div class="panel ml-1 hidden">
+        <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Advanced Math</button>
+        <div class="panel ml-1">
           Some stuff
         </div>
       </div>
 
       <div id="pref-contest">
-        <button class="my-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Contest</button>
-        <div class="panel ml-1 hidden">
+        <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Contest</button>
+        <div class="panel ml-1">
           Some stuff
         </div>
       </div>
@@ -90,22 +96,22 @@
 
     <div id="right-side" class="basis-1/2 px-5">
       <div id="pref-WOOT">
-        <button class="mt-3 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">WOOT</button>
-        <div class="panel ml-1 hidden">
+        <button class="mt-3 mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">WOOT</button>
+        <div class="panel ml-1">
           Some stuff
         </div>
       </div>
 
       <div id="pref-cs">
-        <button class="mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Python</button>
-        <div class="panel ml-1 hidden">
+        <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Python</button>
+        <div class="panel ml-1">
           Some stuff
         </div>
       </div>
 
       <div id="pref-science">
-        <button class="mt-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Physics</button>
-        <div class="panel ml-1 hidden">
+        <button class="mb-2 accordian bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-white w-full py-5">Physics</button>
+        <div class="panel ml-1">
           Some stuff
         </div>
       </div>
