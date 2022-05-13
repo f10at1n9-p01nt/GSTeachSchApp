@@ -8,24 +8,42 @@
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("clear-alert").addEventListener("click", clearAlert);
 
-  const classListUl = document.getElementById("class-list")
-  const classListInputs = classListUl.querySelectorAll('input')
-  
-  classListInputs.forEach((element) => {
-    element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
-  })
+
+  document.addEventListener("DOMContentLoaded", addTable);
+
+  function addTable() {
+
+    // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
+    google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
+    
+  }
+
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
-    google.script.run.withSuccessHandler(printSchedule).checkSchedule(document.getElementById('username').value)
+    const username = document.getElementById('username').value;
+
+    if (username) {
+      google.script.run.withSuccessHandler(printSchedule).checkSchedule(username)
+    }
+    
   }
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
-    const usernameIsValid = document.getElementById('username').checkValidity();
-    const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
-    console.log(numberOfClassesIsValid);
+    const username = document.getElementById('username')
 
+    google.script.run.withSuccessHandler(validateForm).checkUsername(username.value);
+  }
+
+
+  function validateForm(dupe) {
+    // Check if required username, number of classes fields are complete, and username hasn't submitted
+    // Can add number of classes check quite easily
+    const username = document.getElementById('username')
+    const usernameIsValid = username.checkValidity();
+    const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
+    
     if(!usernameIsValid || !numberOfClassesIsValid) {
       if (!numberOfClassesIsValid) {
         document.getElementById('no-class-number').classList.remove('hidden');
@@ -34,157 +52,175 @@
         document.getElementById('no-username').classList.remove('hidden');
       }
       document.getElementById('alert').classList.toggle('hidden');
-    } else {
+    } else if (dupe) {
+      document.getElementById('dupe-username').classList.remove('hidden');
+      document.getElementById('alert').classList.toggle('hidden');
+    } else {      
       submitPreferences();
     }
-
   }
 
 
+  // Clears the alert that indicates if a username or number of classes is missing
   function clearAlert() {
     document.getElementById('alert').classList.toggle('hidden');
     document.getElementById('no-username').classList.add('hidden');
     document.getElementById('no-class-number').classList.add('hidden');
+    document.getElementById('dupe-username').classList.add('hidden');
   }
 
 
+  // Called after submitClick() validates required fields
+  // Sends username, ranked classes, and other form data to addUsername function which returns a row to send to spreadsheet
   function submitPreferences() {
     const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
-    console.log(numberOfClasses);
     const notAssignedCheckbox = document.getElementById('no-new-classes');
-    let wishToBeScheduled = '';
-
-    if (notAssignedCheckbox.checked === true) {
-      wishToBeScheduled = 'no'
-    } else {
-      wishToBeScheduled = 'yes'
-    }
-
-    const username = usernameField.value;
-    // const coursePreferences = getRankedIds();
-
-    // google.script.run.addUsername(username, coursePreferences, numberOfClasses, wishToBeScheduled);
-    // google.script.run.addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
-    google.script.run.withSuccessHandler(alertUser).addUsername(username, RANKED_CLASSES, numberOfClasses, wishToBeScheduled)
-    // alert(`${totalNumberClassesAdded} classes have been submitted for ${username}.`)
-
-    // usernameField.value = '';
+ 
+    google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses)
     clearRankings();
   }
 
 
+  // Alerts user after submit of how many classes were submitted
   function alertUser(totalClassesAdded) {
     alert(`${totalClassesAdded} classes have been submitted for ${document.getElementById('username').value}.`)
     document.getElementById('username').value = '';
   }
 
 
-  // Called when "Clear Preferences" button is pushed
+  // Called when "Clear Preferences" button is clicked
   function clearRankings() {
-    const ul = document.getElementById('class-list');
-    const classes = ul.getElementsByTagName("li");
+    const tableBody = document.getElementById('class-table-body');
+    const classes = tableBody.querySelectorAll('input')
 
     RANKED_CLASSES.length = 0;
 
     for (let i = 0; i < classes.length; i++) {
-      classes[i].querySelector("input").valueAsNumber = NaN;
+      classes[i].valueAsNumber = NaN;
     }
   }
 
-  // Called when "Filter" button is clicked
-  // Keeps rank, but only if the day isn't cleared - need to find way for rankings to persist
-  function filterDays() {
+
+  function getSelectedDays() {
     let checkedBoxes = document.querySelectorAll('input[name="dow"]:checked');
     let days = [];
     checkedBoxes.forEach(checkbox => days.push(checkbox.value));
 
-    // let rankedIds = getRankedIds();
-    // rankedIds.forEach((e) => updateRankedClassesArr(RANKED_CLASSES, e));
-    // console.log(RANKED_CLASSES)
+    return days
+  }
 
-    // google.script.run.withSuccessHandler(printClasses).getClasses(days, rankedIds)
+  // Called when "Filter" button is clicked
+  function filterDays() {
+
+    const days = getSelectedDays()
+
     google.script.run.withSuccessHandler(printClasses).getClasses(days, RANKED_CLASSES)
   }
 
 
+  // Helper function that adds a class to RANKED_CLASSES when ranked
   function updateRankedClassesArr(arr, classRankandId) {
-    // console.log(`arr is ${arr} and classRank is ${classRankandId}`)
     const i = arr.findIndex((e) => e[1] === classRankandId[1]);
+
     if (i > -1) {
       arr.splice(i,1,classRankandId)
     } else {
       arr.push(classRankandId);
     }
+
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i][0] == '') {
+        arr.splice(i, 1);
+      }
+    }
+
     console.log(RANKED_CLASSES)
   }
 
 
   // Called when "Group Ranked" button is clicked
   function sortDisplayedClassesByRank() {
-    const rankedCourses = getRankedIds();
+    // const rankedCourses = getRankedIds();
 
-    google.script.run.withSuccessHandler(printClasses).findRankedClasses(rankedCourses)
+    const days = getSelectedDays();
+    console.log(days)
+
+    google.script.run.withSuccessHandler(printClasses).findRankedClasses(days, RANKED_CLASSES)
   }
 
 
   // Displays username's schedule on app
   // argument 'schedule' is 2D array from checkSchedule(username) with username's schedule
   function printSchedule(schedule) {
-    const ul = document.getElementById('teacher-schedule');
+    console.log(schedule)
+    const tableBody = document.getElementById('current-table-body');
 
-    // Clears any schedule already printed
-    while (ul.firstChild) {
-      ul.removeChild(ul.lastChild);
+    // Clear currently printed list
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.lastChild);
     }
 
-    // Loop through the schedule and create an element with appropriate classes and append to ul
-    for (let i = 0; i < schedule.length; i++) {
-      let newEl = document.createElement('li');
-      newEl.classList.add("ml-5", "mt-3");
-      let newText = document.createTextNode(`${schedule[i][0]} ${schedule[i][1]}`)
-      newEl.appendChild(newText);
-      ul.appendChild(newEl);
-    }
-  }
-
-
-  // Returns array with rank and ID for any ranked class
-  function getRankedIds() {
-    const ul = document.getElementById('class-list');
-    const classes = ul.getElementsByTagName("li");
-    let rankId = [];
-
-    for (let i = 0; i < classes.length; i++) {
-      if (classes[i].querySelector("input").valueAsNumber) {
-        let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
-        idArr.shift(); // remove the first element from the array, which is the <input> stuff
-        rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
+    for (let row=0; row < schedule.length; row++) {
+      let newRow = document.createElement('tr');
+      for (let item=0; item < schedule[0].length; item++) {
+        let newCol = document.createElement('td');
+        newCol.innerHTML = schedule[row][item];
+        newCol.classList.add('text-center');
+        newRow.appendChild(newCol)
       }
+      tableBody.appendChild(newRow);
     }
-
-    return rankId;
   }
+
+
+  // // Returns array with rank and ID for any ranked class
+  // function getRankedIds() {
+  //   const ul = document.getElementById('class-list');
+  //   const classes = ul.getElementsByTagName("li");
+  //   let rankId = [];
+
+  //   for (let i = 0; i < classes.length; i++) {
+  //     if (classes[i].querySelector("input").valueAsNumber) {
+  //       let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
+  //       idArr.shift(); // remove the first element from the array, which is the <input> stuff
+  //       rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
+  //     }
+  //   }
+
+  //   return rankId;
+  // }
 
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
-    const ul = document.getElementById("class-list");
-    console.log(classes)
+    const tableBody = document.getElementById('class-table-body');
+
     // Clear currently printed list
-    while (ul.firstChild) {
-      ul.removeChild(ul.lastChild);
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.lastChild);
     }
 
-    // Make new list
-    for (let i = 0; i < classes.length; i++) {
-      let newEl = document.createElement('li')
-      newEl.classList.add("ml-5", "mt-3");
-      newEl.innerHTML = classes[i]
-      ul.appendChild(newEl)
-
-      newEl.querySelector('input').addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
+    for (let row=0; row < classes.length; row++) {
+      let newRow = document.createElement('tr');
+      for (let item=0; item < classes[0].length; item++) {
+        let newCol = document.createElement('td');
+        newCol.innerHTML = classes[row][item];
+        newCol.classList.add('text-center');
+        newRow.appendChild(newCol)
+      }
+      tableBody.appendChild(newRow);
     }
+
+    addListenersToInputs();
   }
 
+  function addListenersToInputs() {
+    const tableBody = document.getElementById('class-table-body');
+    const classInputs = tableBody.querySelectorAll('input')
+
+    classInputs.forEach((element) => {
+      element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
+    })
+  }
 
 </script>

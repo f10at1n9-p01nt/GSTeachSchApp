@@ -11,10 +11,12 @@
         <h1 class="m-5 text-3xl font-bold text-center"><?!= season ?></h1>
       </div>
 
-      <div class="flex flex-row relative">
-        <div class="basis-1/2 ml-5">
-          <!-- <label for="username" class="m-5 font-bold">Username</label> -->
-          <input required type="text" id="username" placeholder="username" class="w-1/3 appearance-none bg-transparent border-2 border-zinc-400 text-gray-700 mx-3 py-1 px-2 focus:bg-gray-200"/>
+      <div class="flex flex-col relative">
+        <div class="ml-5">
+          <input required type="text" id="username" placeholder="username" class="w-2/12 appearance-none bg-transparent border-2 border-zinc-400 text-gray-700 mx-3 py-1 px-2 focus:bg-gray-200"/>
+          
+          <!-- alert -->
+          
           <div id="alert" role="alert" class="hidden absolute top-10 left-8">
             <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
               Preferences Not Submitted
@@ -22,26 +24,22 @@
             <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
               <p class="hidden" id="no-username">Please enter a username.</p>
               <p class="hidden" id="no-class-number">Please choose the number of classes.</p>
+              <p class="hidden" id="dupe-username">Username already submitted. Please contact school-staff to make changes.</p>
               <button id="clear-alert" type="button" class="bg-red-500 hover:bg-red-700 bg-red-500 hover:bg-red-700 text-sm border-4 text-white py-1 px-2 rounded">Ok</button>
             </div>
           </div>
-          <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded">Submit Preferences</button>
-          <button type="button" id="submit-schedule" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Display Current Schedule</button>
+
+
+          <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Submit Preferences</button>
         </div>
 
-        <div class="basis-1/2">
-          <div class="">
-            <!-- <label class="block font-bold" for="number-of-classes">Number of Classes Desired</label> -->
-            <select name="number-of-classes" id="number-of-classes" class="block bg-gray-200 border-2 border-zinc-400 text-gray-700 py-1 px-4 rounded leading-tight focus:bg-white focus:border-gray-500" required>
-              <option value="">--Please let us know the number of classes you would like added to your schedule--</option>
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div>
-          <div class="basis-1/2 m-5">
-            <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="no-new-classes" id="no-new-classes" /><label for="no-new-classes" class="font-bold">I DO NOT wish to be assigned any courses during this round of scheduling.</label>
-          </div>
+        <div class="ml-5 mb-6">
+          <select name="number-of-classes" id="number-of-classes" class="w-1/3 block bg-gray-200 border-2 border-zinc-400 text-gray-700 py-1 px-4 mx-3 my-2 rounded leading-tight focus:bg-white focus:border-gray-500" required>
+            <option value="">--Please select the number of classes you would like added to your schedule--</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
         </div>
       </div>
 
@@ -53,20 +51,53 @@
         <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
         <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
         <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tuesday/Thursday Hackjob</label>
-        <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 mb-3 rounded">Filter by Selected Days</button>
-        <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-5 mb-3 rounded">Clear Preferences</button> 
+        <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 mb-3 rounded">Filter by Selected Days</button>
+        <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-3 mb-3 rounded">Clear Preferences</button> 
         <button id="group-ranked" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mb-3 rounded">Group Ranked Courses</button>
+        <button type="button" id="submit-schedule" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 rounded">Display Current Schedule</button>
       </div>
 
 
       <div class="flex flex-row my-3" id="available-classes-list">
-        <div class="basis-1/2">
-          <h2 class="text-xl font-bold text-center">Classes To Be Scheduled</h2>
-          <ul id="class-list"><?!= rows ?></ul>
+        <div class="basis-7/12">
+          <h2 class="text-2xl font-bold text-center">Classes To Be Scheduled</h2>
+          
+          <table class="table-fixed ml-6 mt-3">
+            <thead>
+              <tr>
+                <th class="w-1/12">Rank</th>
+                <th class="w-1/12">ID</th>
+                <th class="w-4/12">Course</th>
+                <th class="w-1/12">Weekday</th>
+                <th class="w-2/12">Start Date</th>
+                <th class="w-2/12">End Date</th>
+                <th class="w-1/12">Start Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="class-table-body">
+            </tbody>
+          
+          </table>
         </div>
-        <div class="basis-1/2">
-          <h2 class="text-xl font-bold text-center">Your Current Schedule</h2>
+        <div class="basis-5/12">
+          <h2 class="text-2xl font-bold text-center">Your Current Schedule</h2>
           <ul id="teacher-schedule"></ul>
+          <table class="table-fixed ml-3 mr-5 mt-3">
+            <thead>
+              <tr>
+                <th class="w-1/12">ID</th>
+                <th class="w-6/12">Course</th>
+                <th class="w-1/12">Weekday</th>
+                <th class="w-3/12">End Date</th>
+                <th class="w-1/12">Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="current-table-body">
+            </tbody>
+          
+          </table>
         </div>
       </div>
 
