@@ -132,7 +132,6 @@ function getPreferences(username) {
 
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const data = teacherPrefRow(teachers, username, sheet)
-  Logger.log(data)
 
   // const prefObj = {
   //   'pa1': data[0],
@@ -150,10 +149,11 @@ function getPreferences(username) {
 // Helper function called by getPreferences()
 // Returns preferences row for teacher from General Preferences sheet
 function teacherPrefRow(teacherArr, teacher, sheet) {
-  Logger.log(teacher)
   for (let i = 0; i < teacherArr.length; i++) {
     if (teacherArr[i][0].toLowerCase() === teacher) {
-      return sheet.getRange(i+3, 17, 1, 27).getValues()[0].reverse() // If General Preferences every changes columns, this will break
+      let timeDayPref = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
+      let coursePref = sheet.getRange(i+3, 17, 1, 27).getValues()[0].reverse() // If General Preferences every changes columns, this will break
+      return [timeDayPref, coursePref]
     }
   }
 }

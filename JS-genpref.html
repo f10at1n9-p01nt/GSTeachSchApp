@@ -25,6 +25,8 @@
     console.log(username.value);
   }
 
+
+  // Expands all courses
   function expandAll() {
     const panels = document.getElementsByClassName('panel')
 
@@ -35,6 +37,15 @@
   }
 
 
+  // Helper function to open both courses and time of day when page loads
+  function openAll() {
+    document.getElementsByClassName('panel-dt')[0].style.maxHeight = 'min-content';
+
+    expandAll();
+  }
+
+
+  // Collapses all courses
   function collapseAll() {
     const panels = document.getElementsByClassName('panel')
 
@@ -52,19 +63,31 @@
 
 
   function updateCheckboxes(prefArr) {
-    console.log(prefArr)
+    const dayPrefArr = prefArr[0];
+    const coursePrefArr = prefArr[1];
+    
     const classesDiv = document.getElementById('pref-classes');
-    const checkboxes = classesDiv.querySelectorAll('input');
+    const timeOfDayDiv = document.getElementById('pref-time');
+    const classCheckboxes = classesDiv.querySelectorAll('input');
+    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
 
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (prefArr[i] === 1) {
-        checkboxes[i].checked = true
+    for (let i = 0; i < timeCheckboxes.length; i++) {
+      if (dayPrefArr[i] === 1) {
+        timeCheckboxes[i].checked = true;
       } else {
-        checkboxes[i].checked = false
+        timeCheckboxes[i].checked = false;
+      }
+    }
+
+    for (let i = 0; i < classCheckboxes.length; i++) {
+      if (coursePrefArr[i] === 1) {
+        classCheckboxes[i].checked = true;
+      } else {
+        classCheckboxes[i].checked = false;
       }
     }
   }
 
-  document.addEventListener("DOMContentLoaded", expandAll);
+  document.addEventListener("DOMContentLoaded", openAll);
 
 </script>
