@@ -4,7 +4,6 @@
 
   for (let i = 0; i < prefDropdowns.length; i++) {
     prefDropdowns[i].addEventListener('click', function() {
-      console.log(prefDropdowns)
       this.classList.toggle("active");
       let panel = this.nextElementSibling;
 
@@ -16,13 +15,54 @@
     });
   }
 
-  const updatePrefencesButton = document.getElementById('update-preferences').addEventListener('click', clicked)
+  const updatePrefencesButton = document.getElementById('update-preferences').addEventListener('click', updatePreferences)
   const retrievePrefencesButton = document.getElementById('pull-preferences').addEventListener('click', pullPreferences)
   const expandButton = document.getElementById('expand-all').addEventListener('click', expandAll)
   const collapseButton = document.getElementById('collapse-all').addEventListener('click', collapseAll)
 
-  function clicked() {
-    console.log(username.value);
+  function updatePreferences() {
+    const username = document.getElementById('username').value
+    const classesDiv = document.getElementById('pref-classes');
+    const timeOfDayDiv = document.getElementById('pref-time');
+    const classCheckboxes = classesDiv.querySelectorAll('input');
+    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
+    // const checkboxes = document.getElementsByTagName('body')[0].querySelectorAll('input[type=checkbox]');
+    // console.log(checkboxes)
+    const classArr = [];
+    // const timeOfDayArr = [];
+    const prefRow = [];
+
+    for (let i = 0; i < 7; i++) {
+      if (timeCheckboxes[i].checked === true) {
+        prefRow.push(1)
+      } else {
+        prefRow.push(0)
+      };
+      if (timeCheckboxes[i+7].checked === true) {
+        prefRow.push(1)
+      } else {
+        prefRow.push(0)
+      };
+    }
+
+    classCheckboxes.forEach((box) => {
+      if (box.checked === true) {
+        classArr.push(1)
+      } else {
+        classArr.push(0)
+      }
+    })
+
+    classArr.reverse().forEach((pref) => prefRow.push(pref))
+
+    console.log(username, prefRow)
+
+    // google.script.run.withSuccessHandler(printReturn).addPrefRow(username, prefRow);
+    google.script.run.addPrefRow(username, prefRow);
+  }
+
+  function printReturn(theArr) {
+    console.log(theArr)
   }
 
 
@@ -63,6 +103,7 @@
 
 
   function updateCheckboxes(prefArr) {
+    console.log(prefArr)
     const dayPrefArr = prefArr[0];
     const coursePrefArr = prefArr[1];
     

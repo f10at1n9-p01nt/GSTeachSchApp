@@ -151,9 +151,51 @@ function getPreferences(username) {
 function teacherPrefRow(teacherArr, teacher, sheet) {
   for (let i = 0; i < teacherArr.length; i++) {
     if (teacherArr[i][0].toLowerCase() === teacher) {
-      let timeDayPref = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
+      let timeDayPrefValues = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
+      let timeDayPref = reorderDays(timeDayPrefValues);
       let coursePref = sheet.getRange(i+3, 17, 1, 27).getValues()[0].reverse() // If General Preferences every changes columns, this will break
       return [timeDayPref, coursePref]
     }
   }
+}
+
+
+// Helper function to order days correctly for spreadsheet
+// Days pulled from app early for each day then late
+// Days on sheet are early/late for each day
+function reorderDays(dayArr) {
+  // let dayArr = [1,	1,	1,	1,	1,	1,	1,	0,	1,	0,	1,	1,	1,	1]
+  // let dayArr = ['mon day', 'mon late', 'tue day', 'tue late', 'wed day', 'wed late', 'thu day', 'thu late', 'fri day', 'fri late', 'sat day', 'sat late', 'sun day', 'sun late']
+  const tempArr = []
+  const resultArr = []
+
+  for (let i = 0; i < dayArr.length; i++) {
+    if (i % 2 === 0) {
+      resultArr.push(dayArr[i])
+    } else {
+      tempArr.push(dayArr[i])
+    }
+  }
+
+  return resultArr.concat(tempArr)
+}
+
+
+function addPrefRow(teacher, row) {
+  // let teacher = 'Achilleas'
+  // let row = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+  const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences')
+  const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+  const rowData = [new Date, teacher, ...row];
+
+  for (let i = 0; i < teachers.length; i++) {
+    if (teachers[i][0].toLowerCase() === teacher.toLowerCase()) {
+      var targetRow = i + 3
+    }
+  }
+
+  sheet.getRange(targetRow, 1, 1, 43).setValues([rowData]);
+
+  // return rowData;
+
 }
