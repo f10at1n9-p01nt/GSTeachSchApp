@@ -6,100 +6,116 @@
     <?!= include('Stylesheet'); ?>
   </head>
   <body class="bg-cyan-50">
+    
+    <!--- Menu --->
+    <div class="flex bg-teal-700">
+      <ul class="flex m-5">
+        <li class="mr-3">
+          <a class="inline-block border-2 bg-teal-500 border-black rounded py-1 px-3 text-white cursor-not-allowed" href="<?= ScriptApp.getService().getUrl(); ?>?page=sched">Rank Upcoming Classes</a>
+        </li>
+        <li class="mr-3">
+          <a class="inline-block border hover:border-black bg-white rounded text-black hover:bg-gray-300 hover:border-2 py-1 px-3" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
+        </li>
+        <!-- <li class="mr-3">
+          <a class="inline-block py-1 px-3 text-gray-400 cursor-not-allowed" href="#">Disabled Pill</a>
+        </li> -->
+      </ul>
+    </div>
+    <!--- End Menu --->
 
-      <div class="container mx-auto relative">
-        <h1 class="m-5 text-3xl font-bold text-center"><?!= season ?></h1>
-      </div>
+    <div class="container mx-auto relative">
+      <h1 class="m-5 text-3xl font-bold text-center"><?!= season ?></h1>
+    </div>
 
-      <div class="flex flex-col relative">
-        <div class="ml-5">
-          <input required type="text" id="username" placeholder="username" class="w-2/12 appearance-none bg-transparent border-2 border-zinc-400 text-gray-700 mx-3 py-1 px-2 focus:bg-gray-200"/>
-          
-          <!-- alert -->
-          
-          <div id="alert" role="alert" class="hidden absolute top-10 left-8">
-            <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-              Preferences Not Submitted
-            </div>
-            <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-              <p class="hidden" id="no-username">Please enter a username.</p>
-              <p class="hidden" id="no-class-number">Please choose the number of classes.</p>
-              <p class="hidden" id="dupe-username">Username already submitted. Please contact school-staff to make changes.</p>
-              <button id="clear-alert" type="button" class="bg-red-500 hover:bg-red-700 bg-red-500 hover:bg-red-700 text-sm border-4 text-white py-1 px-2 rounded">Ok</button>
-            </div>
-          </div>
-
-
-          <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Submit Preferences</button>
-        </div>
-
-        <div class="ml-5 mb-6">
-          <select name="number-of-classes" id="number-of-classes" class="w-1/3 block bg-gray-200 border-2 border-zinc-400 text-gray-700 py-1 px-4 mx-3 my-2 rounded leading-tight focus:bg-white focus:border-gray-500" required>
-            <option value="">--Please select the number of classes you would like added to your schedule--</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
-        </div>
-      </div>
-
+    <div class="flex flex-col relative">
       <div class="ml-5">
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday" class="py-5">Monday</label>
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday" class="py-5">Tuesday</label>
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday" class="py-5">Wednesday</label>
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="py-5">Thursday</label>
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
-        <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tuesday/Thursday Hackjob</label>
-        <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 mb-3 rounded">Filter by Selected Days</button>
-        <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-3 mb-3 rounded">Clear Preferences</button> 
-        <button id="group-ranked" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mb-3 rounded">Group Ranked Courses</button>
-        <button type="button" id="submit-schedule" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 rounded">Display Current Schedule</button>
+        <input required type="text" id="username" placeholder="username" class="w-2/12 appearance-none bg-transparent border-2 border-zinc-400 text-gray-700 mx-3 py-1 px-2 focus:bg-gray-200"/>
+        
+        <!-- alert -->
+        
+        <div id="alert" role="alert" class="hidden absolute top-10 left-8">
+          <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+            Preferences Not Submitted
+          </div>
+          <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+            <p class="hidden" id="no-username">Please enter a username.</p>
+            <p class="hidden" id="no-class-number">Please choose the number of classes.</p>
+            <p class="hidden" id="dupe-username">Username already submitted. Please contact school-staff to make changes.</p>
+            <button id="clear-alert" type="button" class="bg-red-500 hover:bg-red-700 bg-red-500 hover:bg-red-700 text-sm border-4 text-white py-1 px-2 rounded">Ok</button>
+          </div>
+        </div>
+
+
+        <button id="submit-preferences" type="button" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-5 rounded">Submit Preferences</button>
       </div>
 
-
-      <div class="flex flex-row my-3" id="available-classes-list">
-        <div class="basis-7/12">
-          <h2 class="text-2xl font-bold text-center">Classes To Be Scheduled</h2>
-          
-          <table class="table-fixed ml-6 mt-3">
-            <thead>
-              <tr>
-                <th class="w-1/12">Rank</th>
-                <th class="w-1/12">ID</th>
-                <th class="w-4/12">Course</th>
-                <th class="w-1/12">Weekday</th>
-                <th class="w-2/12">Start Date</th>
-                <th class="w-2/12">End Date</th>
-                <th class="w-1/12">Start Time</th>
-              </tr>
-            </thead>
-
-            <tbody id="class-table-body">
-            </tbody>
-          
-          </table>
-        </div>
-        <div class="basis-5/12">
-          <h2 class="text-2xl font-bold text-center">Your Current Schedule</h2>
-          <ul id="teacher-schedule"></ul>
-          <table class="table-fixed ml-3 mr-5 mt-3">
-            <thead>
-              <tr>
-                <th class="w-1/12">ID</th>
-                <th class="w-6/12">Course</th>
-                <th class="w-1/12">Weekday</th>
-                <th class="w-3/12">End Date</th>
-                <th class="w-1/12">Time</th>
-              </tr>
-            </thead>
-
-            <tbody id="current-table-body">
-            </tbody>
-          
-          </table>
-        </div>
+      <div class="ml-5 mb-6">
+        <select name="number-of-classes" id="number-of-classes" class="w-1/3 block bg-gray-200 border-2 border-zinc-400 text-gray-700 py-1 px-4 mx-3 my-2 rounded leading-tight focus:bg-white focus:border-gray-500" required>
+          <option value="">--Please select the number of classes you would like added to your schedule--</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
       </div>
+    </div>
+
+    <div class="ml-5">
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday" class="py-5">Monday</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday" class="py-5">Tuesday</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday" class="py-5">Wednesday</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="py-5">Thursday</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tuesday/Thursday Hackjob</label>
+      <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 mb-3 rounded">Filter by Selected Days</button>
+      <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-3 mb-3 rounded">Clear Preferences</button> 
+      <button id="group-ranked" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mb-3 rounded">Group Ranked Courses</button>
+      <button type="button" id="submit-schedule" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 rounded">Display Current Schedule</button>
+    </div>
+
+
+    <div class="flex flex-row my-3" id="available-classes-list">
+      <div class="basis-7/12">
+        <h2 class="text-2xl font-bold text-center">Classes To Be Scheduled</h2>
+        
+        <table class="table-fixed ml-6 mt-3">
+          <thead>
+            <tr>
+              <th class="w-1/12">Rank</th>
+              <th class="w-1/12">ID</th>
+              <th class="w-4/12">Course</th>
+              <th class="w-1/12">Weekday</th>
+              <th class="w-2/12">Start Date</th>
+              <th class="w-2/12">End Date</th>
+              <th class="w-1/12">Start Time</th>
+            </tr>
+          </thead>
+
+          <tbody id="class-table-body">
+          </tbody>
+        
+        </table>
+      </div>
+      <div class="basis-5/12">
+        <h2 class="text-2xl font-bold text-center">Your Current Schedule</h2>
+        <ul id="teacher-schedule"></ul>
+        <table class="table-fixed ml-3 mr-5 mt-3">
+          <thead>
+            <tr>
+              <th class="w-1/12">ID</th>
+              <th class="w-6/12">Course</th>
+              <th class="w-1/12">Weekday</th>
+              <th class="w-3/12">End Date</th>
+              <th class="w-1/12">Time</th>
+            </tr>
+          </thead>
+
+          <tbody id="current-table-body">
+          </tbody>
+        
+        </table>
+      </div>
+    </div>
 
 
     <?!= include('JavaScript'); ?>

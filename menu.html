@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div class="flex bg-teal-700">
+      <ul class="flex m-5">
+        <li class="mr-3">
+          <a class="inline-block border-2 bg-teal-500 border-black rounded py-1 px-3 text-white" href="<?= ScriptApp.getService().getUrl(); ?>?page=sched">Rank Upcoming Classes</a>
+        </li>
+        <li class="mr-3">
+          <a class="inline-block border border-white bg-white rounded hover:border-gray-200 text-black hover:bg-teal-200 py-1 px-3" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
+        </li>
+        <!-- <li class="mr-3">
+          <a class="inline-block py-1 px-3 text-gray-400 cursor-not-allowed" href="#">Disabled Pill</a>
+        </li> -->
+      </ul>
+    </div>
+  </body>
+</html>
