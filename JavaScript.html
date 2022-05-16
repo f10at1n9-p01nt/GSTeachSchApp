@@ -1,59 +1,59 @@
 <script>
   const RANKED_CLASSES = [];
+  const USERNAME = []
 
-  document.getElementById("submit-schedule").addEventListener("click", getSchedule);
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("clear-alert").addEventListener("click", clearAlert);
 
-
   document.addEventListener("DOMContentLoaded", addTable);
+  document.addEventListener("DOMContentLoaded", getSchedule);
 
   function addTable() {
-
     // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
     google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
-    
+  }
+
+
+  function updateUser() {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME.push(username);
+      return username
+    })
   }
 
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
-    const username = document.getElementById('username').value;
-
-    if (username) {
-      google.script.run.withSuccessHandler(printSchedule).checkSchedule(username)
-    }
-    
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME.push(username);
+      google.script.run.withSuccessHandler(printSchedule).checkSchedule(location.parameters['username'][0])
+    })
   }
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
-    const username = document.getElementById('username')
+    console.log(USERNAME);
 
-    google.script.run.withSuccessHandler(validateForm).checkUsername(username.value);
+    google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
   }
 
 
   function validateForm(dupe) {
     // Check if required username, number of classes fields are complete, and username hasn't submitted
     // Can add number of classes check quite easily
-    const username = document.getElementById('username')
-    const usernameIsValid = username.checkValidity();
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
     
-    if(!usernameIsValid || !numberOfClassesIsValid) {
-      if (!numberOfClassesIsValid) {
+    if(!numberOfClassesIsValid || dupe) {
+      if (dupe) {
+        document.getElementById('dupe-username').classList.remove('hidden');
+      } else {
         document.getElementById('no-class-number').classList.remove('hidden');
       }
-      if (!usernameIsValid) {
-        document.getElementById('no-username').classList.remove('hidden');
-      }
-      document.getElementById('alert').classList.toggle('hidden');
-    } else if (dupe) {
-      document.getElementById('dupe-username').classList.remove('hidden');
       document.getElementById('alert').classList.toggle('hidden');
     } else {      
       submitPreferences();
@@ -73,18 +73,16 @@
   // Called after submitClick() validates required fields
   // Sends username, ranked classes, and other form data to addUsername function which returns a row to send to spreadsheet
   function submitPreferences() {
-    const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
-    const notAssignedCheckbox = document.getElementById('no-new-classes');
  
-    google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses)
+    google.script.run.withSuccessHandler(alertUser).addUsername(USERNAME[0], RANKED_CLASSES, numberOfClasses)
     clearRankings();
   }
 
 
   // Alerts user after submit of how many classes were submitted
   function alertUser(totalClassesAdded) {
-    alert(`${totalClassesAdded} classes have been submitted for ${document.getElementById('username').value}.`)
+    alert(`${totalClassesAdded} classes have been submitted for ${USERNAME[0]}.`)
     document.getElementById('username').value = '';
   }
 
@@ -134,8 +132,6 @@
         arr.splice(i, 1);
       }
     }
-
-    console.log(RANKED_CLASSES)
   }
 
 

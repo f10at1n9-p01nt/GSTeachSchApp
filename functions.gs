@@ -112,16 +112,18 @@ function findRankedClasses(days, classes) {
 
 
 // Returns if username is already on sheet
-function checkUsername(username) {
+function checkUsername() {
+  let username = 'pAdic';
   const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
   const usernames = sheet.getRange(2, 2, sheet.getLastRow(), 1).getValues();
 
   for (i = 0; i < usernames.length; i++) {
     if (usernames[i][0].toLowerCase() === username.toLowerCase()) {
+      Logger.log(true)
       return true
     }
   }
-
+  Logger.log(false)
   return false
 }
 

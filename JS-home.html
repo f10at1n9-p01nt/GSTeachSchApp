@@ -1,0 +1,24 @@
+<script>
+  let USERNAME = '';
+  document.getElementById("enter-site").addEventListener("click", checkUser)
+
+  function checkUser() {
+    const username = document.getElementById('username').value;
+    USERNAME = username;
+    google.script.run.withSuccessHandler(tellMe).authenticateUser(USERNAME);
+  }
+
+
+  function tellMe(result) {
+    console.log(result)
+
+    if (!result) {
+      console.log("not there")
+    } else {
+      let button = document.getElementById('enter-site');
+      button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
+      button.click()
+    } 
+  }
+
+</script>

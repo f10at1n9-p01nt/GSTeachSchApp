@@ -38,3 +38,16 @@ function loadForm() {
   return template.evaluate();
 }
 
+
+function authenticateUser(username) {
+  // username = 'kevinyaiko'
+  const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences');
+  const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+
+  for (let i = 0; i < teachers.length; i++) {
+    if (teachers[i][0].toLowerCase() === username.toLowerCase()) {
+      return true
+    }
+  }
+  return false
+}
