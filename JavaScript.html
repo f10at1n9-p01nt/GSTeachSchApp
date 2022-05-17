@@ -13,6 +13,7 @@
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
   document.addEventListener("DOMContentLoaded", getUrl);
+  document.addEventListener("DOMContentLoaded", updateUser);
 
   function addTable() {
     // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
@@ -20,20 +21,18 @@
   }
 
 
-  // function updateUser() {
-  //   google.script.url.getLocation(function(location) {
-  //     let username = location.parameters['username'][0]
-  //     USERNAME.push(username);
-  //     return username
-  //   })
-  // }
+  function updateUser() {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME.push(username);
+    })
+  }
 
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
     google.script.url.getLocation(function(location) {
       let username = location.parameters['username'][0]
-      USERNAME.push(username);
       google.script.run.withSuccessHandler(printSchedule).checkSchedule(location.parameters['username'][0])
     })
   }
@@ -50,7 +49,7 @@
     // Check if required username, number of classes fields are complete, and username hasn't submitted
     // Can add number of classes check quite easily
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
-    
+
     if(!numberOfClassesIsValid || dupe) {
       if (dupe) {
         document.getElementById('dupe-username').classList.remove('hidden');
@@ -67,7 +66,6 @@
   // Clears the alert that indicates if a username or number of classes is missing
   function clearAlert() {
     document.getElementById('alert').classList.toggle('hidden');
-    document.getElementById('no-username').classList.add('hidden');
     document.getElementById('no-class-number').classList.add('hidden');
     document.getElementById('dupe-username').classList.add('hidden');
   }
@@ -86,7 +84,6 @@
   // Alerts user after submit of how many classes were submitted
   function alertUser(totalClassesAdded) {
     alert(`${totalClassesAdded} classes have been submitted for ${USERNAME[0]}.`)
-    document.getElementById('username').value = '';
   }
 
 
