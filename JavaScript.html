@@ -7,6 +7,7 @@
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("clear-alert").addEventListener("click", clearAlert);
+  document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
 
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
@@ -17,13 +18,13 @@
   }
 
 
-  function updateUser() {
-    google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
-      USERNAME.push(username);
-      return username
-    })
-  }
+  // function updateUser() {
+  //   google.script.url.getLocation(function(location) {
+  //     let username = location.parameters['username'][0]
+  //     USERNAME.push(username);
+  //     return username
+  //   })
+  // }
 
 
   // Called when "Get Schedule" button is clicked
@@ -217,6 +218,13 @@
     classInputs.forEach((element) => {
       element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
     })
+  }
+
+
+  function goToGenPref() {
+    let button = document.getElementById("gen-pref-menu");
+    button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=pref&username="+USERNAME);
+    button.click();
   }
 
 </script>

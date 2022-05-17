@@ -1,5 +1,17 @@
 <script>
 
+  const USERNAME = []
+
+  function updateUser() {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME.push(username);
+      // return username
+    })
+  }
+
+  updateUser();
+
   const prefDropdowns = document.getElementsByClassName("accordian");
 
   for (let i = 0; i < prefDropdowns.length; i++) {
@@ -17,20 +29,17 @@
   }
 
   const updatePrefencesButton = document.getElementById('update-preferences').addEventListener('click', updatePreferences)
-  const retrievePrefencesButton = document.getElementById('pull-preferences').addEventListener('click', pullPreferences)
   const expandButton = document.getElementById('expand-all').addEventListener('click', expandAll)
   const collapseButton = document.getElementById('collapse-all').addEventListener('click', collapseAll)
+  const schedulePage = document.getElementById("upcoming-classes").addEventListener("click", goToSchedPage);
 
   function updatePreferences() {
-    const username = document.getElementById('username').value
+    // const username = document.getElementById('username').value
     const classesDiv = document.getElementById('pref-classes');
     const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
     const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
-    // const checkboxes = document.getElementsByTagName('body')[0].querySelectorAll('input[type=checkbox]');
-    // console.log(checkboxes)
     const classArr = [];
-    // const timeOfDayArr = [];
     const prefRow = [];
 
     for (let i = 0; i < 7; i++) {
@@ -56,10 +65,8 @@
 
     classArr.reverse().forEach((pref) => prefRow.push(pref))
 
-    console.log(username, prefRow)
-
     // google.script.run.withSuccessHandler(printReturn).addPrefRow(username, prefRow);
-    google.script.run.addPrefRow(username, prefRow);
+    google.script.run.addPrefRow(USERNAME[0], prefRow);
   }
 
   function printReturn(theArr) {
@@ -82,9 +89,10 @@
     const timePanel = document.getElementsByClassName('panel-dt')[0];
     timePanel.style.maxHeight = timePanel.scrollHeight + "px";
 
+    pullPreferences();
+
     // Running expandAll() here is buggy, so I bought time by calling a function serverside
     google.script.run.withSuccessHandler(expandAll).dummyFunc()
-    // expandAll();
   }
 
 
@@ -99,9 +107,13 @@
 
 
   function pullPreferences() {
-    const username = document.getElementById('username').value.toLowerCase();
 
-    google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username)
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username.toLowerCase())
+    })
+
+    // google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username)
   }
 
 
@@ -130,6 +142,13 @@
         classCheckboxes[i].checked = false;
       }
     }
+  }
+
+
+  function goToSchedPage() {
+    let button = document.getElementById("upcoming-classes");
+    button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
+    button.click();
   }
 
   document.addEventListener("DOMContentLoaded", openAll);
