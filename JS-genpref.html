@@ -113,8 +113,6 @@
       let username = location.parameters['username'][0]
       google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username.toLowerCase())
     })
-
-    // google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username)
   }
 
 
@@ -148,7 +146,6 @@
 
   function goToSchedPage() {
     let button = document.getElementById("upcoming-classes");
-    // button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
     button.setAttribute("href", URL+"?page=sched&username="+USERNAME)
     button.click();
   }

@@ -134,16 +134,6 @@ function getPreferences(username) {
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const data = teacherPrefRow(teachers, username, sheet)
 
-  // const prefObj = {
-  //   'pa1': data[0],
-  //   'pa2': data[1],
-  //   'alga': data[2],
-  //   'algb': data[3],
-  //   'icp': data[4],
-  //   'int': data[5],
-  //   'geo': data[6],
-  // }
-
   return data
 }
 
@@ -165,8 +155,6 @@ function teacherPrefRow(teacherArr, teacher, sheet) {
 // Days pulled from app early for each day then late
 // Days on sheet are early/late for each day
 function reorderDays(dayArr) {
-  // let dayArr = [1,	1,	1,	1,	1,	1,	1,	0,	1,	0,	1,	1,	1,	1]
-  // let dayArr = ['mon day', 'mon late', 'tue day', 'tue late', 'wed day', 'wed late', 'thu day', 'thu late', 'fri day', 'fri late', 'sat day', 'sat late', 'sun day', 'sun late']
   const tempArr = []
   const resultArr = []
 
@@ -183,8 +171,6 @@ function reorderDays(dayArr) {
 
 
 function addPrefRow(teacher, row) {
-  // let teacher = 'Achilleas'
-  // let row = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences')
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const rowData = [new Date, teacher, ...row];
@@ -196,7 +182,5 @@ function addPrefRow(teacher, row) {
   }
 
   sheet.getRange(targetRow, 1, 1, 43).setValues([rowData]);
-
-  // return rowData;
 
 }

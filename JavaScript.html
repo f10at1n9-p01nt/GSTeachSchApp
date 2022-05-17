@@ -16,7 +16,6 @@
   document.addEventListener("DOMContentLoaded", updateUser);
 
   function addTable() {
-    // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
     google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
   }
 
@@ -77,7 +76,6 @@
     const numberOfClasses = document.getElementById('number-of-classes').value;
  
     google.script.run.withSuccessHandler(alertUser).addUsername(USERNAME[0], RANKED_CLASSES, numberOfClasses)
-    clearRankings();
   }
 
 
@@ -170,23 +168,6 @@
   }
 
 
-  // // Returns array with rank and ID for any ranked class
-  // function getRankedIds() {
-  //   const ul = document.getElementById('class-list');
-  //   const classes = ul.getElementsByTagName("li");
-  //   let rankId = [];
-
-  //   for (let i = 0; i < classes.length; i++) {
-  //     if (classes[i].querySelector("input").valueAsNumber) {
-  //       let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
-  //       idArr.shift(); // remove the first element from the array, which is the <input> stuff
-  //       rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
-  //     }
-  //   }
-
-  //   return rankId;
-  // }
-
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
     const tableBody = document.getElementById('class-table-body');
@@ -222,7 +203,6 @@
 
   function goToGenPref() {
     let button = document.getElementById("gen-pref-menu");
-    // button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=pref&username="+USERNAME);
     button.setAttribute("href", URL+"?page=pref&username="+USERNAME);
     button.click();
   }
