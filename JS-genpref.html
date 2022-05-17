@@ -1,6 +1,7 @@
 <script>
 
   const USERNAME = []
+  const URL = [];
 
   function updateUser() {
     google.script.url.getLocation(function(location) {
@@ -147,10 +148,21 @@
 
   function goToSchedPage() {
     let button = document.getElementById("upcoming-classes");
-    button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
+    // button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
+    button.setAttribute("href", URL+"?page=sched&username="+USERNAME)
     button.click();
   }
 
+    function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
+  }
+
   document.addEventListener("DOMContentLoaded", openAll);
+  document.addEventListener("DOMContentLoaded", getUrl);
 
 </script>

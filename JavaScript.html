@@ -1,6 +1,7 @@
 <script>
   const RANKED_CLASSES = [];
-  const USERNAME = []
+  const USERNAME = [];
+  const URL = [];
 
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
@@ -11,6 +12,7 @@
 
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
+  document.addEventListener("DOMContentLoaded", getUrl);
 
   function addTable() {
     // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
@@ -223,8 +225,18 @@
 
   function goToGenPref() {
     let button = document.getElementById("gen-pref-menu");
-    button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=pref&username="+USERNAME);
+    // button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=pref&username="+USERNAME);
+    button.setAttribute("href", URL+"?page=pref&username="+USERNAME);
     button.click();
+  }
+
+    function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
   }
 
 </script>

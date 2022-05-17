@@ -6,3 +6,8 @@ function include(filename) {
 function dummyFunc () {
   return null
 }
+
+
+function getScriptURL() {
+  return ScriptApp.getService().getUrl();
+}

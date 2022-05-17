@@ -1,11 +1,25 @@
 <script>
   let USERNAME = '';
+  const URL = [];
   document.getElementById("enter-site").addEventListener("click", checkUser)
 
   function checkUser() {
     const username = document.getElementById('username').value;
+    let button = document.getElementById('enter-site');
     USERNAME = username;
-    google.script.run.withSuccessHandler(tellMe).authenticateUser(USERNAME);
+    if (!button.getAttribute('href')) {
+      google.script.run.withSuccessHandler(tellMe).authenticateUser(USERNAME);
+    } 
+  }
+
+
+  function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
   }
 
 
@@ -15,10 +29,14 @@
     if (!result) {
       console.log("not there")
     } else {
+      getUrl();
       let button = document.getElementById('enter-site');
-      button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
+      // button.setAttribute("href", "https://script.google.com/a/artofproblemsolving.com/macros/s/AKfycbzUTAK4WtCY8QuoIGsmQB7p7uSAPiT_FCnyNBUC8EtX/dev?page=sched&username="+USERNAME);
+      button.setAttribute("href", URL[0]+"?page=sched&username="+USERNAME);
       button.click()
     } 
   }
+
+  document.addEventListener("DOMContentLoaded", getUrl);
 
 </script>
