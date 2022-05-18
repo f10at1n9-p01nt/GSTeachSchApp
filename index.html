@@ -9,16 +9,16 @@
     
     <!--- Menu --->
     <div class="flex bg-teal-700">
-      <ul class="flex m-5">
+      <ul class="flex m-5 relative">
         <li class="mr-3">
           <a class="inline-block border-2 bg-teal-500 border-black rounded py-1 px-3 text-white cursor-not-allowed">Rank Upcoming Classes</a>
         </li>
         <li class="mr-3">
           <a id="gen-pref-menu" class="inline-block border hover:border-black bg-white rounded text-black hover:bg-gray-300 hover:border-2 py-1 px-3 cursor-pointer" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
         </li>
-        <!-- <li class="mr-3">
-          <a class="inline-block py-1 px-3 text-gray-400 cursor-not-allowed" href="#">Disabled Pill</a>
-        </li> -->
+        <li class="mr-3">
+          <p id="menu-username" class="absolute w-full top-auto left-auto right-auto bottom-auto py-1 px-3 text-white text-center" href="#">Instructor: </p>
+        </li>
       </ul>
     </div>
     <!--- End Menu --->

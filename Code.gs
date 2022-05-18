@@ -27,7 +27,6 @@ function loadForm() {
 
 
 function authenticateUser(username) {
-  // username = 'kevinyaiko'
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences');
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
 

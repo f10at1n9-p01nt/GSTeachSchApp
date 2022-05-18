@@ -2,11 +2,18 @@
   let USERNAME = '';
   const URL = [];
   document.getElementById("enter-site").addEventListener("click", checkUser)
+  document.getElementById("username").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      document.getElementById("enter-site").click()
+    }
+  })
 
   function checkUser() {
     const username = document.getElementById('username').value;
     let button = document.getElementById('enter-site');
     USERNAME = username;
+
     if (!button.getAttribute('href')) {
       google.script.run.withSuccessHandler(tellMe).authenticateUser(USERNAME);
     } 
@@ -25,6 +32,7 @@
 
   function tellMe(result) {
     console.log(result)
+    console.log(USERNAME)
 
     if (!result) {
       console.log("not there")

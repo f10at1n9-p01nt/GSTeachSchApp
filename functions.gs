@@ -25,13 +25,13 @@ function getClasses(days, ranks) {
 
 
 function checkSchedule(username) {
-  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Lineup')
+  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Official Schedule');
   const teacherCol = lineupSheet.getRange(2, 11, lineupSheet.getLastRow()-1, 1).getValues();
   const classes = [];
 
   for (let i = 0; i < teacherCol.length; i++) {
     if (teacherCol[i][0].toLowerCase() === username.toLowerCase()) {
-      if (lineupSheet.getRange(i+2, 2).getValue() === "Running") {
+      if (lineupSheet.getRange(i+2, 2).getValue() != "Ended") {
         let data = lineupSheet.getRange(i+2, 3, 1, 8).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
         data[0].splice(2, 2); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
         data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
@@ -44,6 +44,7 @@ function checkSchedule(username) {
   if (classes.length === 0) {
     return [['Instructor', 'not found']]
   } else {
+    Logger.log(classes)
     return classes
   }
 }
