@@ -69,6 +69,7 @@ function addUsername(username, courses, numberOfClasses) {
   rowData.push(numberOfClasses);
 
   sheet.appendRow(rowData);
+  sheet.getRange(sheet.getLastRow(), 3, 1, 10).setNumberFormat("@"); // sets the data for course IDs to plain text
 
   return rankedCourses.length
 }

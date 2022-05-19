@@ -9,6 +9,13 @@
     }
   })
 
+  document.getElementById("clear-alert").addEventListener("click", clearAlert);
+
+
+  function clearAlert() {
+    document.getElementById('alert').classList.toggle('hidden');
+  }
+
   function checkUser() {
     const username = document.getElementById('username').value;
     let button = document.getElementById('enter-site');
@@ -35,7 +42,7 @@
     console.log(USERNAME)
 
     if (!result) {
-      console.log("not there")
+      document.getElementById("alert").classList.toggle('hidden');
     } else {
       getUrl();
       let button = document.getElementById('enter-site');

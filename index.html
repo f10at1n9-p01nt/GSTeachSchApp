@@ -9,7 +9,7 @@
     
     <!--- Menu --->
     <div class="flex bg-teal-700">
-      <ul class="flex m-5 relative">
+      <ul class="flex m-5 relative w-full">
         <li class="mr-3">
           <a class="inline-block border-2 bg-teal-500 border-black rounded py-1 px-3 text-white cursor-not-allowed">Rank Upcoming Classes</a>
         </li>
@@ -17,7 +17,7 @@
           <a id="gen-pref-menu" class="inline-block border hover:border-black bg-white rounded text-black hover:bg-gray-300 hover:border-2 py-1 px-3 cursor-pointer" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
         </li>
         <li class="mr-3">
-          <p id="menu-username" class="absolute w-full top-auto left-auto right-auto bottom-auto py-1 px-3 text-white text-center" href="#">Instructor: </p>
+          <p id="menu-username" class="absolute top-auto left-auto right-12 py-1 px-3 text-white text-right" href="#">Instructor: </p>
         </li>
       </ul>
     </div>
@@ -59,7 +59,8 @@
       <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="py-5">Thursday</label>
       <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
       <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tuesday/Thursday Hackjob</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tue/Thu</label>
+      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="mon, wed, fri" checked="checked" id="mon-wed-fri"/><label for="mon-wed-fri" class="py-5">Mon/Wed/Fri</label>
       <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 mb-3 rounded">Filter by Selected Days</button>
       <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-3 mb-3 rounded">Clear Preferences</button> 
       <button id="group-ranked" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mb-3 rounded">Group Ranked Courses</button>

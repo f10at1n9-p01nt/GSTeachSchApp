@@ -36,7 +36,6 @@
   const schedulePage = document.getElementById("upcoming-classes").addEventListener("click", goToSchedPage);
 
   function updatePreferences() {
-    // const username = document.getElementById('username').value
     const classesDiv = document.getElementById('pref-classes');
     const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
@@ -67,8 +66,12 @@
 
     classArr.reverse().forEach((pref) => prefRow.push(pref))
 
-    // google.script.run.withSuccessHandler(printReturn).addPrefRow(username, prefRow);
-    google.script.run.addPrefRow(USERNAME[0], prefRow);
+    google.script.run.withSuccessHandler(notifyUser).addPrefRow(USERNAME[0], prefRow);
+  }
+
+
+  function notifyUser() {
+    alert(`Preferences updated for ${USERNAME}.`)
   }
 
   function printReturn(theArr) {
