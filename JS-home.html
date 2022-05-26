@@ -39,10 +39,10 @@
 
   function tellMe(result) {
     console.log(result)
-    console.log(USERNAME)
 
     if (!result) {
-      document.getElementById("alert").classList.toggle('hidden');
+      // document.getElementById("alert").classList.toggle('hidden');
+      swal("Username Not Found", "Please check your username. Usernames are case-sensitve. Contact school-staff if you continue to have trouble entering the site.", "error")
     } else {
       getUrl();
       let button = document.getElementById('enter-site');

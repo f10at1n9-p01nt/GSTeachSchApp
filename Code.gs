@@ -31,7 +31,7 @@ function authenticateUser(username) {
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
 
   for (let i = 0; i < teachers.length; i++) {
-    if (teachers[i][0]=== username) {
+    if (teachers[i][0]=== username && username != '') {
       return true
     }
   }
