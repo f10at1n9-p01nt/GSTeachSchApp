@@ -42,7 +42,7 @@ function checkSchedule(username) {
   }
 
   if (classes.length === 0) {
-    return [['Instructor', 'not found']]
+    return [['No', 'current', 'classes']]
   } else {
     Logger.log(classes)
     return classes

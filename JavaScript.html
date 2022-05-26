@@ -15,7 +15,18 @@
   document.addEventListener("DOMContentLoaded", getUrl);
   document.addEventListener("DOMContentLoaded", updateUser);
 
+
+  function storeRankingsToLocalStorage(rankAndId) {
+
+    sessionStorage.setItem('rankedClasses', JSON.stringify(rankAndId));
+  }
+  
   function addTable() {
+    // Checks for previously ranked classes in session storage
+    if (sessionStorage.getItem('rankedClasses')) {
+      JSON.parse(sessionStorage.getItem('rankedClasses')).forEach((e) => RANKED_CLASSES.push(e))
+    }
+
     google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
   }
 
@@ -131,6 +142,8 @@
         arr.splice(i, 1);
       }
     }
+
+    storeRankingsToLocalStorage(arr);
   }
 
 
@@ -148,7 +161,6 @@
   // Displays username's schedule on app
   // argument 'schedule' is 2D array from checkSchedule(username) with username's schedule
   function printSchedule(schedule) {
-    console.log(schedule)
     const tableBody = document.getElementById('current-table-body');
 
     // Clear currently printed list
