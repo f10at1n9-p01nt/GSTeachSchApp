@@ -50,24 +50,56 @@
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
-    console.log(USERNAME);
+    // if (RANKED_CLASSES.length === 0) {
+    //   if(!confirm("You haven't ranked any classes. Do you want to submit 0 ranked classes?")) {
+    //     return false;
+    //   }
+    // }
+    // google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
 
-    google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
+    if (RANKED_CLASSES.length === 0) {
+      swal({
+        title: "Are you sure?",
+        text: "You are about to submit 0 classes.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((submitAnyway) => {
+        if (submitAnyway) {
+          google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
+        } else {
+          swal("Nothing submitted. Continue adjusting ranking.")
+        }
+      })
+    } else {
+      google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
+    }
+
   }
-
 
   function validateForm(dupe) {
     // Check if required username, number of classes fields are complete, and username hasn't submitted
     // Can add number of classes check quite easily
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
 
+    // if(!numberOfClassesIsValid || dupe) {
+    //   if (dupe) {
+    //     document.getElementById('dupe-username').classList.remove('hidden');
+    //   } else {
+    //     document.getElementById('no-class-number').classList.remove('hidden');
+    //   }
+    //   document.getElementById('alert').classList.toggle('hidden');
+    // } else {      
+    //   submitPreferences();
+    // }
+
     if(!numberOfClassesIsValid || dupe) {
       if (dupe) {
-        document.getElementById('dupe-username').classList.remove('hidden');
+        swal("Duplicate Record", `Username ${USERNAME} already has rankings submitted. Please email school-staff for assistance.`, "error")
       } else {
-        document.getElementById('no-class-number').classList.remove('hidden');
+        swal("Number of Classes", "Please select 0, 1, or 2 classes in the dropdown menu.", "error")
       }
-      document.getElementById('alert').classList.toggle('hidden');
     } else {      
       submitPreferences();
     }
@@ -93,7 +125,11 @@
 
   // Alerts user after submit of how many classes were submitted
   function alertUser(totalClassesAdded) {
-    alert(`${totalClassesAdded} classes have been submitted for ${USERNAME[0]}.`)
+    if (totalClassesAdded === 1) {
+      swal("Success!", `One class has been submitted for ${USERNAME[0]}.`, "success")
+    } else {
+      swal("Success!", `A total of ${totalClassesAdded} classes have been submitted for ${USERNAME[0]}.`, "success")
+    }
   }
 
 
@@ -103,6 +139,7 @@
     const classes = tableBody.querySelectorAll('input')
 
     RANKED_CLASSES.length = 0;
+    storeRankingsToLocalStorage(RANKED_CLASSES);
 
     for (let i = 0; i < classes.length; i++) {
       classes[i].valueAsNumber = NaN;

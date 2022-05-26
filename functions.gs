@@ -87,7 +87,10 @@ function sortRanking(coursesArr) {
 
 // Returns array with ranked classes at the top
 function findRankedClasses(days, classes) {
-  const classIds = classes.map(c => c[1])
+  // let days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sun', 'tue, thu', 'mon, wed, fri']
+  // let classes = [["5", "3263"], ["2", "3253"], ["3", "3297"], ["1", "3258"]]
+  const sortedClasses = sortRanking(classes); // Added this in case it helps order the classes - right now it just pulls them to the top
+  const classIds = sortedClasses.map(c => c[1])
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName);
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   const classArr = [];
@@ -96,9 +99,9 @@ function findRankedClasses(days, classes) {
   for (i = 0; i < classData.length; i++) {
     if (days.includes(classData[i][5].toLowerCase())) {
       if (classIds.includes(String(classData[i][0]))) {
-        for (j = 0; j < classes.length; j++) {
-          if (classes[j][1] === String(classData[i][0])) {
-            var value = classes[j][0]
+        for (j = 0; j < sortedClasses.length; j++) {
+          if (sortedClasses[j][1] === String(classData[i][0])) {
+            var value = sortedClasses[j][0]
           }
         }
         classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
