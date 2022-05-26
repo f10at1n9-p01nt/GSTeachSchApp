@@ -96,22 +96,25 @@ function findRankedClasses(days, classes) {
   const classArr = [];
   const addLater = [];
 
-  for (i = 0; i < classData.length; i++) {
-    if (days.includes(classData[i][5].toLowerCase())) {
-      if (classIds.includes(String(classData[i][0]))) {
-        for (j = 0; j < sortedClasses.length; j++) {
-          if (sortedClasses[j][1] === String(classData[i][0])) {
-            var value = sortedClasses[j][0]
-          }
+  //Loop through ranked classes
+  sortedClasses.forEach((cls) => {
+    for (let i = 0; i < classData.length; i++) {
+      if (classData[i][0] === cls[1]) {
+        if (days.includes(classData[i][5].toLowerCase())) {
+          let value = cls[0]
+          classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
         }
-        classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
-      } else {
-        addLater.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+      }
+    }
+  })
+
+  for (let i = 0; i < classData.length; i++) {
+    if (!classIds.includes(classData[i][0])) {
+      if (days.includes(classData[i][5].toLowerCase())) {
+        classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
       }
     }
   }
-
-  addLater.forEach(arr => classArr.push(arr))
   return classArr
 }
 

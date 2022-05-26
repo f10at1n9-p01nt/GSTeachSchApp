@@ -7,7 +7,6 @@
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
-  document.getElementById("clear-alert").addEventListener("click", clearAlert);
   document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
 
   document.addEventListener("DOMContentLoaded", addTable);
@@ -17,7 +16,6 @@
 
 
   function storeRankingsToLocalStorage(rankAndId) {
-
     sessionStorage.setItem('rankedClasses', JSON.stringify(rankAndId));
   }
   
@@ -50,32 +48,28 @@
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
-    // if (RANKED_CLASSES.length === 0) {
-    //   if(!confirm("You haven't ranked any classes. Do you want to submit 0 ranked classes?")) {
-    //     return false;
-    //   }
-    // }
-    // google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
-
-    if (RANKED_CLASSES.length === 0) {
+    if (RANKED_CLASSES) {
       swal({
         title: "Are you sure?",
-        text: "You are about to submit 0 classes.",
+        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once.`,
         icon: "warning",
         buttons: true,
         dangerMode: true,
       })
       .then((submitAnyway) => {
         if (submitAnyway) {
+          swal({
+            title: "Please Wait",
+            text: "Submitting preferences...",
+            icon: "info",
+            buttons: false,
+          })
           google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
         } else {
-          swal("Nothing submitted. Continue adjusting ranking.")
+          swal("Nothing submitted. You may continue to rank your classes.")
         }
       })
-    } else {
-      google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
     }
-
   }
 
   function validateForm(dupe) {
@@ -83,34 +77,15 @@
     // Can add number of classes check quite easily
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
 
-    // if(!numberOfClassesIsValid || dupe) {
-    //   if (dupe) {
-    //     document.getElementById('dupe-username').classList.remove('hidden');
-    //   } else {
-    //     document.getElementById('no-class-number').classList.remove('hidden');
-    //   }
-    //   document.getElementById('alert').classList.toggle('hidden');
-    // } else {      
-    //   submitPreferences();
-    // }
-
     if(!numberOfClassesIsValid || dupe) {
       if (dupe) {
-        swal("Duplicate Record", `Username ${USERNAME} already has rankings submitted. Please email school-staff for assistance.`, "error")
+        swal("Duplicate Record: Not Submitted", `Username ${USERNAME} already has rankings submitted. Please email school-staff for assistance.`, "error")
       } else {
-        swal("Number of Classes", "Please select 0, 1, or 2 classes in the dropdown menu.", "error")
+        swal("Error: Not Submitted", "Please select the number of classes you would like to add to your schedule in the dropdown menu.", "error")
       }
     } else {      
       submitPreferences();
     }
-  }
-
-
-  // Clears the alert that indicates if a username or number of classes is missing
-  function clearAlert() {
-    document.getElementById('alert').classList.toggle('hidden');
-    document.getElementById('no-class-number').classList.add('hidden');
-    document.getElementById('dupe-username').classList.add('hidden');
   }
 
 
@@ -189,7 +164,6 @@
     // const rankedCourses = getRankedIds();
 
     const days = getSelectedDays();
-    console.log(days)
 
     google.script.run.withSuccessHandler(printClasses).findRankedClasses(days, RANKED_CLASSES)
   }
@@ -233,6 +207,9 @@
         let newCol = document.createElement('td');
         newCol.innerHTML = classes[row][item];
         newCol.classList.add('text-center');
+        if (classes[row][6] != "19:30") {
+          newCol.classList.add('text-rose-600', 'font-bold');
+        }
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
