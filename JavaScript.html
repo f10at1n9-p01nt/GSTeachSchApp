@@ -1,91 +1,110 @@
 <script>
   const RANKED_CLASSES = [];
+  const USERNAME = [];
+  const URL = [];
 
-  document.getElementById("submit-schedule").addEventListener("click", getSchedule);
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
-  document.getElementById("clear-alert").addEventListener("click", clearAlert);
-
+  document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
 
   document.addEventListener("DOMContentLoaded", addTable);
+  document.addEventListener("DOMContentLoaded", getSchedule);
+  document.addEventListener("DOMContentLoaded", getUrl);
+  document.addEventListener("DOMContentLoaded", updateUser);
 
+
+  function storeRankingsToLocalStorage(rankAndId) {
+    sessionStorage.setItem('rankedClasses', JSON.stringify(rankAndId));
+  }
+  
   function addTable() {
+    // Checks for previously ranked classes in session storage
+    if (sessionStorage.getItem('rankedClasses')) {
+      JSON.parse(sessionStorage.getItem('rankedClasses')).forEach((e) => RANKED_CLASSES.push(e))
+    }
 
-    // google.script.run.withSuccessHandler(printClasses).getClasses(['mon', 'tue', 'wed', 'thu', 'fri', 'sun'], RANKED_CLASSES)
     google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
-    
+  }
+
+
+  function updateUser() {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME.push(username);
+      document.getElementById("menu-username").innerHTML = "Instructor: " + USERNAME[0]
+    })
   }
 
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
-    const username = document.getElementById('username').value;
-
-    if (username) {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
       google.script.run.withSuccessHandler(printSchedule).checkSchedule(username)
-    }
-    
+    })
   }
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
-    const username = document.getElementById('username')
-
-    google.script.run.withSuccessHandler(validateForm).checkUsername(username.value);
+    if (RANKED_CLASSES) {
+      swal({
+        title: "Are you sure?",
+        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once.`,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((submitAnyway) => {
+        if (submitAnyway) {
+          swal({
+            title: "Please Wait",
+            text: "Submitting preferences...",
+            icon: "info",
+            buttons: false,
+          })
+          google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
+        } else {
+          swal("Nothing submitted. You may continue to rank your classes.")
+        }
+      })
+    }
   }
-
 
   function validateForm(dupe) {
     // Check if required username, number of classes fields are complete, and username hasn't submitted
     // Can add number of classes check quite easily
-    const username = document.getElementById('username')
-    const usernameIsValid = username.checkValidity();
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
-    
-    if(!usernameIsValid || !numberOfClassesIsValid) {
-      if (!numberOfClassesIsValid) {
-        document.getElementById('no-class-number').classList.remove('hidden');
+
+    if(!numberOfClassesIsValid || dupe) {
+      if (dupe) {
+        swal("Duplicate Record: Not Submitted", `Username ${USERNAME} already has rankings submitted. Please email school-staff for assistance.`, "error")
+      } else {
+        swal("Error: Not Submitted", "Please select the number of classes you would like to add to your schedule in the dropdown menu.", "error")
       }
-      if (!usernameIsValid) {
-        document.getElementById('no-username').classList.remove('hidden');
-      }
-      document.getElementById('alert').classList.toggle('hidden');
-    } else if (dupe) {
-      document.getElementById('dupe-username').classList.remove('hidden');
-      document.getElementById('alert').classList.toggle('hidden');
     } else {      
       submitPreferences();
     }
   }
 
 
-  // Clears the alert that indicates if a username or number of classes is missing
-  function clearAlert() {
-    document.getElementById('alert').classList.toggle('hidden');
-    document.getElementById('no-username').classList.add('hidden');
-    document.getElementById('no-class-number').classList.add('hidden');
-    document.getElementById('dupe-username').classList.add('hidden');
-  }
-
-
   // Called after submitClick() validates required fields
   // Sends username, ranked classes, and other form data to addUsername function which returns a row to send to spreadsheet
   function submitPreferences() {
-    const usernameField = document.getElementById('username');
     const numberOfClasses = document.getElementById('number-of-classes').value;
-    const notAssignedCheckbox = document.getElementById('no-new-classes');
  
-    google.script.run.withSuccessHandler(alertUser).addUsername(usernameField.value, RANKED_CLASSES, numberOfClasses)
-    clearRankings();
+    google.script.run.withSuccessHandler(alertUser).addUsername(USERNAME[0], RANKED_CLASSES, numberOfClasses)
   }
 
 
   // Alerts user after submit of how many classes were submitted
   function alertUser(totalClassesAdded) {
-    alert(`${totalClassesAdded} classes have been submitted for ${document.getElementById('username').value}.`)
-    document.getElementById('username').value = '';
+    if (totalClassesAdded === 1) {
+      swal("Success!", `One class has been submitted for ${USERNAME[0]}.`, "success")
+    } else {
+      swal("Success!", `A total of ${totalClassesAdded} classes have been submitted for ${USERNAME[0]}.`, "success")
+    }
   }
 
 
@@ -95,6 +114,7 @@
     const classes = tableBody.querySelectorAll('input')
 
     RANKED_CLASSES.length = 0;
+    storeRankingsToLocalStorage(RANKED_CLASSES);
 
     for (let i = 0; i < classes.length; i++) {
       classes[i].valueAsNumber = NaN;
@@ -135,7 +155,7 @@
       }
     }
 
-    console.log(RANKED_CLASSES)
+    storeRankingsToLocalStorage(arr);
   }
 
 
@@ -144,7 +164,6 @@
     // const rankedCourses = getRankedIds();
 
     const days = getSelectedDays();
-    console.log(days)
 
     google.script.run.withSuccessHandler(printClasses).findRankedClasses(days, RANKED_CLASSES)
   }
@@ -153,7 +172,6 @@
   // Displays username's schedule on app
   // argument 'schedule' is 2D array from checkSchedule(username) with username's schedule
   function printSchedule(schedule) {
-    console.log(schedule)
     const tableBody = document.getElementById('current-table-body');
 
     // Clear currently printed list
@@ -174,23 +192,6 @@
   }
 
 
-  // // Returns array with rank and ID for any ranked class
-  // function getRankedIds() {
-  //   const ul = document.getElementById('class-list');
-  //   const classes = ul.getElementsByTagName("li");
-  //   let rankId = [];
-
-  //   for (let i = 0; i < classes.length; i++) {
-  //     if (classes[i].querySelector("input").valueAsNumber) {
-  //       let idArr = classes[i].innerHTML.split('>'); // separate the <input> tag from the data into an array
-  //       idArr.shift(); // remove the first element from the array, which is the <input> stuff
-  //       rankId.push([classes[i].querySelector("input").valueAsNumber, idArr[0].split(' ')[0]]); // add [rank, ID] to rankId
-  //     }
-  //   }
-
-  //   return rankId;
-  // }
-
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
     const tableBody = document.getElementById('class-table-body');
@@ -206,6 +207,9 @@
         let newCol = document.createElement('td');
         newCol.innerHTML = classes[row][item];
         newCol.classList.add('text-center');
+        if (classes[row][6] != "19:30") {
+          newCol.classList.add('text-rose-600', 'font-bold');
+        }
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
@@ -221,6 +225,22 @@
     classInputs.forEach((element) => {
       element.addEventListener('input', (e) => updateRankedClassesArr(RANKED_CLASSES, [e.target.value, e.target.id]))
     })
+  }
+
+
+  function goToGenPref() {
+    let button = document.getElementById("gen-pref-menu");
+    button.setAttribute("href", URL+"?page=pref&username="+USERNAME);
+    button.click();
+  }
+
+    function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
   }
 
 </script>

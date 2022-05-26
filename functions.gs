@@ -25,13 +25,13 @@ function getClasses(days, ranks) {
 
 
 function checkSchedule(username) {
-  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Lineup')
+  const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Official Schedule');
   const teacherCol = lineupSheet.getRange(2, 11, lineupSheet.getLastRow()-1, 1).getValues();
   const classes = [];
 
   for (let i = 0; i < teacherCol.length; i++) {
     if (teacherCol[i][0].toLowerCase() === username.toLowerCase()) {
-      if (lineupSheet.getRange(i+2, 2).getValue() === "Running") {
+      if (lineupSheet.getRange(i+2, 2).getValue() != "Ended") {
         let data = lineupSheet.getRange(i+2, 3, 1, 8).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
         data[0].splice(2, 2); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
         data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
@@ -42,8 +42,9 @@ function checkSchedule(username) {
   }
 
   if (classes.length === 0) {
-    return [['Instructor', 'not found']]
+    return [['No', 'current', 'classes']]
   } else {
+    Logger.log(classes)
     return classes
   }
 }
@@ -68,6 +69,7 @@ function addUsername(username, courses, numberOfClasses) {
   rowData.push(numberOfClasses);
 
   sheet.appendRow(rowData);
+  sheet.getRange(sheet.getLastRow(), 3, 1, 10).setNumberFormat("@"); // sets the data for course IDs to plain text
 
   return rankedCourses.length
 }
@@ -85,28 +87,34 @@ function sortRanking(coursesArr) {
 
 // Returns array with ranked classes at the top
 function findRankedClasses(days, classes) {
-  const classIds = classes.map(c => c[1])
+  // let days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sun', 'tue, thu', 'mon, wed, fri']
+  // let classes = [["5", "3263"], ["2", "3253"], ["3", "3297"], ["1", "3258"]]
+  const sortedClasses = sortRanking(classes); // Added this in case it helps order the classes - right now it just pulls them to the top
+  const classIds = sortedClasses.map(c => c[1])
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName);
   let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
   const classArr = [];
   const addLater = [];
 
-  for (i = 0; i < classData.length; i++) {
-    if (days.includes(classData[i][5].toLowerCase())) {
-      if (classIds.includes(String(classData[i][0]))) {
-        for (j = 0; j < classes.length; j++) {
-          if (classes[j][1] === String(classData[i][0])) {
-            var value = classes[j][0]
-          }
+  //Loop through ranked classes
+  sortedClasses.forEach((cls) => {
+    for (let i = 0; i < classData.length; i++) {
+      if (classData[i][0] === cls[1]) {
+        if (days.includes(classData[i][5].toLowerCase())) {
+          let value = cls[0]
+          classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
         }
-        classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
-      } else {
-        addLater.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+      }
+    }
+  })
+
+  for (let i = 0; i < classData.length; i++) {
+    if (!classIds.includes(classData[i][0])) {
+      if (days.includes(classData[i][5].toLowerCase())) {
+        classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
       }
     }
   }
-
-  addLater.forEach(arr => classArr.push(arr))
   return classArr
 }
 
@@ -118,10 +126,11 @@ function checkUsername(username) {
 
   for (i = 0; i < usernames.length; i++) {
     if (usernames[i][0].toLowerCase() === username.toLowerCase()) {
+      Logger.log(true)
       return true
     }
   }
-
+  Logger.log(false)
   return false
 }
 
@@ -132,16 +141,6 @@ function getPreferences(username) {
 
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const data = teacherPrefRow(teachers, username, sheet)
-
-  // const prefObj = {
-  //   'pa1': data[0],
-  //   'pa2': data[1],
-  //   'alga': data[2],
-  //   'algb': data[3],
-  //   'icp': data[4],
-  //   'int': data[5],
-  //   'geo': data[6],
-  // }
 
   return data
 }
@@ -164,8 +163,6 @@ function teacherPrefRow(teacherArr, teacher, sheet) {
 // Days pulled from app early for each day then late
 // Days on sheet are early/late for each day
 function reorderDays(dayArr) {
-  // let dayArr = [1,	1,	1,	1,	1,	1,	1,	0,	1,	0,	1,	1,	1,	1]
-  // let dayArr = ['mon day', 'mon late', 'tue day', 'tue late', 'wed day', 'wed late', 'thu day', 'thu late', 'fri day', 'fri late', 'sat day', 'sat late', 'sun day', 'sun late']
   const tempArr = []
   const resultArr = []
 
@@ -182,8 +179,6 @@ function reorderDays(dayArr) {
 
 
 function addPrefRow(teacher, row) {
-  // let teacher = 'Achilleas'
-  // let row = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences')
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const rowData = [new Date, teacher, ...row];
@@ -195,7 +190,5 @@ function addPrefRow(teacher, row) {
   }
 
   sheet.getRange(targetRow, 1, 1, 43).setValues([rowData]);
-
-  // return rowData;
 
 }

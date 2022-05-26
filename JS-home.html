@@ -1,0 +1,56 @@
+<script>
+  let USERNAME = '';
+  const URL = [];
+  document.getElementById("enter-site").addEventListener("click", checkUser)
+  document.getElementById("username").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      document.getElementById("enter-site").click()
+    }
+  })
+
+  document.getElementById("clear-alert").addEventListener("click", clearAlert);
+
+
+  function clearAlert() {
+    document.getElementById('alert').classList.toggle('hidden');
+  }
+
+  function checkUser() {
+    const username = document.getElementById('username').value;
+    let button = document.getElementById('enter-site');
+    USERNAME = username;
+
+    if (!button.getAttribute('href')) {
+      google.script.run.withSuccessHandler(tellMe).authenticateUser(USERNAME);
+    } 
+  }
+
+
+  function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
+  }
+
+
+  function tellMe(result) {
+    console.log(result)
+    console.log(USERNAME)
+
+    if (!result) {
+      document.getElementById("alert").classList.toggle('hidden');
+    } else {
+      getUrl();
+      let button = document.getElementById('enter-site');
+      button.setAttribute("href", URL[0]+"?page=sched&username="+USERNAME);
+      button.click()
+    } 
+  }
+
+  document.addEventListener("DOMContentLoaded", getUrl);
+
+</script>
