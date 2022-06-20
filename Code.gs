@@ -24,16 +24,3 @@ function loadForm() {
 
   return template.evaluate();
 }
-
-
-function authenticateUser(username) {
-  const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences');
-  const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
-
-  for (let i = 0; i < teachers.length; i++) {
-    if (teachers[i][0]=== username && username != '') {
-      return true
-    }
-  }
-  return false
-}

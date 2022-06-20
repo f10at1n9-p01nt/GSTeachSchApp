@@ -26,14 +26,16 @@ function getClasses(days, ranks) {
 
 function checkSchedule(username) {
   const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Official Schedule');
-  const teacherCol = lineupSheet.getRange(2, 11, lineupSheet.getLastRow()-1, 1).getValues();
+  const teacherCol = lineupSheet.getRange(2, 12, lineupSheet.getLastRow()-1, 1).getValues();
   const classes = [];
 
   for (let i = 0; i < teacherCol.length; i++) {
+    Logger.log(teacherCol[i][0])
     if (teacherCol[i][0].toLowerCase() === username.toLowerCase()) {
-      if (lineupSheet.getRange(i+2, 2).getValue() != "Ended") {
-        let data = lineupSheet.getRange(i+2, 3, 1, 8).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
-        data[0].splice(2, 2); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
+      if (lineupSheet.getRange(i+2, 4).getValue() != "Ended") {
+        let data = lineupSheet.getRange(i+2, 1, 1, 9).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
+        Logger.log(data)
+        data[0].splice(2, 3); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
         data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
         [data[0][2], data[0][3]] = [data[0][3], data[0][2]] //Swap End,Day [ID, Course, Day, End, Time]
         data.forEach(d => classes.push(d));
@@ -44,7 +46,6 @@ function checkSchedule(username) {
   if (classes.length === 0) {
     return [['No', 'current', 'classes']]
   } else {
-    Logger.log(classes)
     return classes
   }
 }
@@ -190,5 +191,17 @@ function addPrefRow(teacher, row) {
   }
 
   sheet.getRange(targetRow, 1, 1, 43).setValues([rowData]);
+}
 
+
+function authenticateUser(username) {
+  const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences');
+  const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+
+  for (let i = 0; i < teachers.length; i++) {
+    if (teachers[i][0]=== username && username != '') {
+      return true
+    }
+  }
+  return false
 }
