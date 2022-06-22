@@ -32,7 +32,7 @@ function checkSchedule(username) {
   for (let i = 0; i < teacherCol.length; i++) {
     Logger.log(teacherCol[i][0])
     if (teacherCol[i][0].toLowerCase() === username.toLowerCase()) {
-      if (lineupSheet.getRange(i+2, 4).getValue() != "Ended") {
+      if (lineupSheet.getRange(i+2, 4).getValue() != "Ended" && lineupSheet.getRange(i+2, 4).getValue() != "Cancelled") {
         let data = lineupSheet.getRange(i+2, 1, 1, 9).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
         Logger.log(data)
         data[0].splice(2, 3); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
