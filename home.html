@@ -2,33 +2,30 @@
 <html>
   <head>
     <base target="_top">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>AoPS Online Instructor Scheduling</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <?!= include('Stylesheet'); ?>
   </head>
-  <body class="bg-cyan-50">
 
-    <div class="flex flex-col justify-center items-center h-screen relative">
-
-      <h1 class="text-3xl font-bold">AoPS Online Instructor Scheduling</h1>
-      <div class="flex flex-row w-1/2 justify-center items-center">
-        <input required type="text" id="username" placeholder="username" class="basis-1/2 appearance-none bg-transparent border-2 border-zinc-400 text-gray-700 m-3 px-2 py-2 focus:bg-gray-200"/>
-        <a id="enter-site" class="basis-1/3 bg-yellow-600 hover:bg-teal-700 border-yellow-600 hover:border-teal-700 text-center border-1 text-white px-8 py-2 m-1 rounded">Enter Site</a>
+  <body>
+    <div class="container p-5">
+      <div class="row">
+        <div class="col text-center">
+          <img src="https://drive.google.com/uc?export=download&id=1FWBU6pBY7HQOgk-g0cUnepsRVtnf7fUQ" class="img-fluid">
+        </div>
+      </div>
+      <div class="row my-3">
+        <h1 class="col text-center login-header">AoPS Online Instructor Scheduling</h1>
+      </div>
+      <div class="row">
+          <input required type="text" id="username" placeholder="username" class="col-lg m-1"/>
+          <a id="enter-site" class="col-lg m-1 btn btn-aops">Enter Site</a>
       </div>
     </div>
 
-    <!-- Alert --->
-    <div id="alert" role="alert" class="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-1/3">
-      <div class="bg-yellow-600 text-white font-bold rounded-t px-4 py-2">
-        Username Not Found
-      </div>
-      <div class="border border-t-0 border-yellow-400 rounded-b bg-yellow-100 px-4 py-3 text-red-700">
-        <p class="" id="user-error">Please check your username. Usernames are case-sensitive. Contact school-staff if you continue having trouble signing in.</p>
-        <button id="clear-alert" type="button" class="bg-yellow-500 hover:bg-yellow-700 bg-yellow-500 hover:bg-yellow-700 text-sm border-4 text-white py-1 px-2 rounded">Ok</button>
-      </div>
-    </div>
-
-          
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
     <?!= include('JS-home'); ?>
   </body>
 
