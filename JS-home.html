@@ -9,12 +9,6 @@
     }
   })
 
-  document.getElementById("clear-alert").addEventListener("click", clearAlert);
-
-
-  function clearAlert() {
-    document.getElementById('alert').classList.toggle('hidden');
-  }
 
   function checkUser() {
     const username = document.getElementById('username').value;
@@ -33,7 +27,8 @@
 
 
   function updateUrl(url) {
-    URL.push(url)
+    URL.push(url);
+    console.log(URL);
   }
 
 
