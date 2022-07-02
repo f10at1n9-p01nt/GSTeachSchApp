@@ -1,11 +1,34 @@
 <style>
+  html {
+    height: 100vh;
+}
+
+  body {
+    height: 100vh;
+    background-color: #F9FBFB;
+  }
+
+.container-login {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+}
+
   .login-header{
     color: #1B365D;
   }
 
   .btn-aops {
-    color: white;
+    color: #1B365D;
+    background-color: #D1D3D4;
+    border: solid 1px #1B365D
+  }
+
+  .btn-aops:hover {
     background-color: #1B365D;
+    color: white;
   }
 
   input[type=checkbox] {
@@ -13,10 +36,35 @@
     height: 16px;
   }
 
+  input::placeholder {
+    font-size: 1.2em;
+    color: #1B365D;
+  }
+
+  input[type=text]:focus {
+    color: #1B365D;
+  }
+
+  input[type=text] {
+    font-size: 1.2em;
+  }
+
   .panel, .panel-dt {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
+  }
+
+   @media (min-width: 992px) {
+    .container-home {
+      width: 70%;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container-home {
+      width: 60%;
+    }
   }
 
 </style>

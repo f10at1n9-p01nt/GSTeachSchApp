@@ -5,7 +5,10 @@
   document.getElementById("username").addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
-      document.getElementById("enter-site").click()
+      let button = document.getElementById("enter-site");
+      button.style.backgroundColor = "#1B365D";
+      button.style.color = 'white';
+      button.click()
     }
   })
 
@@ -36,8 +39,9 @@
     console.log(result)
 
     if (!result) {
-      // document.getElementById("alert").classList.toggle('hidden');
-      swal("Username Not Found", "Please check your username. Usernames are case-sensitve. Contact school-staff if you continue to have trouble entering the site.", "error")
+      swal("Username Not Found", "Please check your username. Usernames are case-sensitve. Contact school-staff if you continue to have trouble entering the site.", "error");
+      let button = document.getElementById("enter-site");
+      button.removeAttribute('style');
     } else {
       getUrl();
       let button = document.getElementById('enter-site');
