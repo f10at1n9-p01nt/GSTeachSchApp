@@ -85,6 +85,13 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28209, 211, 212, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   }
 
+  .navbar-logo {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+
   #menu-username {
     pointer-events: none;
   }
@@ -93,11 +100,21 @@
     .container-login {
       width: 70%;
     }
+    .btn-aops {
+      width: 25%;
+    }
+  }
+
+  .form-check-input:checked {
+    background-color: #1B365D;
   }
 
    @media (min-width: 992px) {
     .container-login {
       width: 60%;
+    }
+    .day-filter {
+      width: 80%;
     }
   }
 

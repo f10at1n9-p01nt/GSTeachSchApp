@@ -9,8 +9,9 @@
   </head>
   <body class="bg-cyan-50">
     
-    <nav class="navbar navbar-expand-md">
-      <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid position-relative">
+        <img src="https://drive.google.com/uc?export=download&id=1FWBU6pBY7HQOgk-g0cUnepsRVtnf7fUQ" width="150" height="30" class="navbar-logo" style="background-color: white; border-radius: 5px;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -24,83 +25,114 @@
               </li>
             </ul>
             <span class="navbar-text my-auto">
-              <i class="fa-solid fa-person-chalkboard me-1"></i>:<p id="menu-username" class="ms-1 d-inline"> </p>
+              <i class="fa-solid fa-chalkboard-user me-1"></i>:<p id="menu-username" class="ms-1 d-inline"> </p>
             </span>
         </div>
       </div>
     </nav>
 
     <div class="">
-      <h1><?!= season ?></h1>
+      <h1 class="text-center my-2"><?!= season ?></h1>
     </div>
 
-    <div class="">
-      <div class="">
-        <select name="number-of-classes" id="number-of-classes" class="" required>
-          <option value="">--Please select the number of classes you would like added to your schedule--</option>
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-        </select>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <select name="number-of-classes" id="number-of-classes" class="form-select m-1 w-100" required>
+            <option value="">--Please select the number of classes you would like added to your schedule--</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <button id="submit-preferences" type="button" class="m-1 btn btn-aops w-100">Submit Preferences</button> 
+        </div>
       </div>
-      <button id="submit-preferences" type="button" class="">Submit Preferences</button> 
     </div>
 
-    <div class="ml-5">
-      <input class="" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday" class="py-5">Monday</label>
-      <input class="" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday" class="py-5">Tuesday</label>
-      <input class="" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday" class="py-5">Wednesday</label>
-      <input class="" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="py-5">Thursday</label>
-      <input class="" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
-      <input class="" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
-      <input class="" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tue/Thu</label>
-      <input class="" type="checkbox" name="dow" value="mon, wed, fri" checked="checked" id="mon-wed-fri"/><label for="mon-wed-fri" class="py-5">Mon/Wed/Fri</label>
-      <button id="filter-dow" class="">Filter by Selected Days</button>
-      <button id="clear-preferences" class="">Clear Preferences</button> 
-      <button id="group-ranked" class="">Group Ranked Courses</button>
-    </div>
-
-
-    <div class="" id="available-classes-list">
-      <div class="">
-        <h2 class="">Classes To Be Scheduled</h2>
-        
-        <table class="">
-          <thead>
-            <tr>
-              <th class="">Rank</th>
-              <th class="">ID</th>
-              <th class="">Course</th>
-              <th class="">Weekday</th>
-              <th class="">Start Date</th>
-              <th class="">End Date</th>
-              <th class="">Start Time</th>
-            </tr>
-          </thead>
-
-          <tbody id="class-table-body">
-          </tbody>
-        
-        </table>
+    <div class="container">
+      <div class="row my-3 mx-auto day-filter">
+        <div class="col d-flex just-content-around">
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday" class="form-check-label">Monday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday" class="form-check-label">Tuesday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday" class="form-check-label">Wednesday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="form-check-label">Thursday</label>
+          </div>
+        </div>
+        <div class="col d-flex just-content-around">
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="fri" checked="checked" id="friday" /><label for="friday" class="form-check-label">Friday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="sun" checked="checked" id="sunday" /><label for="sunday" class="form-check-label">Sunday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="form-check-label">Tue/Thu</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="mon, wed, fri" checked="checked" id="mon-wed-fri"/><label for="mon-wed-fri" class="form-check-label">Mon/Wed/Fri</label>
+          </div>
+        </div>
       </div>
-      <div class="">
-        <h2 class="">Your Current Schedule</h2>
-        <ul id="teacher-schedule"></ul>
-        <table class="">
-          <thead>
-            <tr>
-              <th class="">ID</th>
-              <th class="">Course</th>
-              <th class="">Weekday</th>
-              <th class="">End Date</th>
-              <th class="">Time</th>
-            </tr>
-          </thead>
+      <div class="row row-cols-1 mb-3">
+        <div class="col d-block text-center">
+          <button id="filter-dow" class="btn btn-aops me-1">Filter Days</button>
+          <button id="clear-preferences" class="btn btn-aops me-1">Clear Preferences</button> 
+          <button id="group-ranked" class="btn btn-aops">Group Ranked</button>
+        </div>
+      </div>
+    </div>
 
-          <tbody id="current-table-body">
-          </tbody>
-        
-        </table>
+
+    <div class="container-fluid" id="available-classes-list">
+      <div class="row">
+        <div class="col-lg-6">
+          <h2 class="text-center">Classes To Be Scheduled</h2>
+          
+          <table class="">
+            <thead>
+              <tr>
+                <th class="">Rank</th>
+                <th class="">ID</th>
+                <th class="">Course</th>
+                <th class="">Weekday</th>
+                <th class="">Start Date</th>
+                <th class="">End Date</th>
+                <th class="">Start Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="class-table-body">
+            </tbody>
+          
+          </table>
+        </div>
+        <div class="col-lg-6">
+          <h2 class="text-center">Your Current Schedule</h2>
+          <ul id="teacher-schedule"></ul>
+          <table class="">
+            <thead>
+              <tr>
+                <th class="">ID</th>
+                <th class="">Course</th>
+                <th class="">Weekday</th>
+                <th class="">End Date</th>
+                <th class="">Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="current-table-body">
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
