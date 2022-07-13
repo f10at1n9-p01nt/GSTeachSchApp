@@ -7,7 +7,7 @@
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
-  document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
+  // document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
 
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
@@ -33,7 +33,7 @@
     google.script.url.getLocation(function(location) {
       let username = location.parameters['username'][0]
       USERNAME.push(username);
-      document.getElementById("menu-username").innerHTML = "Instructor: " + USERNAME[0]
+      document.getElementById("menu-username").innerHTML = USERNAME[0]
     })
   }
 
