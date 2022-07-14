@@ -5,9 +5,13 @@
 
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
-  document.getElementById("filter-dow").addEventListener("click", filterDays);
+  // document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
+  const checkboxes = document.querySelectorAll("input[name=dow]");
+
+  checkboxes.forEach((checkbox) => checkbox.addEventListener("change", filterDays))
+
 
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
