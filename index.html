@@ -9,7 +9,7 @@
   </head>
   <body class="bg-cyan-50">
     
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg sticky-top">
       <div class="container-fluid position-relative">
         <img src="https://drive.google.com/uc?export=download&id=1FWBU6pBY7HQOgk-g0cUnepsRVtnf7fUQ" width="150" height="30" class="navbar-logo" style="background-color: white; border-radius: 5px;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
                 <a class="nav-link active-link" href="#">Rank Upcoming Classes</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
+                <a id="gen-pref-menu" class="nav-link" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
               </li>
             </ul>
             <span class="navbar-text my-auto">
@@ -31,9 +31,7 @@
       </div>
     </nav>
 
-    <div class="">
-      <h1 class="text-center my-2"><?!= season ?></h1>
-    </div>
+    <h1 class="text-center my-3"><?!= season ?></h1>
 
     <div class="container">
       <div class="row">
