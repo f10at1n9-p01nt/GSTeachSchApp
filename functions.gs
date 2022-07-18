@@ -16,7 +16,7 @@ function getClasses(days, ranks) {
           }
         }
       }
-      rows.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+      rows.push([`<input class="form-label" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]]);
     }
     value = ''
   }
@@ -103,7 +103,7 @@ function findRankedClasses(days, classes) {
       if (classData[i][0] === cls[1]) {
         if (days.includes(classData[i][5].toLowerCase())) {
           let value = cls[0]
-          classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+          classArr.push([`<input class="form-label" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]]);
         }
       }
     }
@@ -112,12 +112,16 @@ function findRankedClasses(days, classes) {
   for (let i = 0; i < classData.length; i++) {
     if (!classIds.includes(classData[i][0])) {
       if (days.includes(classData[i][5].toLowerCase())) {
-        classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+        classArr.push([`<input class="form-label" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]]);
       }
     }
   }
   return classArr
 }
+
+                // classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+
+                        // classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
 
 
 // Returns if username is already on sheet

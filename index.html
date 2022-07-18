@@ -93,8 +93,11 @@
     <div class="container-fluid" id="available-classes-list">
 
       <div class="row">
-        <div class="col-lg-6">
 
+        <!-- Classes to be Scheduled Table -->
+        <div class="col-lg-7">
+
+          <!-- Buttons row -->
           <div class="row mb-3 row-btns">
             <div class="col-sm-6">
               <button id="clear-preferences" class="btn btn-aops me-1 mt-1 w-100">Clear Preferences</button> 
@@ -103,10 +106,37 @@
               <button id="group-ranked" class="btn btn-aops mt-1 w-100">Group Ranked</button>
             </div>
           </div>
+
           <h2 class="text-center">Classes To Be Scheduled</h2>
+
+          <!-- Class Table Row -->
           <div class="row">
-          
-          <table class="">
+
+            <div class="col-1 text-center fw-bold">
+              Rank
+            </div>
+            <div class="col-1 text-center fw-bold">
+              ID
+            </div>
+            <div class="col-4 text-center fw-bold">
+              Course
+            </div>
+            <div class="col-1 text-center fw-bold">
+              Weekday
+            </div> 
+            <div class="col-2 text-center fw-bold">
+              Start Date
+            </div>
+            <div class="col-2 text-center fw-bold">
+              End Date
+            </div>
+            <div class="col-1 text-center fw-bold">
+              Time
+            </div> 
+
+            <div id="rank-classes"></div>
+
+          <!-- <table class="">
             <thead>
               <tr class="ms-3">
                 <th class="">Rank</th>
@@ -122,10 +152,12 @@
             <tbody id="class-table-body">
             </tbody>
           
-          </table>
+          </table> -->
           </div>
         </div>
-        <div class="col-lg-6">
+
+        <!-- Current Schedule Table -->
+        <div class="col-lg-5">
           <h2 class="text-center">Your Current Schedule</h2>
           <ul id="teacher-schedule"></ul>
           <table class="">

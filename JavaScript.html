@@ -114,7 +114,7 @@
 
   // Called when "Clear Preferences" button is clicked
   function clearRankings() {
-    const tableBody = document.getElementById('class-table-body');
+    const tableBody = document.getElementById('available-classes-list');
     const classes = tableBody.querySelectorAll('input')
 
     RANKED_CLASSES.length = 0;
@@ -184,11 +184,28 @@
     }
 
     for (let row=0; row < schedule.length; row++) {
-      let newRow = document.createElement('tr');
+      let newRow = document.createElement('div');
+      newRow.classList.add('row');
       for (let item=0; item < schedule[0].length; item++) {
-        let newCol = document.createElement('td');
+        let newCol = document.createElement('div');
         newCol.innerHTML = schedule[row][item];
         newCol.classList.add('text-center');
+                let colWidth
+        switch (item) {
+          case 2:
+            colWidth = 4;
+            break;
+          case 4:
+            colWidth = 2;
+            break;
+          case 5:
+            colWidth = 2;
+            break;
+          default:
+            colWidth = 1;
+        }
+
+        newCol.classList.add(`col-${colWidth}`);
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
@@ -198,7 +215,8 @@
 
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
-    const tableBody = document.getElementById('class-table-body');
+    // const tableBody = document.getElementById('available-classes-list');
+    const tableBody = document.getElementById('rank-classes');
 
     // Clear currently printed list
     while (tableBody.firstChild) {
@@ -206,14 +224,33 @@
     }
 
     for (let row=0; row < classes.length; row++) {
-      let newRow = document.createElement('tr');
+      let newRow = document.createElement('div');
+      newRow.classList.add('row');
       for (let item=0; item < classes[0].length; item++) {
-        let newCol = document.createElement('td');
+        let newCol = document.createElement('div');
         newCol.innerHTML = classes[row][item];
         newCol.classList.add('text-center');
-        if (classes[row][6] != "19:30") {
-          newCol.classList.add('text-rose-600', 'font-bold');
+
+        let colWidth
+        switch (item) {
+          case 2:
+            colWidth = 4;
+            break;
+          case 4:
+            colWidth = 2;
+            break;
+          case 5:
+            colWidth = 2;
+            break;
+          default:
+            colWidth = 1;
         }
+
+        newCol.classList.add(`col-${colWidth}`);
+
+        // if (classes[row][6] != "19:30") {
+        //   newCol.classList.add('text-rose-600', 'font-bold');
+        // }
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
@@ -223,7 +260,7 @@
   }
 
   function addListenersToInputs() {
-    const tableBody = document.getElementById('class-table-body');
+    const tableBody = document.getElementById('available-classes-list');
     const classInputs = tableBody.querySelectorAll('input')
 
     classInputs.forEach((element) => {
