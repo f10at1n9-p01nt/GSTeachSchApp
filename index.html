@@ -135,32 +135,45 @@
             </div> 
 
             <div id="rank-classes"></div>
-
-          <!-- <table class="">
-            <thead>
-              <tr class="ms-3">
-                <th class="">Rank</th>
-                <th class="">ID</th>
-                <th class="">Course</th>
-                <th class="">Weekday</th>
-                <th class="">Start Date</th>
-                <th class="">End Date</th>
-                <th class="">Start Time</th>
-              </tr>
-            </thead>
-
-            <tbody id="class-table-body">
-            </tbody>
-          
-          </table> -->
           </div>
         </div>
 
         <!-- Current Schedule Table -->
         <div class="col-lg-5">
+
+        <!-- Blank row for spacing - buttons next to it -->
+        <div class="row mb-3 row-btns">
+            <div class="col-sm-6">
+              <button id="clear-preferences" class="btn btn-aops me-1 mt-1 w-100 invisible">Clear Preferences</button> 
+            </div>
+            <div class="col-sm-6">
+              <button id="group-ranked" class="btn btn-aops mt-1 w-100 invisible">Group Ranked</button>
+            </div>
+          </div>
+        <!-- End blank row -->
+
           <h2 class="text-center">Your Current Schedule</h2>
-          <ul id="teacher-schedule"></ul>
-          <table class="">
+
+          <div class="row">
+            <div class="col-1 text-center fw-bold">
+              ID
+            </div>
+            <div class="col-6 text-center fw-bold">
+              Course
+            </div>
+            <div class="col-2 text-center fw-bold">
+              Weekday
+            </div> 
+            <div class="col-2 text-center fw-bold">
+              End Date
+            </div>
+            <div class="col-1 text-center fw-bold">
+              Time
+            </div> 
+          </div>
+          <!-- <ul id="teacher-schedule"></ul> -->
+          <div id="current-table-body"></div>
+          <!-- <table class="">
             <thead>
               <tr>
                 <th class="">ID</th>
@@ -173,7 +186,7 @@
 
             <tbody id="current-table-body">
             </tbody>
-          </table>
+          </table> -->
         </div>
       </div>
     </div>
