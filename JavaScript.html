@@ -190,22 +190,43 @@
         let newCol = document.createElement('div');
         newCol.innerHTML = schedule[row][item];
         newCol.classList.add('text-center');
-                let colWidth
+        
+        let colWidth, newClass;
+        console.log(item)
         switch (item) {
+          case 0:
+            newClass = ['col-lg-1', 'col-2']
+            break;
+          case 1:
+            newClass = ['col-lg-1', 'd-none', 'd-lg-block']
+            break;
           case 2:
-            colWidth = 4;
+            newClass = ['col-lg-3', 'col-4']
+            // colWidth = 4;
+            break;
+          case 3:
+            newClass = ['col-lg-2', 'col-2']
             break;
           case 4:
-            colWidth = 2;
+            newClass = ['col-lg-2', 'col-2']
+            // colWidth = 2;
             break;
           case 5:
-            colWidth = 2;
+            newClass = ['col-lg-2', 'd-none', 'd-lg-block']
+            // colWidth = 2;
             break;
-          default:
-            colWidth = 1;
+          case 6:
+            newClass = ['col-lg-1', 'col-2']
+            // colWidth = 1;
+            break;
         }
 
-        newCol.classList.add(`col-${colWidth}`);
+        newClass.forEach(cls => {
+          newCol.classList.add(cls)
+        })
+
+        // newCol.classList.add(`col-lg-${colWidth}`);
+        // newCol.classList.add(`${newClass[0]}`, `${newClass[1]}`)
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
@@ -231,22 +252,42 @@
         newCol.innerHTML = classes[row][item];
         newCol.classList.add('text-center');
 
-        let colWidth
+        let colWidth, newClass;
+        console.log(item)
         switch (item) {
+          case 0:
+            newClass = ['col-lg-1', 'col-2']
+            break;
+          case 1:
+            newClass = ['col-lg-1', 'd-none', 'd-lg-block']
+            break;
           case 2:
-            colWidth = 4;
+            newClass = ['col-lg-3', 'col-4']
+            // colWidth = 4;
+            break;
+          case 3:
+            newClass = ['col-lg-2', 'col-2']
             break;
           case 4:
-            colWidth = 2;
+            newClass = ['col-lg-2', 'col-2']
+            // colWidth = 2;
             break;
           case 5:
-            colWidth = 2;
+            newClass = ['col-lg-2', 'd-none', 'd-lg-block']
+            // colWidth = 2;
             break;
-          default:
-            colWidth = 1;
+          case 6:
+            newClass = ['col-lg-1', 'col-2']
+            // colWidth = 1;
+            break;
         }
 
-        newCol.classList.add(`col-${colWidth}`);
+        newClass.forEach(cls => {
+          newCol.classList.add(cls)
+        })
+
+        // newCol.classList.add(`col-lg-${colWidth}`);
+        // newCol.classList.add(`${newClass[0]}`, `${newClass[1]}`)
 
         // if (classes[row][6] != "19:30") {
         //   newCol.classList.add('text-rose-600', 'font-bold');

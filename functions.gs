@@ -58,6 +58,7 @@ function addUsername(username, courses, numberOfClasses) {
 
   const rankedCourses = sortRanking(courses);
   
+  // Restricts list of ranked courses to that set in dashboard in Instructor Scheduling Sheet - maxNumber is a global variable
   if (rankedCourses.length > maxNumber) {
     rankedCourses.length = maxNumber;
   }
@@ -70,7 +71,8 @@ function addUsername(username, courses, numberOfClasses) {
   rowData.push(numberOfClasses);
 
   sheet.appendRow(rowData);
-  sheet.getRange(sheet.getLastRow(), 3, 1, 10).setNumberFormat("@"); // sets the data for course IDs to plain text
+  // sheet.getRange(sheet.getLastRow(), 3, 1, 10).setNumberFormat("@"); // sets the data for course IDs to plain text
+  sheet.getRange(sheet.getLastRow(), 3, 1, 10);
 
   return rankedCourses.length
 }
