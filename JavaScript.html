@@ -185,48 +185,40 @@
 
     for (let row=0; row < schedule.length; row++) {
       let newRow = document.createElement('div');
-      newRow.classList.add('row');
+      newRow.classList.add('row', 'ms-5');
       for (let item=0; item < schedule[0].length; item++) {
         let newCol = document.createElement('div');
         newCol.innerHTML = schedule[row][item];
         newCol.classList.add('text-center');
         
         let colWidth, newClass;
-        console.log(item)
         switch (item) {
           case 0:
-            newClass = ['col-lg-1', 'col-2']
+            newClass = 'col-1'
             break;
           case 1:
-            newClass = ['col-lg-1', 'd-none', 'd-lg-block']
+            newClass = 'col-4'
             break;
           case 2:
-            newClass = ['col-lg-3', 'col-4']
-            // colWidth = 4;
+            newClass = 'col-2'
             break;
           case 3:
-            newClass = ['col-lg-2', 'col-2']
+            newClass = 'col-3'
             break;
           case 4:
-            newClass = ['col-lg-2', 'col-2']
-            // colWidth = 2;
-            break;
-          case 5:
-            newClass = ['col-lg-2', 'd-none', 'd-lg-block']
-            // colWidth = 2;
-            break;
-          case 6:
-            newClass = ['col-lg-1', 'col-2']
-            // colWidth = 1;
+            newClass = 'col-2'
             break;
         }
 
-        newClass.forEach(cls => {
-          newCol.classList.add(cls)
-        })
+        newCol.classList.add(`${newClass}`);
 
-        // newCol.classList.add(`col-lg-${colWidth}`);
-        // newCol.classList.add(`${newClass[0]}`, `${newClass[1]}`)
+        if (schedule[row][4] != "19:30" && item === 4) {
+          // newCol.classList.add('fw-bold');
+          const sunImage = document.createElement('i');
+          sunImage.classList.add('fa-solid','fa-sun', 'fa-2xs');
+          newCol.appendChild(sunImage);
+        }
+
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
@@ -253,7 +245,6 @@
         newCol.classList.add('text-center');
 
         let colWidth, newClass;
-        console.log(item)
         switch (item) {
           case 0:
             newClass = ['col-lg-1', 'col-2']
@@ -263,22 +254,18 @@
             break;
           case 2:
             newClass = ['col-lg-3', 'col-4']
-            // colWidth = 4;
             break;
           case 3:
             newClass = ['col-lg-2', 'col-2']
             break;
           case 4:
             newClass = ['col-lg-2', 'col-2']
-            // colWidth = 2;
             break;
           case 5:
             newClass = ['col-lg-2', 'd-none', 'd-lg-block']
-            // colWidth = 2;
             break;
           case 6:
             newClass = ['col-lg-1', 'col-2']
-            // colWidth = 1;
             break;
         }
 
@@ -286,12 +273,12 @@
           newCol.classList.add(cls)
         })
 
-        // newCol.classList.add(`col-lg-${colWidth}`);
-        // newCol.classList.add(`${newClass[0]}`, `${newClass[1]}`)
-
-        // if (classes[row][6] != "19:30") {
-        //   newCol.classList.add('text-rose-600', 'font-bold');
-        // }
+        if (classes[row][6] != "19:30" && item === 6) {
+          // newCol.classList.add('fw-bold');
+          const sunImage = document.createElement('i');
+          sunImage.classList.add('fa-solid','fa-sun', 'fa-2xs');
+          newCol.appendChild(sunImage);
+        }
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
