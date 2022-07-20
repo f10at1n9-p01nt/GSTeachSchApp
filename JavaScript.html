@@ -5,9 +5,13 @@
 
   document.getElementById("submit-preferences").addEventListener("click", submitClick);
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
-  document.getElementById("filter-dow").addEventListener("click", filterDays);
+  // document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
+  const checkboxes = document.querySelectorAll("input[name=dow]");
+
+  checkboxes.forEach((checkbox) => checkbox.addEventListener("change", filterDays))
+
 
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
@@ -33,7 +37,7 @@
     google.script.url.getLocation(function(location) {
       let username = location.parameters['username'][0]
       USERNAME.push(username);
-      document.getElementById("menu-username").innerHTML = "Instructor: " + USERNAME[0]
+      document.getElementById("menu-username").innerHTML = USERNAME[0]
     })
   }
 
@@ -110,7 +114,7 @@
 
   // Called when "Clear Preferences" button is clicked
   function clearRankings() {
-    const tableBody = document.getElementById('class-table-body');
+    const tableBody = document.getElementById('available-classes-list');
     const classes = tableBody.querySelectorAll('input')
 
     RANKED_CLASSES.length = 0;
@@ -180,11 +184,41 @@
     }
 
     for (let row=0; row < schedule.length; row++) {
-      let newRow = document.createElement('tr');
+      let newRow = document.createElement('div');
+      newRow.classList.add('row', 'ms-5');
       for (let item=0; item < schedule[0].length; item++) {
-        let newCol = document.createElement('td');
+        let newCol = document.createElement('div');
         newCol.innerHTML = schedule[row][item];
         newCol.classList.add('text-center');
+        
+        let colWidth, newClass;
+        switch (item) {
+          case 0:
+            newClass = 'col-1'
+            break;
+          case 1:
+            newClass = 'col-4'
+            break;
+          case 2:
+            newClass = 'col-2'
+            break;
+          case 3:
+            newClass = 'col-3'
+            break;
+          case 4:
+            newClass = 'col-2'
+            break;
+        }
+
+        newCol.classList.add(`${newClass}`);
+
+        if (schedule[row][4] != "19:30" && item === 4) {
+          // newCol.classList.add('fw-bold');
+          const sunImage = document.createElement('i');
+          sunImage.classList.add('fa-solid','fa-sun', 'fa-2xs');
+          newCol.appendChild(sunImage);
+        }
+
         newRow.appendChild(newCol)
       }
       tableBody.appendChild(newRow);
@@ -194,7 +228,8 @@
 
   // Called by filterDays(). Attribute "classes" is <input> ready array of classes
   function printClasses(classes) {
-    const tableBody = document.getElementById('class-table-body');
+    // const tableBody = document.getElementById('available-classes-list');
+    const tableBody = document.getElementById('rank-classes');
 
     // Clear currently printed list
     while (tableBody.firstChild) {
@@ -202,13 +237,47 @@
     }
 
     for (let row=0; row < classes.length; row++) {
-      let newRow = document.createElement('tr');
+      let newRow = document.createElement('div');
+      newRow.classList.add('row');
       for (let item=0; item < classes[0].length; item++) {
-        let newCol = document.createElement('td');
+        let newCol = document.createElement('div');
         newCol.innerHTML = classes[row][item];
         newCol.classList.add('text-center');
-        if (classes[row][6] != "19:30") {
-          newCol.classList.add('text-rose-600', 'font-bold');
+
+        let colWidth, newClass;
+        switch (item) {
+          case 0:
+            newClass = ['col-lg-1', 'col-2']
+            break;
+          case 1:
+            newClass = ['col-lg-1', 'd-none', 'd-lg-block']
+            break;
+          case 2:
+            newClass = ['col-lg-3', 'col-4']
+            break;
+          case 3:
+            newClass = ['col-lg-2', 'col-2']
+            break;
+          case 4:
+            newClass = ['col-lg-2', 'col-2']
+            break;
+          case 5:
+            newClass = ['col-lg-2', 'd-none', 'd-lg-block']
+            break;
+          case 6:
+            newClass = ['col-lg-1', 'col-2']
+            break;
+        }
+
+        newClass.forEach(cls => {
+          newCol.classList.add(cls)
+        })
+
+        if (classes[row][6] != "19:30" && item === 6) {
+          // newCol.classList.add('fw-bold');
+          const sunImage = document.createElement('i');
+          sunImage.classList.add('fa-solid','fa-sun', 'fa-2xs');
+          newCol.appendChild(sunImage);
         }
         newRow.appendChild(newCol)
       }
@@ -219,7 +288,7 @@
   }
 
   function addListenersToInputs() {
-    const tableBody = document.getElementById('class-table-body');
+    const tableBody = document.getElementById('available-classes-list');
     const classInputs = tableBody.querySelectorAll('input')
 
     classInputs.forEach((element) => {

@@ -2,117 +2,200 @@
 <html>
   <head>
     <base target="_top">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/99c66c11be.js" crossorigin="anonymous"></script>
     <?!= include('Stylesheet'); ?>
   </head>
   <body class="bg-cyan-50">
     
-    <!--- Menu --->
-    <div class="flex bg-teal-700">
-      <ul class="flex m-5 relative w-full">
-        <li class="mr-3">
-          <a class="inline-block border-2 bg-teal-500 border-black rounded py-1 px-3 text-white cursor-not-allowed">Rank Upcoming Classes</a>
-        </li>
-        <li class="mr-3">
-          <a id="gen-pref-menu" class="inline-block border hover:border-black bg-white rounded text-black hover:bg-gray-300 hover:border-2 py-1 px-3 cursor-pointer" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
-        </li>
-        <li class="mr-3">
-          <p id="menu-username" class="absolute top-auto left-auto right-12 py-1 px-3 text-white text-right" href="#">Instructor: </p>
-        </li>
-      </ul>
-    </div>
-    <!--- End Menu --->
-
-    <div class="container mx-auto">
-      <h1 class="m-5 text-3xl font-bold text-center"><?!= season ?></h1>
-    </div>
-
-    <div class="flex flex-row relative">
-      <div class="ml-5 mb-3">
-        <select name="number-of-classes" id="number-of-classes" class="block bg-gray-200 border-2 border-zinc-400 text-gray-700 py-3 px-4 mx-3 rounded leading-tight focus:bg-white focus:border-gray-500" required>
-          <option value="">--Please select the number of classes you would like added to your schedule--</option>
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-        </select>
-      </div>
-      <button id="submit-preferences" type="button" class="bg-yellow-600 hover:bg-teal-700 border-yellow-500 hover:border-teal-700 text-sm border text-white px-12 ml-5 mb-3 rounded">Submit Preferences</button>
-        
-      <!-- alert -->
-      
-      <div id="alert" role="alert" class="hidden absolute top-10 left-8">
-        <div class="bg-yellow-600 text-white font-bold rounded-t px-4 py-2">
-          Preferences Not Submitted
+    <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container-fluid position-relative">
+        <img src="https://drive.google.com/uc?export=download&id=1FWBU6pBY7HQOgk-g0cUnepsRVtnf7fUQ" width="150" height="30" class="navbar-logo" style="background-color: white; border-radius: 5px;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active-link" href="#">Rank Upcoming Classes</span></a>
+              </li>
+              <li class="nav-item">
+                <a id="gen-pref-menu" class="nav-link" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">General Preferences</a>
+              </li>
+            </ul>
+            <span class="navbar-text my-auto">
+              <i class="fa-solid fa-chalkboard-user me-1"></i>:<p id="menu-username" class="ms-1 d-inline"> </p>
+            </span>
         </div>
-        <div class="border border-t-0 border-yellow-400 rounded-b bg-yellow-100 px-4 py-3 text-red-700">
-          <p class="hidden" id="no-class-number">Please choose the number of classes.</p>
-          <p class="hidden" id="dupe-username">Username already submitted. Please contact school-staff to make changes.</p>
-          <button id="clear-alert" type="button" class="bg-yellow-500 hover:bg-yellow-700 bg-yellow-500 hover:bg-yellow-700 text-sm border-4 text-white py-1 px-2 rounded">Ok</button>
+      </div>
+    </nav>
+
+    <h1 class="text-center my-3"><?!= season ?></h1>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <select name="number-of-classes" id="number-of-classes" class="form-select m-1 w-100" required>
+            <option value="">--Please select the number of classes you would like added to your schedule--</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <button id="submit-preferences" type="button" class="m-1 btn btn-aops w-100">Submit Preferences</button> 
         </div>
       </div>
     </div>
 
-    <div class="ml-5">
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday" class="py-5">Monday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday" class="py-5">Tuesday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday" class="py-5">Wednesday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="py-5">Thursday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="fri" checked="checked" id="friday"/><label for="friday" class="py-5">Friday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="sun" checked="checked" id="sunday"/><label for="sunday" class="py-5">Sunday</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="tue, thu" checked="checked" id="tue-thu"/><label for="tue-thu" class="py-5">Tue/Thu</label>
-      <input class="ml-5 mr-2 mb-3 accent-teal-500 hover:accent-teal-700" type="checkbox" name="dow" value="mon, wed, fri" checked="checked" id="mon-wed-fri"/><label for="mon-wed-fri" class="py-5">Mon/Wed/Fri</label>
-      <button id="filter-dow" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 ml-3 mb-3 rounded">Filter by Selected Days</button>
-      <button id="clear-preferences" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mx-3 mb-3 rounded">Clear Preferences</button> 
-      <button id="group-ranked" class="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 mb-3 rounded">Group Ranked Courses</button>
+    <div class="container">
+      <div class="row my-3 mx-auto day-filter">
+        <div class="col d-flex just-content-around">
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="mon" checked="checked" id="monday" /><label for="monday" class="form-check-label">Monday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="tue" checked="checked" id="tuesday" /><label for="tuesday" class="form-check-label">Tuesday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="wed" checked="checked" id="wednesday"/><label for="wednesday" class="form-check-label">Wednesday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="thu" checked="checked" id="thursday"/><label for="thursday" class="form-check-label">Thursday</label>
+          </div>
+        </div>
+        <div class="col d-flex just-content-around">
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="fri" checked="checked" id="friday" /><label for="friday" class="form-check-label">Friday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="sun" checked="checked" id="sunday" /><label for="sunday" class="form-check-label">Sunday</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="sat, sun" checked="checked" id="sat-sun"/><label for="sat-sun" class="form-check-label">Sat/Sun</label>
+          </div>
+          <div class="form-check form-check-inline flex-grow-1">
+            <input class="form-check-input" type="checkbox" name="dow" value="mon, wed, fri" checked="checked" id="mon-wed-fri"/><label for="mon-wed-fri" class="form-check-label">Mon/Wed/Fri</label>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row row-cols-1 mb-3">
+        <div class="col d-block text-center">
+          <button id="filter-dow" class="btn btn-aops me-1">Filter Days</button>
+          <button id="clear-preferences" class="btn btn-aops me-1">Clear Preferences</button> 
+          <button id="group-ranked" class="btn btn-aops">Group Ranked</button>
+        </div>
+      </div> -->
     </div>
 
 
-    <div class="flex flex-row my-3" id="available-classes-list">
-      <div class="basis-7/12">
-        <h2 class="text-2xl font-bold text-center">Classes To Be Scheduled</h2>
-        
-        <table class="table-auto w-11/12 mx-auto mt-3">
-          <thead>
-            <tr>
-              <th class="">Rank</th>
-              <th class="">ID</th>
-              <th class="">Course</th>
-              <th class="">Weekday</th>
-              <th class="">Start Date</th>
-              <th class="">End Date</th>
-              <th class="">Start Time</th>
-            </tr>
-          </thead>
+    <div class="container-fluid" id="available-classes-list">
 
-          <tbody id="class-table-body">
-          </tbody>
-        
-        </table>
-      </div>
-      <div class="basis-5/12">
-        <h2 class="text-2xl font-bold text-center">Your Current Schedule</h2>
-        <ul id="teacher-schedule"></ul>
-        <table class="table-auto w-11/12 mx-auto mt-3">
-          <thead>
-            <tr>
-              <th class="">ID</th>
-              <th class="">Course</th>
-              <th class="">Weekday</th>
-              <th class="">End Date</th>
-              <th class="">Time</th>
-            </tr>
-          </thead>
+      <div class="row">
 
-          <tbody id="current-table-body">
-          </tbody>
-        
-        </table>
+        <!-- Classes to be Scheduled Table -->
+        <div class="col-lg-7">
+
+          <!-- Buttons row -->
+          <div class="row mb-3 row-btns">
+            <div class="col-sm-6">
+              <button id="clear-preferences" class="btn btn-aops me-1 mt-1 w-100">Clear Preferences</button> 
+            </div>
+            <div class="col-sm-6">
+              <button id="group-ranked" class="btn btn-aops mt-1 w-100">Group Ranked</button>
+            </div>
+          </div>
+
+          <h2 class="text-center">Classes To Be Scheduled</h2>
+
+          <!-- Class Table Row -->
+          <div class="row">
+
+            <div class="col-lg-1 col-2 text-center fw-bold">
+              Rank
+            </div>
+            <div class="col-lg-1 text-center fw-bold d-none d-lg-block">
+              ID
+            </div>
+            <div class="col-lg-3 col-4 text-center fw-bold">
+              Course
+            </div>
+            <div class="col-lg-2 col-2 text-center fw-bold">
+              Day
+            </div> 
+            <div class="col-lg-2 col-2 text-center fw-bold">
+              Start Date
+            </div>
+            <div class="col-lg-2 text-center fw-bold d-none d-lg-block">
+              End Date
+            </div>
+            <div class="col-lg-1 col-2 text-center fw-bold">
+              Time
+            </div> 
+
+            <div id="rank-classes"></div>
+          </div>
+        </div>
+
+        <!-- Current Schedule Table -->
+        <div class="col-lg-5">
+
+        <!-- Blank row for spacing - buttons next to it -->
+        <div class="row mb-3 row-btns">
+            <div class="col-sm-6">
+              <button id="clear-preferences" class="btn btn-aops me-1 mt-1 w-100 invisible">Clear Preferences</button> 
+            </div>
+            <div class="col-sm-6">
+              <button id="group-ranked" class="btn btn-aops mt-1 w-100 invisible">Group Ranked</button>
+            </div>
+          </div>
+        <!-- End blank row -->
+
+          <h2 class="text-center">Your Current Schedule</h2>
+
+          <div class="row ms-5">
+            <div class="col-1 text-center fw-bold">
+              ID
+            </div>
+            <div class="col-4 text-center fw-bold">
+              Course
+            </div>
+            <div class="col-2 text-center fw-bold">
+              Day
+            </div> 
+            <div class="col-3 text-center fw-bold">
+              End Date
+            </div>
+            <div class="col-2 text-center fw-bold">
+              Time
+            </div> 
+          </div>
+          <!-- <ul id="teacher-schedule"></ul> -->
+          <div id="current-table-body"></div>
+          <!-- <table class="">
+            <thead>
+              <tr>
+                <th class="">ID</th>
+                <th class="">Course</th>
+                <th class="">Weekday</th>
+                <th class="">End Date</th>
+                <th class="">Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="current-table-body">
+            </tbody>
+          </table> -->
+        </div>
       </div>
     </div>
 
 
     <?!= include('JavaScript'); ?>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 
 </html>
