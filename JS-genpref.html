@@ -36,6 +36,13 @@
   const schedulePage = document.getElementById("upcoming-classes").addEventListener("click", goToSchedPage);
 
   function updatePreferences() {
+    swal({
+      title: "Please Wait",
+      text: "Submitting preferences...",
+      icon: "info",
+      buttons: false,
+    })
+
     const classesDiv = document.getElementById('pref-classes');
     const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
@@ -74,6 +81,7 @@
     swal("Preferences Updated!", `Preferences updated for ${USERNAME}.`, "success")
   }
 
+
   function printReturn(theArr) {
     console.log(theArr)
   }
@@ -91,6 +99,13 @@
 
   // Helper function to open both courses and time of day when page loads
   function openAll() {
+    swal({
+      title: "Please Wait",
+      text: "Page Loading...",
+      icon: "info",
+      buttons: false,
+    })
+
     const timePanel = document.getElementsByClassName('panel-dt')[0];
     timePanel.style.maxHeight = timePanel.scrollHeight + "px";
 
@@ -145,6 +160,14 @@
         classCheckboxes[i].checked = false;
       }
     }
+
+    swal({
+      title: "Ready!",
+      text: "Page Loaded.",
+      timer: 1000,
+      icon: "info",
+      buttons: false,
+    })
   }
 
 

@@ -159,7 +159,7 @@ function teacherPrefRow(teacherArr, teacher, sheet) {
     if (teacherArr[i][0].toLowerCase() === teacher) {
       let timeDayPrefValues = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
       let timeDayPref = reorderDays(timeDayPrefValues);
-      let coursePref = sheet.getRange(i+3, 17, 1, 28).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
+      let coursePref = sheet.getRange(i+3, 17, 1, 29).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
       return [timeDayPref, coursePref]
     }
   }
@@ -196,7 +196,7 @@ function addPrefRow(teacher, row) {
     }
   }
 
-  sheet.getRange(targetRow, 1, 1, 44).setValues([rowData]);
+  sheet.getRange(targetRow, 1, 1, 45).setValues([rowData]); //Changed to 45
 }
 
 
