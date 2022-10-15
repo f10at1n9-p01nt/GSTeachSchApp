@@ -28,7 +28,6 @@
     if (sessionStorage.getItem('rankedClasses')) {
       JSON.parse(sessionStorage.getItem('rankedClasses')).forEach((e) => RANKED_CLASSES.push(e))
     }
-
     google.script.run.withSuccessHandler(printClasses).getClasses(getSelectedDays(), RANKED_CLASSES)
   }
 

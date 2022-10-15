@@ -8,7 +8,7 @@ function getClasses(days, ranks) {
   let value = '';
 
   for (let i = 0; i < classData.length; i++) {
-    if (days.includes(classData[i][5].toLowerCase())) {
+    if (days.includes(classData[i][5].toLowerCase().trim())) {
       if (rankedIds.includes(String(classData[i][0]))) {
         for (j = 0; j < rankedIds.length; j++) {
           if (String(classData[i][0]) === ranks[j][1]) {
