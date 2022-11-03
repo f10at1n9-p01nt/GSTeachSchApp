@@ -2,7 +2,7 @@
 function getClasses(days, ranks) {
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName)
 
-  let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
+  let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getDisplayValues();
   let rows = []
   let rankedIds = ranks.map(c => c[1])
   let value = '';
