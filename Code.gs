@@ -20,7 +20,7 @@ function doGet(request) {
 
 function loadForm() {
   let template = HtmlService.createTemplateFromFile('index');
-  template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()} Schedule`;
+  template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()}`;
 
   return template.evaluate();
 }
