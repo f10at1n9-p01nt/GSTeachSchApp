@@ -95,7 +95,7 @@ function findRankedClasses(days, classes) {
   const sortedClasses = sortRanking(classes); // Added this in case it helps order the classes - right now it just pulls them to the top
   const classIds = sortedClasses.map(c => c[1])
   const sheet = mainScheduleSpreadsheet.getSheetByName(classListSheetName);
-  let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getValues();
+  let classData = sheet.getRange(2, 1, sheet.getLastRow()-1, 11).getDisplayValues();
   const classArr = [];
   const addLater = [];
 
@@ -159,7 +159,7 @@ function teacherPrefRow(teacherArr, teacher, sheet) {
     if (teacherArr[i][0].toLowerCase() === teacher) {
       let timeDayPrefValues = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
       let timeDayPref = reorderDays(timeDayPrefValues);
-      let coursePref = sheet.getRange(i+3, 17, 1, 29).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
+      let coursePref = sheet.getRange(i+3, 17, 1, 30).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
       return [timeDayPref, coursePref]
     }
   }
@@ -196,7 +196,7 @@ function addPrefRow(teacher, row) {
     }
   }
 
-  sheet.getRange(targetRow, 1, 1, 45).setValues([rowData]); //Changed to 45
+  sheet.getRange(targetRow, 1, 1, 46).setValues([rowData]); //Changed to 46 with CodeWOOT
 }
 
 
