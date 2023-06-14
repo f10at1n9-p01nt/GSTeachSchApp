@@ -104,7 +104,7 @@
             icon: "info",
             buttons: false,
           })
-          google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0]);
+          google.script.run.withSuccessHandler(validateForm).checkUsername(USERNAME[0], role);
         } else {
           swal("Nothing submitted. You may continue to rank your classes.")
         }
@@ -116,10 +116,11 @@
     // Check if required username, number of classes fields are complete, and username hasn't submitted
     // Can add number of classes check quite easily
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
+    const role = document.getElementById('role').value;
 
     if(!numberOfClassesIsValid || dupe) {
       if (dupe) {
-        swal("Duplicate Record: Not Submitted", `Username ${USERNAME} already has rankings submitted. Please email school-staff for assistance.`, "error")
+        swal("Duplicate Record: Not Submitted", `Username ${USERNAME} already has rankings submitted for the ${role} role. Please email school-staff for assistance.`, "error")
       } else {
         swal("Error: Not Submitted", "Please select the number of classes you would like to add to your schedule in the dropdown menu.", "error")
       }

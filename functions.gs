@@ -127,18 +127,19 @@ function findRankedClasses(days, classes) {
                         // classArr.push([`<input class="w-12 mx-3 pl-3 border-2 border-zinc-400" type="number" min="1" max="${maxNumber}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
 
 
-// Returns if username is already on sheet
-function checkUsername(username) {
+// Returns if username is already on sheet for given role
+function checkUsername(username, role) {
   const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
   const usernames = sheet.getRange(2, 2, sheet.getLastRow(), 1).getValues();
+  const roles = sheet.getRange(2, 14, sheet.getLastRow(), 1).getValues();
 
   for (i = 0; i < usernames.length; i++) {
     if (usernames[i][0].toLowerCase() === username.toLowerCase()) {
-      Logger.log(true)
-      return true
+      if (roles[i][0] === role) {
+        return true
+      }
     }
   }
-  Logger.log(false)
   return false
 }
 
