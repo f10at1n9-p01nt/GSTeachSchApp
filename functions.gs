@@ -52,7 +52,7 @@ function checkSchedule(username) {
 
 
 // Adds new row to data sheet with username, date, course preferences
-function addUsername(username, courses, numberOfClasses) {
+function addUsername(username, courses, numberOfClasses, role) {
   const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
   const rowData = [new Date(), username];
 
@@ -69,10 +69,11 @@ function addUsername(username, courses, numberOfClasses) {
     rowData.push('');
   }
   rowData.push(numberOfClasses);
+  rowData.push(role);
 
   sheet.appendRow(rowData);
   // sheet.getRange(sheet.getLastRow(), 3, 1, 10).setNumberFormat("@"); // sets the data for course IDs to plain text
-  sheet.getRange(sheet.getLastRow(), 3, 1, 10);
+  // sheet.getRange(sheet.getLastRow(), 3, 1, 10);
 
   return rankedCourses.length
 }

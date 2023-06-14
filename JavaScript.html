@@ -54,10 +54,11 @@
     if (RANKED_CLASSES) {
       const possibleRankInputs = document.getElementsByClassName('form-label');
       const maxValue = possibleRankInputs[0].getAttribute('max');
+      const role = document.getElementById('role').value;
       const possibleClasses = [];
       const possibleRanks = [];
       const cleanedRankings = [];
-      let idsSubmitted = '';
+      let idsSubmitted = 'The class IDs being submitted are ';
 
       for (let i = 1; i <= maxValue; i++) {
         possibleRanks.push(`${i}`);
@@ -84,9 +85,13 @@
           idsSubmitted += `and ${classId[1]}`
         }
       });
+
+      if (!(RANKED_CLASSES.length)) {
+        idsSubmitted = 'No class IDs are being submitted'
+      }
       swal({
         title: "Are you sure?",
-        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once. The class IDs being submitted are ${idsSubmitted}.`,
+        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once for the ${role} role. ${idsSubmitted}. \n \n If this does not match what you intended, press cancel, and check over your selections.`,
         icon: "warning",
         buttons: true,
         dangerMode: true,
@@ -128,8 +133,9 @@
   // Sends username, ranked classes, and other form data to addUsername function which returns a row to send to spreadsheet
   function submitPreferences() {
     const numberOfClasses = document.getElementById('number-of-classes').value;
+    const role = document.getElementById('role').value.toLowerCase();
  
-    google.script.run.withSuccessHandler(alertUser).addUsername(USERNAME[0], RANKED_CLASSES, numberOfClasses)
+    google.script.run.withSuccessHandler(alertUser).addUsername(USERNAME[0], RANKED_CLASSES, numberOfClasses, role)
   }
 
 
