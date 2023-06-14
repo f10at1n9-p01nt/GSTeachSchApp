@@ -52,9 +52,41 @@
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
     if (RANKED_CLASSES) {
+      const possibleRankInputs = document.getElementsByClassName('form-label');
+      const maxValue = possibleRankInputs[0].getAttribute('max');
+      const possibleClasses = [];
+      const possibleRanks = [];
+      const cleanedRankings = [];
+      let idsSubmitted = '';
+
+      for (let i = 1; i <= maxValue; i++) {
+        possibleRanks.push(`${i}`);
+      }
+
+      RANKED_CLASSES.forEach((classId, idx) => {
+        if (possibleRanks.includes(classId[0])) {
+          possibleClasses.push(classId);
+        }
+      })
+
+      RANKED_CLASSES.length = 0;
+      possibleClasses.forEach((classData) => RANKED_CLASSES.push(classData))
+      console.log(RANKED_CLASSES)
+
+      RANKED_CLASSES.sort(function(a, b) {
+        return a[0] - b[0]
+      })
+
+      RANKED_CLASSES.forEach((classId, idx) => {
+        if (!(idx === RANKED_CLASSES.length - 1)) {
+          idsSubmitted += `${classId[1]}, `
+        } else {
+          idsSubmitted += `and ${classId[1]}`
+        }
+      });
       swal({
         title: "Are you sure?",
-        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once.`,
+        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once. The class IDs being submitted are ${idsSubmitted}.`,
         icon: "warning",
         buttons: true,
         dangerMode: true,
