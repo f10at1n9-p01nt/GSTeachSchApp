@@ -108,7 +108,12 @@
       }
       swal({
         title: "Are you sure?",
-        text: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once for the ${role} role. ${idsSubmitted}. \n \n If this does not match what you intended, press cancel, and check over your selections.`,
+        content: {
+          element: "div",
+          attributes: {
+            innerHTML: `You are about to submit rankings for ${RANKED_CLASSES.length} classes. You can only submit once for the <span style='font-weight: bold;'>${role}</span> role. ${idsSubmitted}. <br><br>If this does not match what you intended, press cancel, and check over your selections.`,
+          }
+        },
         icon: "warning",
         buttons: true,
         dangerMode: true,
@@ -133,18 +138,30 @@
     // Check if required username, number of classes fields are complete, and username hasn't submitted
     // Can add number of classes check quite easily
     const numberOfClassesIsValid = document.getElementById('number-of-classes').checkValidity();
+    const roleIsSelected = document.getElementById('role').checkValidity();
     const role = document.getElementById('role').value;
 
-    if(!numberOfClassesIsValid || dupe) {
+    if(!numberOfClassesIsValid || !roleIsSelected || dupe) {
       if (dupe) {
-        swal("Duplicate Record: Not Submitted", `Username ${USERNAME} already has rankings submitted for the ${role} role. Please email school-staff for assistance.`, "error")
+        swal({
+          title: "Duplicate Record: Not Submitted",
+          content: {
+            element: "div",
+            attributes: {
+              innerHTML: `Username ${USERNAME} already has rankings submitted for the <span style='font-weight: bold;'>${role}</span> role. Please email school-staff for assistance.`,
+            },
+          icon: "warning",
+          }
+        });
       } else {
-        swal("Error: Not Submitted", "Please select the number of classes you would like to add to your schedule in the dropdown menu.", "error")
+        swal("Error: Not Submitted", "Please ensure you have selected a role and the number of classes you would like to add to your schedule in the dropdown menus.", "error")
       }
     } else {      
       submitPreferences();
     }
   }
+
+  // Add "as an {role}" to the submitted message
 
 
   // Called after submitClick() validates required fields
