@@ -213,3 +213,34 @@ function authenticateUser(username) {
   }
   return false
 }
+
+
+// Returns true if assistant only, otherwise false
+function checkAssistantOnly(username) {
+  const contractorsUniversal = SpreadsheetApp.openById('1QFD2-76RIHwd_WEe5HooOKDkggiMuS5gR3iA7mCv8rc').getSheetByName('Master List');
+  const assistantColumnNumber = findColumnNumber(contractorsUniversal, 'Assist');
+  const instructorColumnNumber = findColumnNumber(contractorsUniversal, 'Teach');
+  const usernameColumnNumber = findColumnNumber(contractorsUniversal, 'Username');
+
+  const usernames2D = contractorsUniversal.getRange(2, usernameColumnNumber, contractorsUniversal.getLastRow()).getValues();
+  const usernames = [].concat(...usernames2D).map((username) => username.toLowerCase());
+  const usernameRow = usernames.indexOf(username.toLowerCase()) + 2
+
+  const isInstructor = contractorsUniversal.getRange(usernameRow, instructorColumnNumber).getDisplayValue();
+  const isAssistant = contractorsUniversal.getRange(usernameRow, assistantColumnNumber).getDisplayValue();
+
+  if (isAssistant === 'Y' && isInstructor !== 'Y') {
+    console.log('true')
+    return true
+  }
+  console.log('false')
+  return false;
+}
+
+
+// Helper function to find column number of 'Grade' column in Contractor's Universal
+function findColumnNumber (sheet, columnName) {
+  const columnHeaders = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getDisplayValues()
+
+  return columnHeaders[0].indexOf(columnName) + 1
+}

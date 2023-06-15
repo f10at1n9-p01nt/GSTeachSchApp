@@ -17,6 +17,7 @@
   document.addEventListener("DOMContentLoaded", getSchedule);
   document.addEventListener("DOMContentLoaded", getUrl);
   document.addEventListener("DOMContentLoaded", updateUser);
+  // document.addEventListener("DOMContentLoaded", disableInstructorOption);
 
 
   function storeRankingsToLocalStorage(rankAndId) {
@@ -32,11 +33,25 @@
   }
 
 
+  function disableInstructorOption(username) {
+    console.log(username)
+    google.script.run.withSuccessHandler(assistantOnly).checkAssistantOnly(username);
+  }
+
+
+  function assistantOnly(isAssistantOnly) {
+    if (isAssistantOnly) {
+      document.getElementById('instructor').style.display = "none";
+    }
+  }
+
+
   function updateUser() {
     google.script.url.getLocation(function(location) {
       let username = location.parameters['username'][0]
       USERNAME.push(username);
       document.getElementById("menu-username").innerHTML = USERNAME[0]
+      disableInstructorOption(username)
     })
   }
 
@@ -48,6 +63,7 @@
       google.script.run.withSuccessHandler(printSchedule).checkSchedule(username)
     })
   }
+
 
   // Called when "Submit Preferences" button is clicked
   function submitClick() {
