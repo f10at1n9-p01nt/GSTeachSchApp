@@ -53,7 +53,6 @@ function checkSchedule(username) {
 
 // Adds new row to data sheet with username, date, course preferences
 function addUsername(username, courses, numberOfClasses, role) {
-  const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
   const rowData = [new Date(), username];
 
   const rankedCourses = sortRanking(courses);
@@ -71,6 +70,11 @@ function addUsername(username, courses, numberOfClasses, role) {
   rowData.push(numberOfClasses);
   rowData.push(role);
 
+  if (role.toLowerCase() === 'instructor') {
+    var sheet = mainScheduleSpreadsheet.getSheetByName('Instructor Responses');
+  } else {
+    var sheet = mainScheduleSpreadsheet.getSheetByName('Assistant Responses');
+  }
   sheet.appendRow(rowData);
   // sheet.getRange(sheet.getLastRow(), 3, 1, 10).setNumberFormat("@"); // sets the data for course IDs to plain text
   // sheet.getRange(sheet.getLastRow(), 3, 1, 10);
@@ -129,7 +133,12 @@ function findRankedClasses(days, classes) {
 
 // Returns if username is already on sheet for given role
 function checkUsername(username, role) {
-  const sheet = mainScheduleSpreadsheet.getSheetByName(submitPreferencesSheetName);
+  if (role.toLowerCase() === 'instructor') {
+    var sheet = mainScheduleSpreadsheet.getSheetByName('Instructor Responses');
+  } else {
+    var sheet = mainScheduleSpreadsheet.getSheetByName('Assistant Responses');
+  }
+
   const usernames = sheet.getRange(2, 2, sheet.getLastRow(), 1).getValues();
   const roles = sheet.getRange(2, 14, sheet.getLastRow(), 1).getValues();
 

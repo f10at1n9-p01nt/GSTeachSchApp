@@ -1,6 +1,5 @@
 const mainScheduleSpreadsheet = SpreadsheetApp.openById('1uGZDjfgBqGx93cpx8UUNM3-sNahbeC6HKWRCYT6ZU0s');
 const classListSheetName = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(2, 2).getValue();
-const submitPreferencesSheetName = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(3, 2).getValue();
 const maxNumber = mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(4,2).getValue();
 
 function doGet(request) {
