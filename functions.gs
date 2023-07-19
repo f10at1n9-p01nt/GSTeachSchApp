@@ -26,22 +26,25 @@ function getClasses(days, ranks) {
 
 function checkSchedule(username) {
   const lineupSheet = mainScheduleSpreadsheet.getSheetByName('Official Schedule');
-  const teacherCol = lineupSheet.getRange(2, 12, lineupSheet.getLastRow()-1, 1).getValues();
+  const teacherCol = lineupSheet.getRange(2, 12, lineupSheet.getLastRow()-1, 1).getDisplayValues();
+  const assistantOneCol = lineupSheet.getRange(2, 17, lineupSheet.getLastRow()-1, 1).getDisplayValues();
+  const assistantTwoCol = lineupSheet.getRange(2, 18, lineupSheet.getLastRow()-1, 1).getDisplayValues();
+  const cols = [teacherCol, assistantOneCol, assistantTwoCol]
   const classes = [];
 
-  for (let i = 0; i < teacherCol.length; i++) {
-    Logger.log(teacherCol[i][0])
-    if (teacherCol[i][0].toLowerCase() === username.toLowerCase()) {
-      if (lineupSheet.getRange(i+2, 4).getValue() != "Ended" && lineupSheet.getRange(i+2, 4).getValue() != "Cancelled") {
-        let data = lineupSheet.getRange(i+2, 1, 1, 9).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
-        Logger.log(data)
-        data[0].splice(2, 3); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
-        data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
-        [data[0][2], data[0][3]] = [data[0][3], data[0][2]] //Swap End,Day [ID, Course, Day, End, Time]
-        data.forEach(d => classes.push(d));
+  cols.forEach((col) => {
+    for (let i = 0; i < col.length; i++) {
+      if (col[i][0].toLowerCase() === username.toLowerCase()) {
+        if (lineupSheet.getRange(i+2, 4).getValue() != "Ended" && lineupSheet.getRange(i+2, 4).getValue() != "Cancelled") {
+          let data = lineupSheet.getRange(i+2, 1, 1, 9).getDisplayValues(); // Need to add two since row 1 has 0 teachers and counting starts at 1 and not 0
+          data[0].splice(2, 3); // Should remove Code and Start [ID, Course, End, Day, Weeks, Time]
+          data[0].splice(4, 1); // Should remove Weeks [ID, Course, End, Day, Time]
+          [data[0][2], data[0][3]] = [data[0][3], data[0][2]] //Swap End,Day [ID, Course, Day, End, Time]
+          data.forEach(d => classes.push(d));
+        }
       }
     }
-  }
+  })
 
   if (classes.length === 0) {
     return [['No', 'current', 'classes']]
