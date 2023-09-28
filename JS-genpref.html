@@ -7,7 +7,7 @@
     google.script.url.getLocation(function(location) {
       let username = location.parameters['username'][0]
       USERNAME.push(username);
-      document.getElementById("menu-username").innerHTML = "Instructor: " + USERNAME[0]
+      document.getElementById("menu-username").innerHTML = "Username: " + USERNAME[0]
       // return username
     })
   }
