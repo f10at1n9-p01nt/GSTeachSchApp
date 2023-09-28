@@ -1,0 +1,192 @@
+<script>
+
+  const USERNAME = []
+  const URL = [];
+
+  function updateUser() {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME.push(username);
+      document.getElementById("menu-username").innerHTML = "Grader: " + USERNAME[0]
+      // return username
+    })
+  }
+
+  updateUser();
+
+  const prefDropdowns = document.getElementsByClassName("accordian");
+
+  for (let i = 0; i < prefDropdowns.length; i++) {
+    prefDropdowns[i].addEventListener('click', function() {
+      this.classList.toggle("active");
+      let panel = this.nextElementSibling;
+      console.log(panel.style.maxHeight)
+
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null; // accordian is open, so need to remove height
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px"; // accordian is closed, so need to add height back in
+      };
+    })
+  }
+
+  const updatePrefencesButton = document.getElementById('update-preferences').addEventListener('click', updatePreferences)
+  const expandButton = document.getElementById('expand-all').addEventListener('click', expandAll)
+  const collapseButton = document.getElementById('collapse-all').addEventListener('click', collapseAll)
+  const schedulePage = document.getElementById("upcoming-classes").addEventListener("click", goToSchedPage);
+
+  function updatePreferences() {
+    swal({
+      title: "Please Wait",
+      text: "Submitting preferences...",
+      icon: "info",
+      buttons: false,
+    })
+
+    const classesDiv = document.getElementById('pref-classes');
+    const timeOfDayDiv = document.getElementById('pref-time');
+    const classCheckboxes = classesDiv.querySelectorAll('input');
+    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
+    const classArr = [];
+    const prefRow = [];
+
+    // for (let i = 0; i < 7; i++) {
+    //   if (timeCheckboxes[i].checked === true) {
+    //     prefRow.push(1)
+    //   } else {
+    //     prefRow.push(0)
+    //   };
+    //   if (timeCheckboxes[i+7].checked === true) {
+    //     prefRow.push(1)
+    //   } else {
+    //     prefRow.push(0)
+    //   };
+    // }
+
+    classCheckboxes.forEach((box) => {
+      if (box.checked === true) {
+        classArr.push(1)
+      } else {
+        classArr.push(0)
+      }
+    })
+
+    classArr.reverse().forEach((pref) => prefRow.push(pref))
+
+    google.script.run.withSuccessHandler(notifyUser).addGraderPrefRow(USERNAME[0], prefRow);
+  }
+
+
+  function notifyUser() {
+    swal("Preferences Updated!", `Preferences updated for ${USERNAME}.`, "success")
+  }
+
+
+  function printReturn(theArr) {
+    console.log(theArr)
+  }
+
+
+  // Expands all courses
+  function expandAll() {
+    const panels = document.getElementsByClassName('panel')
+
+    for (let i = 0; i < panels.length; i++) {
+      panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+    }
+  }
+
+
+  // Helper function to open both courses and time of day when page loads
+  function openAll() {
+    swal({
+      title: "Please Wait",
+      text: "Page Loading...",
+      icon: "info",
+      buttons: false,
+    })
+
+    const timePanel = document.getElementsByClassName('panel-dt')[0];
+    timePanel.style.maxHeight = timePanel.scrollHeight + "px";
+
+    pullPreferences();
+
+    // Running expandAll() here is buggy, so I bought time by calling a function serverside
+    google.script.run.withSuccessHandler(expandAll).dummyFunc()
+  }
+
+
+  // Collapses all courses
+  function collapseAll() {
+    const panels = document.getElementsByClassName('panel')
+
+    for (let i = 0; i < panels.length; i++) {
+      panels[i].style.maxHeight = null;
+    }
+  }
+
+
+  function pullPreferences() {
+
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      google.script.run.withSuccessHandler(updateCheckboxes).getGraderPreferences(username.toLowerCase())
+    })
+  }
+
+
+  function updateCheckboxes(prefArr) {
+    console.log(prefArr)
+    // const dayPrefArr = prefArr[0];
+    const coursePrefArr = prefArr[0];
+    
+    const classesDiv = document.getElementById('pref-classes');
+    const timeOfDayDiv = document.getElementById('pref-time');
+    const classCheckboxes = classesDiv.querySelectorAll('input');
+    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
+
+    // for (let i = 0; i < timeCheckboxes.length; i++) {
+    //   if (dayPrefArr[i] === 1) {
+    //     timeCheckboxes[i].checked = true;
+    //   } else {
+    //     timeCheckboxes[i].checked = false;
+    //   }
+    // }
+
+    for (let i = 0; i < classCheckboxes.length; i++) {
+      if (coursePrefArr[i] === 1) {
+        classCheckboxes[i].checked = true;
+      } else {
+        classCheckboxes[i].checked = false;
+      }
+    }
+
+    swal({
+      title: "Ready!",
+      text: "Page Loaded.",
+      timer: 1000,
+      icon: "info",
+      buttons: false,
+    })
+  }
+
+
+  function goToSchedPage() {
+    let button = document.getElementById("upcoming-classes");
+    button.setAttribute("href", URL+"?page=sched&username="+USERNAME)
+    button.click();
+  }
+
+    function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
+  }
+
+  document.addEventListener("DOMContentLoaded", openAll);
+  document.addEventListener("DOMContentLoaded", getUrl);
+
+</script>

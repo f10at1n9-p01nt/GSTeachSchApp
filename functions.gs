@@ -216,13 +216,22 @@ function addPrefRow(teacher, row) {
 
 function authenticateUser(username) {
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences');
+  const sheetTwo = SpreadsheetApp.openById('1W9GSrx-12ALbETFlmuoHPY90j2WGhwoQkimhZvUTtK0').getSheetByName('Grader Preferences')
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+  const graders = sheetTwo.getRange(3, 2, sheetTwo.getLastRow(), 1).getValues();
 
   for (let i = 0; i < teachers.length; i++) {
-    if (teachers[i][0]=== username && username != '') {
-      return true
+    if (teachers[i][0] === username && username != '') {
+      return 'teacher'
     }
   }
+
+  for (let i = 0; i < graders.length; i++) {
+    if (graders[i][0] === username && username != '') {
+      return 'grader'
+    }
+  }
+
   return false
 }
 
@@ -255,4 +264,46 @@ function findColumnNumber (sheet, columnName) {
   const columnHeaders = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getDisplayValues()
 
   return columnHeaders[0].indexOf(columnName) + 1
+}
+
+
+
+
+// Grader Preferences Functions Repurposed from above
+
+function getGraderPreferences(username) {
+  // let username = 'achilleas';
+  const sheet = SpreadsheetApp.openById('1W9GSrx-12ALbETFlmuoHPY90j2WGhwoQkimhZvUTtK0').getSheetByName('Grader Preferences')
+
+  const graders = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+  const data = graderPrefRow(graders, username, sheet)
+
+  return data
+}
+
+// Helper function called by getPreferences()
+// Returns preferences row for grader from Grader Preferences sheet
+function graderPrefRow(graderArr, grader, sheet) {
+  for (let i = 0; i < graderArr.length; i++) {
+    if (graderArr[i][0].toLowerCase() === grader) {
+      // let timeDayPrefValues = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
+      // let timeDayPref = reorderDays(timeDayPrefValues);
+      let coursePref = sheet.getRange(i+3, 3, 1, 30).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
+      return [coursePref]
+    }
+  }
+}
+
+function addGraderPrefRow(grader, row) {
+  const sheet = SpreadsheetApp.openById('1W9GSrx-12ALbETFlmuoHPY90j2WGhwoQkimhZvUTtK0').getSheetByName('Grader Preferences')
+  const graders = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
+  const rowData = [new Date, grader, ...row];
+
+  for (let i = 0; i < graders.length; i++) {
+    if (graders[i][0].toLowerCase() === grader.toLowerCase()) {
+      var targetRow = i + 3
+    }
+  }
+
+  sheet.getRange(targetRow, 1, 1, 32).setValues([rowData]);
 }

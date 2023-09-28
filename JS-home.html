@@ -36,12 +36,15 @@
 
 
   function tellMe(result) {
-    console.log(result)
-
     if (!result) {
-      swal("Username Not Found", "Please check your username. Usernames are case-sensitve. Contact school-staff if you continue to have trouble entering the site.", "error");
+      swal("Username Not Found", "Please check your username. Usernames are case-sensitive. Contact school-staff if you continue to have trouble entering the site.", "error");
       let button = document.getElementById("enter-site");
       button.removeAttribute('style');
+    } else if (result = 'grader') {
+      getUrl();
+      let button = document.getElementById('enter-site');
+      button.setAttribute("href", URL[0]+"?page=gradePref&username="+USERNAME);
+      button.click()
     } else {
       getUrl();
       let button = document.getElementById('enter-site');
