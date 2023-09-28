@@ -20,7 +20,6 @@
     prefDropdowns[i].addEventListener('click', function() {
       this.classList.toggle("active");
       let panel = this.nextElementSibling;
-      console.log(panel.style.maxHeight)
 
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null; // accordian is open, so need to remove height
@@ -82,11 +81,6 @@
   }
 
 
-  function printReturn(theArr) {
-    console.log(theArr)
-  }
-
-
   // Expands all courses
   function expandAll() {
     const panels = document.getElementsByClassName('panel')
@@ -136,7 +130,6 @@
 
 
   function updateCheckboxes(prefArr) {
-    console.log(prefArr)
     const dayPrefArr = prefArr[0];
     const coursePrefArr = prefArr[1];
     
