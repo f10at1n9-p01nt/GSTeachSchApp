@@ -31,7 +31,6 @@
 
   function updateUrl(url) {
     URL.push(url);
-    console.log(URL);
   }
 
 
@@ -40,7 +39,7 @@
       swal("Username Not Found", "Please check your username. Usernames are case-sensitive. Contact school-staff if you continue to have trouble entering the site.", "error");
       let button = document.getElementById("enter-site");
       button.removeAttribute('style');
-    } else if (result = 'grader') {
+    } else if (result === 'grader') {
       getUrl();
       let button = document.getElementById('enter-site');
       button.setAttribute("href", URL[0]+"?page=gradePref&username="+USERNAME);

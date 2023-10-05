@@ -34,7 +34,6 @@
 
 
   function disableInstructorOption(username) {
-    console.log(username)
     google.script.run.withSuccessHandler(assistantOnly).checkAssistantOnly(username);
   }
 
@@ -89,7 +88,6 @@
 
       RANKED_CLASSES.length = 0;
       possibleClasses.forEach((classData) => RANKED_CLASSES.push(classData))
-      console.log(RANKED_CLASSES)
 
       RANKED_CLASSES.sort(function(a, b) {
         return a[0] - b[0]

@@ -20,7 +20,6 @@
     prefDropdowns[i].addEventListener('click', function() {
       this.classList.toggle("active");
       let panel = this.nextElementSibling;
-      console.log(panel.style.maxHeight)
 
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null; // accordian is open, so need to remove height
@@ -44,24 +43,9 @@
     })
 
     const classesDiv = document.getElementById('pref-classes');
-    const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
-    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
     const classArr = [];
     const prefRow = [];
-
-    // for (let i = 0; i < 7; i++) {
-    //   if (timeCheckboxes[i].checked === true) {
-    //     prefRow.push(1)
-    //   } else {
-    //     prefRow.push(0)
-    //   };
-    //   if (timeCheckboxes[i+7].checked === true) {
-    //     prefRow.push(1)
-    //   } else {
-    //     prefRow.push(0)
-    //   };
-    // }
 
     classCheckboxes.forEach((box) => {
       if (box.checked === true) {
@@ -82,9 +66,9 @@
   }
 
 
-  function printReturn(theArr) {
-    console.log(theArr)
-  }
+  // function printReturn(theArr) {
+  //   console.log(theArr)
+  // }
 
 
   // Expands all courses
@@ -105,9 +89,6 @@
       icon: "info",
       buttons: false,
     })
-
-    const timePanel = document.getElementsByClassName('panel-dt')[0];
-    timePanel.style.maxHeight = timePanel.scrollHeight + "px";
 
     pullPreferences();
 
@@ -136,22 +117,10 @@
 
 
   function updateCheckboxes(prefArr) {
-    console.log(prefArr)
-    // const dayPrefArr = prefArr[0];
     const coursePrefArr = prefArr[0];
     
     const classesDiv = document.getElementById('pref-classes');
-    const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
-    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
-
-    // for (let i = 0; i < timeCheckboxes.length; i++) {
-    //   if (dayPrefArr[i] === 1) {
-    //     timeCheckboxes[i].checked = true;
-    //   } else {
-    //     timeCheckboxes[i].checked = false;
-    //   }
-    // }
 
     for (let i = 0; i < classCheckboxes.length; i++) {
       if (coursePrefArr[i] === 1) {
