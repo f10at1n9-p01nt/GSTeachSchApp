@@ -16,7 +16,10 @@ function getClasses(days, ranks) {
           }
         }
       }
-      rows.push([`<input class="form-label" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]]);
+      if (classData[i][9] != "TRUE") {
+        rows.push([`<input class="form-label" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
+      }
+      // rows.push([`<input class="form-label" type="number" min="1" max="${maxNumber}" value="${value}" id="${classData[i][0]}">`, classData[i][0], classData[i][1], classData[i][5], classData[i][3], classData[i][4], classData[i][7]])
     }
     value = ''
   }
@@ -173,7 +176,7 @@ function teacherPrefRow(teacherArr, teacher, sheet) {
     if (teacherArr[i][0].toLowerCase() === teacher) {
       let timeDayPrefValues = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
       let timeDayPref = reorderDays(timeDayPrefValues);
-      let coursePref = sheet.getRange(i+3, 17, 1, 30).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
+      let coursePref = sheet.getRange(i+3, 17, 1, 35).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
       return [timeDayPref, coursePref]
     }
   }
@@ -210,13 +213,13 @@ function addPrefRow(teacher, row) {
     }
   }
 
-  sheet.getRange(targetRow, 1, 1, 46).setValues([rowData]); //Changed to 46 with CodeWOOT
+  sheet.getRange(targetRow, 1, 1, 51).setValues([rowData]); //Changed to 51 with new USACOs etc.
 }
 
 
 function authenticateUser(username) {
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences');
-  const sheetTwo = SpreadsheetApp.openById('1W9GSrx-12ALbETFlmuoHPY90j2WGhwoQkimhZvUTtK0').getSheetByName('Grader Preferences')
+  const sheetTwo = SpreadsheetApp.openById('1Vdw52DGFFJdzVZrhOUIdWvglS3AqgJ6NCYLtE51bR-M').getSheetByName('Grader Preferences')
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const graders = sheetTwo.getRange(3, 2, sheetTwo.getLastRow(), 1).getValues();
 
@@ -250,11 +253,9 @@ function checkAssistantOnly(username) {
   const isInstructor = contractorsUniversal.getRange(usernameRow, instructorColumnNumber).getDisplayValue();
   const isAssistant = contractorsUniversal.getRange(usernameRow, assistantColumnNumber).getDisplayValue();
 
-  if (isAssistant === 'Y' && isInstructor !== 'Y') {
-    console.log('true')
+  if (isAssistant === 'Y' && isInstructor !== 'Y' && isInstructor !== 'O') {
     return true
   }
-  console.log('false')
   return false;
 }
 
@@ -272,8 +273,7 @@ function findColumnNumber (sheet, columnName) {
 // Grader Preferences Functions Repurposed from above
 
 function getGraderPreferences(username) {
-  // let username = 'achilleas';
-  const sheet = SpreadsheetApp.openById('1W9GSrx-12ALbETFlmuoHPY90j2WGhwoQkimhZvUTtK0').getSheetByName('Grader Preferences')
+  const sheet = SpreadsheetApp.openById('1Vdw52DGFFJdzVZrhOUIdWvglS3AqgJ6NCYLtE51bR-M').getSheetByName('Grader Preferences')
 
   const graders = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const data = graderPrefRow(graders, username, sheet)
@@ -288,14 +288,14 @@ function graderPrefRow(graderArr, grader, sheet) {
     if (graderArr[i][0].toLowerCase() === grader) {
       // let timeDayPrefValues = sheet.getRange(i+3, 3, 1, 14).getValues()[0]
       // let timeDayPref = reorderDays(timeDayPrefValues);
-      let coursePref = sheet.getRange(i+3, 3, 1, 30).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
+      let coursePref = sheet.getRange(i+3, 3, 1, 35).getValues()[0].reverse() // If General Preferences ever changes columns, this will break
       return [coursePref]
     }
   }
 }
 
 function addGraderPrefRow(grader, row) {
-  const sheet = SpreadsheetApp.openById('1W9GSrx-12ALbETFlmuoHPY90j2WGhwoQkimhZvUTtK0').getSheetByName('Grader Preferences')
+  const sheet = SpreadsheetApp.openById('1Vdw52DGFFJdzVZrhOUIdWvglS3AqgJ6NCYLtE51bR-M').getSheetByName('Grader Preferences')
   const graders = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
   const rowData = [new Date, grader, ...row];
 
@@ -305,5 +305,5 @@ function addGraderPrefRow(grader, row) {
     }
   }
 
-  sheet.getRange(targetRow, 1, 1, 32).setValues([rowData]);
+  sheet.getRange(targetRow, 1, 1, 37).setValues([rowData]); //NEEDS TO BE CHANGED
 }
