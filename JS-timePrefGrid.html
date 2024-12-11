@@ -1,0 +1,201 @@
+<script>
+
+  class WeeklySchedule {
+    constructor() {
+        console.log('Initializing WeeklySchedule...');
+        this.selectedSlots = new Set();
+        this.isDragging = false;
+        this.lastDragState = null;
+        this.init();
+    }
+
+    formatTime(hours, minutes) {
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    }
+
+    generateTimeLabels() {
+        const labels = [];
+        for (let hour = 0; hour < 24; hour++) {
+            for (let minute = 0; minute < 60; minute += 15) {
+                labels.push(this.formatTime(hour, minute));
+            }
+        }
+        return labels;
+    }
+
+    createGrid() {
+        console.log('Creating grid...');
+        const timeGrid = document.getElementById('timeGrid');
+        if (!timeGrid) {
+            console.error('Could not find timeGrid element');
+            return;
+        }
+        timeGrid.innerHTML = ''; // Clear existing content
+        console.log('Time grid element found and cleared');
+
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const timeLabels = this.generateTimeLabels();
+        console.log('Generated time labels:', timeLabels.length);
+
+        // Time labels column
+        const timeLabelsColumn = document.createElement('div');
+        timeLabelsColumn.style.paddingTop = '2rem';
+        timeLabels.forEach(time => {
+            const timeLabel = document.createElement('div');
+            timeLabel.className = 'time-label';
+            timeLabel.textContent = time;
+            timeLabelsColumn.appendChild(timeLabel);
+        });
+        timeGrid.appendChild(timeLabelsColumn);
+
+        // Day columns
+        days.forEach((day, dayIndex) => {
+            const dayColumn = document.createElement('div');
+            
+            // Day header
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'day-header';
+            dayHeader.textContent = day;
+            dayColumn.appendChild(dayHeader);
+
+            // Time slots
+            for (let i = 0; i < 96; i++) {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                const slotId = `${dayIndex}-${i}`;
+                timeSlot.dataset.slotId = slotId;
+                if (this.selectedSlots.has(slotId)) {
+                    timeSlot.classList.add('selected');
+                }
+                dayColumn.appendChild(timeSlot);
+            }
+
+            timeGrid.appendChild(dayColumn);
+        });
+    }
+
+    handleSlotSelect(slotId, selected) {
+        if (selected) {
+            this.selectedSlots.add(slotId);
+        } else {
+            this.selectedSlots.delete(slotId);
+        }
+        localStorage.setItem('selectedTimeSlots', JSON.stringify([...this.selectedSlots]));
+    }
+
+    updateSlotSelection(element, forceState = null) {
+        if (!element.classList.contains('time-slot')) return;
+
+        const slotId = element.dataset.slotId;
+        const newState = forceState !== null ? forceState : !element.classList.contains('selected');
+        
+        this.lastDragState = newState;
+        element.classList.toggle('selected', newState);
+        this.handleSlotSelect(slotId, newState);
+    }
+
+    formatSelectedSlots() {
+        const slots = [...this.selectedSlots].map(slotId => {
+            const [day, timeSlot] = slotId.split('-').map(Number);
+            const hour = Math.floor(timeSlot / 4);
+            const minute = (timeSlot % 4) * 15;
+            return {
+                day,
+                time: this.formatTime(hour, minute)
+            };
+        });
+        return slots;
+    }
+
+    handleSubmit() {
+        const selectedSlots = this.formatSelectedSlots();
+        // if (selectedSlots.length === 0) {
+        //     alert('Please select at least one time slot before submitting.');
+        //     return;
+        // }
+        
+        // console.log('Selected slots:', selectedSlots);
+        // alert('Schedule submitted successfully!\nCheck console for selected slots data.');
+
+        // Send selectedSlots to GAS
+        const formattedData = selectedSlots.map(item => [item.day, item.time]);
+        google.script.run.sendTimePrefToSheet(formattedData);
+    }
+
+    attachEventListeners() {
+        const timeGrid = document.getElementById('timeGrid');
+        const clearBtn = document.getElementById('clearBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Mouse events for drag selection
+        timeGrid.addEventListener('mousedown', (e) => {
+            this.isDragging = true;
+            this.updateSlotSelection(e.target);
+        });
+
+        timeGrid.addEventListener('mouseover', (e) => {
+            if (this.isDragging) {
+                this.updateSlotSelection(e.target, this.lastDragState);
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            this.isDragging = false;
+            this.lastDragState = null;
+        });
+
+        // Clear selection
+        clearBtn.addEventListener('click', () => {
+            this.selectedSlots.clear();
+            localStorage.setItem('selectedTimeSlots', '[]');
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+        });
+
+        // Submit button click handler
+        submitBtn.addEventListener('click', () => {
+            this.handleSubmit();
+        });
+    }
+
+    init() {
+        try {
+            // Load saved slots
+            const savedSlots = localStorage.getItem('selectedTimeSlots');
+            this.selectedSlots = new Set(savedSlots ? JSON.parse(savedSlots) : []);
+            
+            // Create and setup grid
+            this.createGrid();
+            this.attachEventListeners();
+            
+            // Remove loading state
+            const loadingElement = document.getElementById('loadingState');
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+        } catch (error) {
+            console.error('Initialization error:', error);
+            const loadingElement = document.getElementById('loadingState');
+            if (loadingElement) {
+                loadingElement.textContent = 'Error: Could not initialize schedule grid. Please refresh the page.';
+            }
+        }
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        new WeeklySchedule();
+    } catch (error) {
+        console.error('Failed to initialize schedule:', error);
+        const loadingElement = document.getElementById('loadingState');
+        if (loadingElement) {
+            loadingElement.textContent = `Error: ${error.message}`;
+        }
+    }
+});
+
+</script>
+

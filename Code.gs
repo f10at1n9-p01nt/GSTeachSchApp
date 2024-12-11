@@ -10,6 +10,8 @@ function doGet(request) {
     return HtmlService.createTemplateFromFile('general-preferences').evaluate();
   } else if (request.parameters.page == "gradePref") {
     return HtmlService.createTemplateFromFile('grader-preferences').evaluate();
+  } else if (request.parameters.page == "timePref") {
+    return HtmlService.createTemplateFromFile('timePrefGrid').evaluate();
   } else
     var template = HtmlService.createTemplateFromFile('home')
     template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()}`;

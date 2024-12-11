@@ -8,16 +8,15 @@
   // document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
   document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
+  document.getElementById("time-pref-menu").addEventListener("click", goToTimePref);
   const checkboxes = document.querySelectorAll("input[name=dow]");
 
   checkboxes.forEach((checkbox) => checkbox.addEventListener("change", filterDays))
-
 
   document.addEventListener("DOMContentLoaded", addTable);
   document.addEventListener("DOMContentLoaded", getSchedule);
   document.addEventListener("DOMContentLoaded", getUrl);
   document.addEventListener("DOMContentLoaded", updateUser);
-  // document.addEventListener("DOMContentLoaded", disableInstructorOption);
 
 
   function storeRankingsToLocalStorage(rankAndId) {
@@ -367,9 +366,17 @@
   }
 
 
+// These should be simplified to one function that sets the attribute based on what was clicked
   function goToGenPref() {
     let button = document.getElementById("gen-pref-menu");
     button.setAttribute("href", URL+"?page=pref&username="+USERNAME);
+    button.click();
+  }
+
+
+  function goToTimePref() {
+    let button = document.getElementById("time-pref-menu")
+    button.setAttribute("href", URL+"?page=timePref&username="+USERNAME);
     button.click();
   }
 
