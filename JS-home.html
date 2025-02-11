@@ -4,16 +4,17 @@
   document.getElementById("enter-site").addEventListener("click", checkUser)
   document.getElementById("username").addEventListener("keyup", function(event) {
     event.preventDefault();
-    if (event.keyCode === 13) {
-      let button = document.getElementById("enter-site");
-      button.style.backgroundColor = "#1B365D";
-      button.style.color = 'white';
+    if (event.key === 'Enter') {
+      let button = document.getElementById("enter-site")
+      button.style.backgroundColor = "#1B365D"
+      button.style.color = 'white'
       button.click()
     }
   })
 
 
   function checkUser() {
+    swal("Validating Username", "Please wait...", {buttons: false})
     const username = document.getElementById('username').value;
     let button = document.getElementById('enter-site');
     USERNAME = username;
@@ -35,20 +36,21 @@
 
 
   function tellMe(result) {
+    console.log(result)
+    let button = document.getElementById("enter-site")
     if (!result) {
       swal("Username Not Found", "Please check your username. Usernames are case-sensitive. Contact school-staff if you continue to have trouble entering the site.", "error");
-      let button = document.getElementById("enter-site");
       button.removeAttribute('style');
     } else if (result === 'grader') {
       getUrl();
-      let button = document.getElementById('enter-site');
       button.setAttribute("href", URL[0]+"?page=gradePref&username="+USERNAME);
       button.click()
     } else {
       getUrl();
-      let button = document.getElementById('enter-site');
       button.setAttribute("href", URL[0]+"?page=sched&username="+USERNAME);
-      button.click()
+      swal("User found", {buttons: {confirm: "Let me in!", cancel: false}, icon: "success"}).then((logIn) => {
+        button.click()
+        swal("Loading Page...", {buttons: false})})
     } 
   }
 

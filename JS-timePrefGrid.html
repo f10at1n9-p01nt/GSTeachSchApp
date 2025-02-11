@@ -1,4 +1,15 @@
 <script>
+  const USERNAME = []
+  updateUser()
+
+  function updateUser() {
+    google.script.url.getLocation(function(location) {
+      let username = location.parameters['username'][0]
+      USERNAME[0] = username
+      // document.getElementById("menu-username").innerHTML = USERNAME[0]
+      // disableInstructorOption(username)
+    })
+  }
 
   class WeeklySchedule {
     constructor() {
@@ -119,7 +130,8 @@
 
         // Send selectedSlots to GAS
         const formattedData = selectedSlots.map(item => [item.day, item.time]);
-        google.script.run.sendTimePrefToSheet(formattedData);
+        google.script.run.sendTimePrefToSheet(USERNAME, formattedData);
+        // google.script.run.withSuccessHandler(updateUser).sendTimePrefToSheet(USERNAME, formattedData)
     }
 
     attachEventListeners() {

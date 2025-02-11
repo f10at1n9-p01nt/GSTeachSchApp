@@ -121,7 +121,6 @@
 
 
   function pullPreferences() {
-
     google.script.url.getLocation(function(location) {
       let username = location.parameters['username'][0]
       google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username.toLowerCase())

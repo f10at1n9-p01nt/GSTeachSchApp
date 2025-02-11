@@ -15,9 +15,8 @@ function doGet(request) {
   } else
     var template = HtmlService.createTemplateFromFile('home')
     template.season = `${mainScheduleSpreadsheet.getSheetByName('Dashboard').getRange(1,2).getValue()}`;
-    
-  return template.evaluate();
 
+  return template.evaluate();
 }
 
 
