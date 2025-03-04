@@ -10,26 +10,28 @@
   <body class="bg-cyan-50">
     
     <nav class="navbar navbar-expand-lg sticky-top">
-      <div class="container-fluid position-relative">
+        <div class="container-fluid position-relative">
         <img src="https://content.app-us1.com/cdn-cgi/image/dpr=2,fit=scale-down,format=auto,onerror=redirect,width=650/R6mod/2022/12/14/6fac0f9e-e7c6-4cae-968e-022c601f7542.png" width="150" height="30" class="navbar-logo" style="background-color: white; border-radius: 5px;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active-link" href="#">Rank Upcoming Classes</span></a>
-              </li>
-              <li class="nav-item">
-                <a id="gen-pref-menu" class="nav-link" href="<?= ScriptApp.getService().getUrl(); ?>?page=pref">Course Preferences</a>
-                <a id="time-pref-menu" class="nav-link" href="<?= ScriptApp.getService().getUrl(); ?>?page=timePref">Time Availability</a>
-              </li>
-            </ul>
-            <span class="navbar-text my-auto">
-              <i class="fa-solid fa-chalkboard-user me-1"></i>:<p id="menu-username" class="ms-1 d-inline"> </p>
-            </span>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link btn active-link me-2" href="<?= ScriptApp.getService().getUrl();?>?page=sched">Rank Classes</a>
+            </li>
+            <li class="nav-item">
+              <a id="gen-pref-menu" class="nav-link btn  me-2" href="<?= ScriptApp.getService().getUrl();?>?page=pref">Course Preferences</a>
+            </li>
+            <li class="nav-item">
+              <a id="time-pref-menu" class="nav-link btn" href="<?= ScriptApp.getService().getUrl();?>?page=timePref">Time Availability</a>
+            </li>
+          </ul>
+          <span class="navbar-text my-auto">
+            <i class="fa-solid fa-chalkboard-user me-1"></i>:<p id="menu-username" class="ms-1 d-inline" style="color: white;"> </p>
+          </span>
         </div>
-      </div>
+        </div>
     </nav>
 
     <h1 class="text-center my-3"><?!= season ?></h1>

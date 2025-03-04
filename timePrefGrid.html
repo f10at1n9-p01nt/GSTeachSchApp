@@ -1,24 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<!-- <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly Schedule Grid</title>
     <?!= include('Stylesheet-TimePref'); ?>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head> -->
+
+<head>
+    <base target="_top">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/99c66c11be.js" crossorigin="anonymous"></script>
+    <?!= include('Stylesheet-TimePref'); ?>
+    <?!= include('Stylesheet'); ?>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid position-relative">
+        <img src="https://content.app-us1.com/cdn-cgi/image/dpr=2,fit=scale-down,format=auto,onerror=redirect,width=650/R6mod/2022/12/14/6fac0f9e-e7c6-4cae-968e-022c601f7542.png" width="150" height="30" class="navbar-logo" style="background-color: white; border-radius: 5px;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link btn  me-2" href="<?= ScriptApp.getService().getUrl();?>?page=sched">Rank Classes</a>
+            </li>
+            <li class="nav-item">
+              <a id="gen-pref-menu" class="nav-link btn  me-2" href="<?= ScriptApp.getService().getUrl();?>?page=pref">Course Preferences</a>
+            </li>
+            <li class="nav-item">
+              <a id="time-pref-menu" class="nav-link btn active-link" href="<?= ScriptApp.getService().getUrl();?>?page=timePref">Time Availability</a>
+            </li>
+          </ul>
+          <span class="navbar-text my-auto">
+            <i class="fa-solid fa-chalkboard-user me-1"></i>:<p id="menu-username" class="ms-1 d-inline" style="color: white;"> </p>
+          </span>
+        </div>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h1>Weekly Schedule</h1>
+                <h1>Weekly Availability</h1>
                 <div class="controls">
                     <button id="submitBtn" class="btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 2L11 13"></path>
                             <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
                         </svg>
-                        Submit Schedule
+                        Submit Availability
                     </button>
                     <button id="clearBtn" class="btn-destructive">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -31,6 +67,9 @@
                 </div>
             </div>
             <div class="card-content">
+              <div class="directions" style="margin-bottom: 10px;">
+                <p><strong>Directions:</strong> Times are in the Eastern Time zone, in military time, and in 15-minute increments. Select the time slots when you are available. You can click and drag to select multiple times. Click "Submit Availability" when finished. You may return to this page anytime to update these preferences.</p>
+              </div>
                 <div id="timeGrid" class="time-grid">
                     <div id="loadingState" class="loading-state">
                         Loading schedule grid...

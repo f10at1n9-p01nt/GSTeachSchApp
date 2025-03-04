@@ -202,16 +202,20 @@ function reorderDays(dayArr) {
 }
 
 
+// Updated 3/4/25 to Keep old Mon - Sun day/night prefs
 function addPrefRow(teacher, row) {
   const sheet = mainScheduleSpreadsheet.getSheetByName('General Preferences')
   const teachers = sheet.getRange(3, 2, sheet.getLastRow(), 1).getValues();
-  const rowData = [new Date, teacher, ...row];
+  // const rowData = [new Date, teacher, ...row];
 
   for (let i = 0; i < teachers.length; i++) {
     if (teachers[i][0].toLowerCase() === teacher.toLowerCase()) {
       var targetRow = i + 3
     }
   }
+  
+  const oldDayPrefs = sheet.getRange(targetRow, 3, 1, 14).getDisplayValues()
+  const rowData = [new Date, teacher, ...oldDayPrefs[0], ...row]
 
   sheet.getRange(targetRow, 1, 1, 51).setValues([rowData]); //Changed to 51 with new USACOs etc.
 }

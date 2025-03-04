@@ -1,23 +1,51 @@
 <script>
   const USERNAME = []
-  updateUser()
+  const URL = []
+  // document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
+  // document.getElementById("time-pref-menu").addEventListener("click", goToTimePref);
+
+  document.addEventListener("DOMContentLoaded", getUrl);
+  document.addEventListener("DOMContentLoaded", updateUser);
 
   function updateUser() {
-    google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
-      USERNAME[0] = username
-      // document.getElementById("menu-username").innerHTML = USERNAME[0]
-      // disableInstructorOption(username)
-    })
+      let username = localStorage.getItem('username')
+      USERNAME.push(username)
+      document.getElementById("menu-username").innerHTML = USERNAME[0]
   }
 
+  function getUrl() {
+    google.script.run.withSuccessHandler(updateUrl).getScriptURL()
+  }
+
+
+  function updateUrl(url) {
+    URL.push(url)
+  }
+
+  function goToGenPref() {
+    console.log(USERNAME)
+    console.log(URL)
+    let button = document.getElementById("gen-pref-menu");
+    button.setAttribute("href", URL+"?page=pref");
+    button.click();
+  }
+
+
+  function goToTimePref() {
+    let button = document.getElementById("time-pref-menu")
+    button.setAttribute("href", URL+"?page=timePref");
+    button.click();
+  }
+
+
   class WeeklySchedule {
-    constructor() {
+    constructor(slots) {
         console.log('Initializing WeeklySchedule...');
-        this.selectedSlots = new Set();
+        this.selectedSlots = new Set(slots);
         this.isDragging = false;
         this.lastDragState = null;
         this.init();
+        // slots.forEach(slot => this.selectedSlots.add(slot))
     }
 
     formatTime(hours, minutes) {
@@ -91,7 +119,7 @@
         } else {
             this.selectedSlots.delete(slotId);
         }
-        localStorage.setItem('selectedTimeSlots', JSON.stringify([...this.selectedSlots]));
+        // localStorage.setItem('selectedTimeSlots', JSON.stringify([...this.selectedSlots]));
     }
 
     updateSlotSelection(element, forceState = null) {
@@ -130,8 +158,9 @@
 
         // Send selectedSlots to GAS
         const formattedData = selectedSlots.map(item => [item.day, item.time]);
-        google.script.run.sendTimePrefToSheet(USERNAME, formattedData);
-        // google.script.run.withSuccessHandler(updateUser).sendTimePrefToSheet(USERNAME, formattedData)
+        updatePreferences()
+        // google.script.run.sendTimePrefToSheet(USERNAME, formattedData);
+        google.script.run.withSuccessHandler(notifyUser).sendTimePrefToSheet(USERNAME, formattedData)
     }
 
     attachEventListeners() {
@@ -159,7 +188,7 @@
         // Clear selection
         clearBtn.addEventListener('click', () => {
             this.selectedSlots.clear();
-            localStorage.setItem('selectedTimeSlots', '[]');
+            // localStorage.setItem('selectedTimeSlots', '[]');
             document.querySelectorAll('.time-slot').forEach(slot => {
                 slot.classList.remove('selected');
             });
@@ -174,8 +203,8 @@
     init() {
         try {
             // Load saved slots
-            const savedSlots = localStorage.getItem('selectedTimeSlots');
-            this.selectedSlots = new Set(savedSlots ? JSON.parse(savedSlots) : []);
+            // const savedSlots = localStorage.getItem('selectedTimeSlots');
+            // this.selectedSlots = new Set(savedSlots ? JSON.parse(savedSlots) : []);
             
             // Create and setup grid
             this.createGrid();
@@ -196,18 +225,44 @@
     }
 }
 
+function updatePreferences() {
+  swal({
+    title: "Please Wait",
+    text: "Submitting availability...",
+    icon: "info",
+    buttons: false,
+  })
+}
+
+function notifyUser() {
+  swal("Availability Updated!", `Preferences updated for ${USERNAME}.`, "success")
+}
+
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
+//     try {
+//         new WeeklySchedule();
+//     } catch (error) {
+//         console.error('Failed to initialize schedule:', error);
+//         const loadingElement = document.getElementById('loadingState');
+//         if (loadingElement) {
+//             loadingElement.textContent = `Error: ${error.message}`;
+//         }
+//     }
+// });
+
+document.addEventListener('DOMContentLoaded', google.script.run.withSuccessHandler(loadPage).getTimePreferences(localStorage.getItem('username')))
+
+function loadPage(slots) {
     try {
-        new WeeklySchedule();
-    } catch (error) {
-        console.error('Failed to initialize schedule:', error);
-        const loadingElement = document.getElementById('loadingState');
-        if (loadingElement) {
-            loadingElement.textContent = `Error: ${error.message}`;
-        }
-    }
-});
+      new WeeklySchedule(slots);
+  } catch (error) {
+      console.error('Failed to initialize schedule:', error);
+      const loadingElement = document.getElementById('loadingState');
+      if (loadingElement) {
+          loadingElement.textContent = `Error: ${error.message}`;
+      }
+  }
+}
 
 </script>
-

@@ -21,9 +21,8 @@ function sendTimePrefToSheet(username, prefs) {
 //     ]
 // ]
   // const username = ["kevinyaiko"]
-  const sheet = SpreadsheetApp.openById('1uGZDjfgBqGx93cpx8UUNM3-sNahbeC6HKWRCYT6ZU0s').getSheetByName('Staff Availability');
-
-  let column = findUserNameCol(username[0], sheet)
+  const sheet = SpreadsheetApp.openById('1uGZDjfgBqGx93cpx8UUNM3-sNahbeC6HKWRCYT6ZU0s').getSheetByName('Staff Availability')
+  let column = findUserNameCol(username, sheet)
 
   if (column < 3) {
     column = 3
@@ -50,6 +49,28 @@ function sendTimePrefToSheet(username, prefs) {
 function findUserNameCol(username, sheet) {
   const usernames = sheet.getRange(2, 3, 1, sheet.getLastColumn()-2).getValues()
   const column = usernames[0].indexOf(username)
-  
+
   return column + 3 // +3 accounts for 0 index and usernames starting in column C
+}
+
+
+// 96 time slots per day
+function getTimePreferences(username) {
+  // const username = 'kgibson'
+  const sheet = SpreadsheetApp.openById('1uGZDjfgBqGx93cpx8UUNM3-sNahbeC6HKWRCYT6ZU0s').getSheetByName('Staff Availability')
+  const column = findUserNameCol(username, sheet)
+
+  var prefData = sheet.getRange(4, column, sheet.getLastRow()-3).getDisplayValues()
+  const selectedData = []
+
+  for (let i = 0; i < 7; i++) {
+    for (let j = 0; j < 96; j++) {
+      if (prefData[j][0] === '1') {
+        selectedData.push(`${i}-${j}`)
+      }
+    }
+    prefData = prefData.slice(96)
+  }
+
+  return selectedData
 }

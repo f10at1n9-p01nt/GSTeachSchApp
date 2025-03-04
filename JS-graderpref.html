@@ -3,13 +3,19 @@
   const USERNAME = []
   const URL = [];
 
+  // function updateUser() {
+  //   google.script.url.getLocation(function(location) {
+  //     let username = location.parameters['username'][0]
+  //     USERNAME.push(username);
+  //     document.getElementById("menu-username").innerHTML = "Grader: " + USERNAME[0]
+  //     // return username
+  //   })
+  // }
+
   function updateUser() {
-    google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
-      USERNAME.push(username);
-      document.getElementById("menu-username").innerHTML = "Grader: " + USERNAME[0]
-      // return username
-    })
+      let username = localStorage.getItem('username')
+      USERNAME.push(username)
+      document.getElementById("menu-username").innerHTML = USERNAME[0]
   }
 
   updateUser();

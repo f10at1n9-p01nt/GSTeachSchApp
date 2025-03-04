@@ -4,12 +4,9 @@
   const URL = [];
 
   function updateUser() {
-    google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
-      USERNAME.push(username);
-      document.getElementById("menu-username").innerHTML = "Username: " + USERNAME[0]
-      // return username
-    })
+      let username = localStorage.getItem('username')
+      USERNAME.push(username)
+      document.getElementById("menu-username").innerHTML = USERNAME[0]
   }
 
   updateUser();
@@ -32,7 +29,7 @@
   const updatePrefencesButton = document.getElementById('update-preferences').addEventListener('click', updatePreferences)
   const expandButton = document.getElementById('expand-all').addEventListener('click', expandAll)
   const collapseButton = document.getElementById('collapse-all').addEventListener('click', collapseAll)
-  const schedulePage = document.getElementById("upcoming-classes").addEventListener("click", goToSchedPage);
+  // const schedulePage = document.getElementById("upcoming-classes").addEventListener("click", goToSchedPage);
 
   function updatePreferences() {
     swal({
@@ -45,22 +42,23 @@
     const classesDiv = document.getElementById('pref-classes');
     const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
-    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
+    // const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
     const classArr = [];
-    const prefRow = [];
+    // const prefRow = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+    const prefRow = []
 
-    for (let i = 0; i < 7; i++) {
-      if (timeCheckboxes[i].checked === true) {
-        prefRow.push(1)
-      } else {
-        prefRow.push(0)
-      };
-      if (timeCheckboxes[i+7].checked === true) {
-        prefRow.push(1)
-      } else {
-        prefRow.push(0)
-      };
-    }
+    // for (let i = 0; i < 7; i++) {
+    //   if (timeCheckboxes[i].checked === true) {
+    //     prefRow.push(1)
+    //   } else {
+    //     prefRow.push(0)
+    //   };
+    //   if (timeCheckboxes[i+7].checked === true) {
+    //     prefRow.push(1)
+    //   } else {
+    //     prefRow.push(0)
+    //   };
+    // }
 
     classCheckboxes.forEach((box) => {
       if (box.checked === true) {
@@ -71,6 +69,7 @@
     })
 
     classArr.reverse().forEach((pref) => prefRow.push(pref))
+    console.log(prefRow)
 
     google.script.run.withSuccessHandler(notifyUser).addPrefRow(USERNAME[0], prefRow);
   }
@@ -93,6 +92,7 @@
 
   // Helper function to open both courses and time of day when page loads
   function openAll() {
+    console.log("openAll ran")
     swal({
       title: "Please Wait",
       text: "Page Loading...",
@@ -100,8 +100,8 @@
       buttons: false,
     })
 
-    const timePanel = document.getElementsByClassName('panel-dt')[0];
-    timePanel.style.maxHeight = timePanel.scrollHeight + "px";
+    // const timePanel = document.getElementsByClassName('panel-dt')[0];
+    // timePanel.style.maxHeight = timePanel.scrollHeight + "px";
 
     pullPreferences();
 
@@ -122,7 +122,7 @@
 
   function pullPreferences() {
     google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
+      let username = localStorage.getItem('username')
       google.script.run.withSuccessHandler(updateCheckboxes).getPreferences(username.toLowerCase())
     })
   }
@@ -135,15 +135,15 @@
     const classesDiv = document.getElementById('pref-classes');
     const timeOfDayDiv = document.getElementById('pref-time');
     const classCheckboxes = classesDiv.querySelectorAll('input');
-    const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
+    // const timeCheckboxes = timeOfDayDiv.querySelectorAll('input');
 
-    for (let i = 0; i < timeCheckboxes.length; i++) {
-      if (dayPrefArr[i] === 1) {
-        timeCheckboxes[i].checked = true;
-      } else {
-        timeCheckboxes[i].checked = false;
-      }
-    }
+    // for (let i = 0; i < timeCheckboxes.length; i++) {
+    //   if (dayPrefArr[i] === 1) {
+    //     timeCheckboxes[i].checked = true;
+    //   } else {
+    //     timeCheckboxes[i].checked = false;
+    //   }
+    // }
 
     for (let i = 0; i < classCheckboxes.length; i++) {
       if (coursePrefArr[i] === 1) {
@@ -165,7 +165,7 @@
 
   function goToSchedPage() {
     let button = document.getElementById("upcoming-classes");
-    button.setAttribute("href", URL+"?page=sched&username="+USERNAME)
+    button.setAttribute("href", URL+"?page=sched")
     button.click();
   }
 

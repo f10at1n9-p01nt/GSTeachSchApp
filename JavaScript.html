@@ -7,8 +7,8 @@
   document.getElementById("clear-preferences").addEventListener("click", clearRankings);
   // document.getElementById("filter-dow").addEventListener("click", filterDays);
   document.getElementById("group-ranked").addEventListener("click", sortDisplayedClassesByRank);
-  document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
-  document.getElementById("time-pref-menu").addEventListener("click", goToTimePref);
+  // document.getElementById("gen-pref-menu").addEventListener("click", goToGenPref);
+  // document.getElementById("time-pref-menu").addEventListener("click", goToTimePref);
   const checkboxes = document.querySelectorAll("input[name=dow]");
 
   checkboxes.forEach((checkbox) => checkbox.addEventListener("change", filterDays))
@@ -24,6 +24,12 @@
   
   function addTable() {
     // Checks for previously ranked classes in session storage
+      swal({
+      title: "Please Wait",
+      text: "Going down the mineshaft to find records...",
+      icon: "info",
+      buttons: false,
+    })
     if (sessionStorage.getItem('rankedClasses')) {
       JSON.parse(sessionStorage.getItem('rankedClasses')).forEach((e) => RANKED_CLASSES.push(e))
     }
@@ -45,22 +51,20 @@
 
 
   function updateUser() {
-    google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
-      USERNAME.push(username);
+      let username = localStorage.getItem('username')
+      USERNAME.push(username)
       document.getElementById("menu-username").innerHTML = USERNAME[0]
       disableInstructorOption(username)
-    })
   }
 
 
   // Called when "Get Schedule" button is clicked
   function getSchedule() {
-    google.script.url.getLocation(function(location) {
-      let username = location.parameters['username'][0]
-      google.script.run.withSuccessHandler(printSchedule).checkSchedule(username)
-    })
-  }
+    // google.script.url.getLocation(function(location) {
+    //   let username = location.parameters['username'][0]
+      google.script.run.withSuccessHandler(printSchedule).checkSchedule(localStorage.getItem('username'))
+    }
+  
 
 
   // Called when "Submit Preferences" button is clicked
@@ -291,6 +295,13 @@
       }
       tableBody.appendChild(newRow);
     }
+    swal({
+      title: "Ready!",
+      text: "Page Loaded.",
+      timer: 1000,
+      icon: "info",
+      buttons: false,
+    })
   }
 
 
